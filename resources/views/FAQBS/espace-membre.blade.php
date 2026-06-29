@@ -48,16 +48,22 @@
                 </div>
                 <div class="card-body">
                     <div class="list-group list-group-flush">
-                        <div class="accordion" id="donneursAccordionResolues">
+                        <div class="accordion" id="donneursVoixAccordionResolues">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed list-group-item list-group-item-action border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDonneursVoixResolues" aria-expanded="false" aria-controls="collapseDonneursVoixResolues">
-                                        Donneurs de Voix
+                                        Donneurs Voix
                                     </button>
                                 </h2>
-                                <div id="collapseDonneursVoixResolues" class="accordion-collapse collapse" data-bs-parent="#donneursAccordionResolues">
+                                <div id="collapseDonneursVoixResolues" class="accordion-collapse collapse" data-bs-parent="#donneursVoixAccordionResolues">
                                     <div class="accordion-body">
-                                        <a href="#" class="list-group-item list-group-item-action border-0 ps-4">À venir...</a>
+                                        @forelse($discussionsByGroup['Donneurs Voix'] ?? [] as $discussion)
+                                            <a href="/discussion/{{ $discussion->id }}" class="list-group-item list-group-item-action border-0 ps-4">
+                                                {{ Str::limit($discussion->title, 40) }}
+                                            </a>
+                                        @empty
+                                            <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
+                                        @endforelse
                                     </div>
                                 </div>
                             </div>
@@ -66,12 +72,18 @@
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed list-group-item list-group-item-action border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDonneursTempsResolues" aria-expanded="false" aria-controls="collapseDonneursTempsResolues">
-                                        Donneurs de Temps
+                                        Donneurs Temps
                                     </button>
                                 </h2>
                                 <div id="collapseDonneursTempsResolues" class="accordion-collapse collapse" data-bs-parent="#donneursTempsAccordionResolues">
                                     <div class="accordion-body">
-                                        <a href="#" class="list-group-item list-group-item-action border-0 ps-4">À venir...</a>
+                                        @forelse($discussionsByGroup['Donneurs Temps'] ?? [] as $discussion)
+                                            <a href="/discussion/{{ $discussion->id }}" class="list-group-item list-group-item-action border-0 ps-4">
+                                                {{ Str::limit($discussion->title, 40) }}
+                                            </a>
+                                        @empty
+                                            <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
+                                        @endforelse
                                     </div>
                                 </div>
                             </div>
@@ -85,7 +97,33 @@
                                 </h2>
                                 <div id="collapseSecretariatResolues" class="accordion-collapse collapse" data-bs-parent="#secretariatAccordionResolues">
                                     <div class="accordion-body">
-                                        <a href="#" class="list-group-item list-group-item-action border-0 ps-4">À venir...</a>
+                                        @forelse($discussionsByGroup['Secrétariat'] ?? [] as $discussion)
+                                            <a href="/discussion/{{ $discussion->id }}" class="list-group-item list-group-item-action border-0 ps-4">
+                                                {{ Str::limit($discussion->title, 40) }}
+                                            </a>
+                                        @empty
+                                            <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
+                                        @endforelse
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion" id="espaceMembreAccordionResolues">
+                            <div class="accordion-item border-0">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed list-group-item list-group-item-action border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEspaceMembreResolues" aria-expanded="false" aria-controls="collapseEspaceMembreResolues">
+                                        Espace membre
+                                    </button>
+                                </h2>
+                                <div id="collapseEspaceMembreResolues" class="accordion-collapse collapse" data-bs-parent="#espaceMembreAccordionResolues">
+                                    <div class="accordion-body">
+                                        @forelse($discussionsByGroup['Espace membre'] ?? [] as $discussion)
+                                            <a href="/discussion/{{ $discussion->id }}" class="list-group-item list-group-item-action border-0 ps-4">
+                                                {{ Str::limit($discussion->title, 40) }}
+                                            </a>
+                                        @empty
+                                            <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
+                                        @endforelse
                                     </div>
                                 </div>
                             </div>
@@ -99,7 +137,13 @@
                                 </h2>
                                 <div id="collapsePresidentResolues" class="accordion-collapse collapse" data-bs-parent="#presidentAccordionResolues">
                                     <div class="accordion-body">
-                                        <a href="#" class="list-group-item list-group-item-action border-0 ps-4">À venir...</a>
+                                        @forelse($discussionsByGroup['Président'] ?? [] as $discussion)
+                                            <a href="/discussion/{{ $discussion->id }}" class="list-group-item list-group-item-action border-0 ps-4">
+                                                {{ Str::limit($discussion->title, 40) }}
+                                            </a>
+                                        @empty
+                                            <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
+                                        @endforelse
                                     </div>
                                 </div>
                             </div>
@@ -129,31 +173,31 @@
                         <a href="/questions-en-attente" class="btn btn-bordeaux-light text-white w-100 text-start d-flex justify-content-between align-items-center">
                             <span><i class="bi bi-inbox me-1"></i> Toutes</span>
                             @if($questionsCount > 0)
-                                <span class="badge bg-success">{{ $questionsCount }}</span>
+                                <span class="badge bg-success badge-2x">{{ $questionsCount }}</span>
                             @endif
                         </a>
-                        <a href="/questions-en-attente/president" class="btn btn-outline-bordeaux text-bordeaux w-100 text-start d-flex justify-content-between align-items-center">
+                        <a href="/questions-en-attente/Président" class="btn btn-outline-bordeaux text-bordeaux w-100 text-start d-flex justify-content-between align-items-center">
                             <span><i class="bi bi-person me-1"></i> Président</span>
                             @if(($countsByTeam['Président'] ?? 0) > 0)
-                                <span class="badge bg-success">{{ $countsByTeam['Président'] }}</span>
+                                <span class="badge bg-success badge-2x">{{ $countsByTeam['Président'] }}</span>
                             @endif
                         </a>
-                        <a href="/questions-en-attente/secretariat" class="btn btn-outline-bordeaux text-bordeaux w-100 text-start d-flex justify-content-between align-items-center">
+                        <a href="/questions-en-attente/Secrétariat" class="btn btn-outline-bordeaux text-bordeaux w-100 text-start d-flex justify-content-between align-items-center">
                             <span><i class="bi bi-file-earmark-text me-1"></i> Secrétariat</span>
                             @if(($countsByTeam['Secrétariat'] ?? 0) > 0)
-                                <span class="badge bg-success">{{ $countsByTeam['Secrétariat'] }}</span>
+                                <span class="badge bg-success badge-2x">{{ $countsByTeam['Secrétariat'] }}</span>
                             @endif
                         </a>
-                        <a href="/questions-en-attente/donneurs-voix" class="btn btn-outline-bordeaux text-bordeaux w-100 text-start d-flex justify-content-between align-items-center">
+                        <a href="/questions-en-attente/Donneurs de Voix" class="btn btn-outline-bordeaux text-bordeaux w-100 text-start d-flex justify-content-between align-items-center">
                             <span><i class="bi bi-mic me-1"></i> Donneurs Voix</span>
                             @if(($countsByTeam['Donneurs de Voix'] ?? 0) > 0)
-                                <span class="badge bg-success">{{ $countsByTeam['Donneurs de Voix'] }}</span>
+                                <span class="badge bg-success badge-2x">{{ $countsByTeam['Donneurs de Voix'] }}</span>
                             @endif
                         </a>
-                        <a href="/questions-en-attente/donneurs-temps" class="btn btn-outline-bordeaux text-bordeaux w-100 text-start d-flex justify-content-between align-items-center">
+                        <a href="/questions-en-attente/Donneurs de Temps" class="btn btn-outline-bordeaux text-bordeaux w-100 text-start d-flex justify-content-between align-items-center">
                             <span><i class="bi bi-clock me-1"></i> Donneurs Temps</span>
                             @if(($countsByTeam['Donneurs de Temps'] ?? 0) > 0)
-                                <span class="badge bg-success">{{ $countsByTeam['Donneurs de Temps'] }}</span>
+                                <span class="badge bg-success badge-2x">{{ $countsByTeam['Donneurs de Temps'] }}</span>
                             @endif
                         </a>
                     </div>
@@ -192,6 +236,10 @@
     .btn-bordeaux-light:hover {
         background-color: #85556d;
         border-color: #85556d;
+    }
+    .badge-2x {
+        font-size: 1.4rem !important;
+        padding: 0.35em 0.65em !important;
     }
     .btn-outline-bordeaux {
         color: #6D071A;

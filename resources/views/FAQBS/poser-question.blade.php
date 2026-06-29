@@ -49,7 +49,6 @@
                                 <option value="" selected disabled>Sélectionnez une équipe</option>
                                 <option value="Donneurs de Voix">Donneurs de Voix</option>
                                 <option value="Donneurs de Temps">Donneurs de Temps</option>
-                                <option value="Espace membre">Espace membre</option>
                                 <option value="Secrétariat">Secrétariat</option>
                                 <option value="Président">Président</option>
                             </select>

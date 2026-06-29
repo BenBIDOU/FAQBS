@@ -32,7 +32,13 @@ Route::middleware(['auth.home'])->get('/espace-membre', function () {
         ->groupBy('team')
         ->pluck('count', 'team')
         ->toArray();
-    return view('FAQBS/espace-membre', compact('questionsCount', 'countsByTeam'));
+    
+    $discussions = App\Models\Discussion::orderBy('created_at', 'desc')->get();
+    $discussionsByGroup = App\Models\Discussion::orderBy('created_at', 'desc')
+        ->get()
+        ->groupBy('group');
+    
+    return view('FAQBS/espace-membre', compact('questionsCount', 'countsByTeam', 'discussions', 'discussionsByGroup'));
 });
 
 // Page poser question
@@ -42,6 +48,8 @@ Route::middleware(['auth.home'])->post('/poser-question', [QuestionController::c
 // Page questions en attente
 Route::middleware(['auth.home'])->get('/questions-en-attente', [QuestionController::class, 'index'])->name('questions-en-attente');
 Route::middleware(['auth.home'])->get('/questions-en-attente/{team}', [QuestionController::class, 'index'])->name('questions-en-attente.team');
+Route::middleware(['auth.home'])->get('/questions-en-attente/{question}/details', [QuestionController::class, 'show'])->name('questions-details');
+Route::middleware(['auth.home'])->get('/questions-en-attente/{question}/repondre', [QuestionController::class, 'reply'])->name('questions.reply');
 
 // Routes spécifiques pour chaque équipe
 Route::middleware(['auth.home'])->get('/questions-en-attente/president', function () {

@@ -16,7 +16,6 @@
                     <span class="text-muted">- {{ $team }}</span>
                 @endif
             </h1>
-            <h2 class="text-muted mb-0">Bibliothèques Sonores - Centre Val de Loire</h2>
         </div>
     </div>
 
@@ -47,9 +46,6 @@
                         </a>
                         <a href="{{ route('questions-en-attente.team', ['team' => 'Donneurs de Temps']) }}" class="btn @if($team === 'Donneurs de Temps') btn-bordeaux text-white @else btn-outline-bordeaux text-bordeaux @endif">
                             <i class="bi bi-clock me-1"></i> Donneurs de Temps
-                        </a>
-                        <a href="{{ route('questions-en-attente.team', ['team' => 'Espace membre']) }}" class="btn @if($team === 'Espace membre') btn-bordeaux text-white @else btn-outline-bordeaux text-bordeaux @endif">
-                            <i class="bi bi-people me-1"></i> Espace membre
                         </a>
                     </div>
                 </div>
@@ -91,7 +87,7 @@
                                             <td>{{ $question->subject }}</td>
                                             <td>{{ Str::limit($question->message, 50) }}</td>
                                             <td>
-                                                <a href="#" class="btn btn-sm btn-outline-bordeaux">
+                                                <a href="{{ route('questions-details', ['question' => $question->id]) }}" class="btn btn-sm btn-outline-bordeaux">
                                                     <i class="bi bi-eye me-1"></i> Voir
                                                 </a>
                                             </td>

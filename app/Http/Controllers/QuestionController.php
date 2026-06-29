@@ -53,7 +53,17 @@ class QuestionController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $question = Question::findOrFail($id);
+        return view('FAQBS.question-detail', compact('question'));
+    }
+
+    /**
+     * Show the form for replying to a question.
+     */
+    public function reply(string $id)
+    {
+        $question = Question::findOrFail($id);
+        return view('FAQBS.reply', compact('question'));
     }
 
     /**
