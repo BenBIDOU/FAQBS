@@ -6,6 +6,8 @@
     <title>@yield('title', 'Mon Projet Laravel')</title>
     <!-- Lien vers Bootstrap (optionnel) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- Lien vers ton CSS personnalisé -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
@@ -14,6 +16,11 @@
 
     <div class="mt-4 mx-100 container-fluid bg-light">
         @yield('content')
+    </div>
+
+    <!-- Pied de page fixe en bas -->
+    <div class="fixed-bottom w-100 bg-bordeaux text-white text-center py-3" style="background-color: #6D071A;">
+        <p class="mb-0">Bibliothèques sonores - Tous droits réservés</p>
     </div>
 
     <!-- Scripts JS -->

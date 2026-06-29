@@ -17,7 +17,7 @@ class VoiceDonorRestrictionMiddleware
                 '/Donneurs-Voix',
                 '/faq',
                 '/Secrétariat',
-                '/Trésorerie',
+                '/espace-membre',
                 '/Donneurs-Temps',
                 '/Président',
             ];

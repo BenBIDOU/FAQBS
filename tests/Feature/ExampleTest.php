@@ -43,7 +43,7 @@ class ExampleTest extends TestCase
             ->assertStatus(200);
 
         $this->actingAs($user)
-            ->get('/Trésorerie')
+            ->get('/espace-membre')
             ->assertRedirect('/');
 
         $this->actingAs($user)

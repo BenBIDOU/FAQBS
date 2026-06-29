@@ -14,7 +14,7 @@ class DiscussionController extends Controller
      */
     public function create()
     {
-        return view('FAQBS.ajouter-discu');
+        return view('FAQBS/ajouter-discu');
     }
 
     /**
@@ -25,7 +25,7 @@ class DiscussionController extends Controller
         try {
             $validatedData = $request->validate([
                 'title' => 'required|string|max:255',
-                'group' => 'required|string|in:Trésorerie,Secrétariat,Président,Donneurs Temps,Donneurs Voix',
+                'group' => 'required|string|in:Espace membre,Secrétariat,Président,Donneurs Temps,Donneurs Voix',
                 'link' => 'nullable|url|max:255',
                 'content' => 'required|string',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',

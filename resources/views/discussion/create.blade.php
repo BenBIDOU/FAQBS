@@ -25,7 +25,7 @@
                             <label for="group" class="form-label">Groupe</label>
                             <select class="form-select" id="group" name="group" required>
                                 <option value="" selected disabled>Sélectionnez un groupe</option>
-                                <option value="Trésorerie">Trésorerie</option>
+                                <option value="Espace membre">Espace membre</option>
                                 <option value="Secrétariat">Secrétariat</option>
                                 <option value="Président">Président</option>
                                 <option value="Donneurs Temps">Donneurs Temps</option>

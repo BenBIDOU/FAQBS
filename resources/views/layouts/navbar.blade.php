@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand d-flex align-items-center ps-4" href="{{ url('/') }}">
         <img src="{{ asset('images/logo.png') }}" alt="Logo" width="30" height="30" class="d-inline-block me-2">
-        Bibliothèque Sonnore de Blois
+        Bibliothèques sonores du Centre val de Loire
     </a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -10,49 +10,14 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
-            @auth
-                @if(Auth::user()->is_voice_donor)
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/Donneurs-Voix') }}">Donneurs Voix</a>
-                    </li>
-                @else
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/Trésorerie') }}">Trésorerie</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/Secrétariat') }}">Secrétariat</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/Président') }}">Président</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/Donneurs-Voix') }}">Donneurs Voix</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/Donneurs-Temps') }}">Donneurs Temps</a>
-                    </li>
-                @endif
-            @endauth
         </ul>
 
-        <!-- Ajout des éléments à droite -->
+        <!-- Éléments à droite -->
         <ul class="navbar-nav ms-auto">
-            <!-- Lien "Ajouter discussion" visible pour les masters et le président -->
             @auth
-                @if(Auth::user()->is_master || Auth::user()->is_president)
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('discussion.create') }}">Ajouter discussion</a>
-                    </li>
-                @endif
-            @endauth
-
-            <!-- Lien "Ajouter actualité" visible pour les masters et le président -->
-            @auth
-                @if(Auth::user()->is_master || Auth::user()->is_president)
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('actualite.create') }}">Ajouter actualité</a>
-                    </li>
-                @endif
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('discussion.create') }}">Ajouter discussion</a>
+                </li>
             @endauth
 
             <!-- Affichage du nom de l'utilisateur connecté ou lien de connexion -->
