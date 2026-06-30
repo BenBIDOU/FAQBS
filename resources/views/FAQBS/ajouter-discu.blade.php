@@ -14,6 +14,28 @@
                     <form id="discussionForm" method="POST" action="{{ route('discussions.store') }}" enctype="multipart/form-data">
                         @csrf
 
+                        <!-- Nom, Prénom, Fonction (pré-remplis) -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="nom" class="form-label">Nom</label>
+                                <input type="text" class="form-control" id="nom" name="nom" 
+                                       value="{{ Auth::user()->name ?? '' }}" readonly>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="prenom" class="form-label">Prénom</label>
+                                <input type="text" class="form-control" id="prenom" name="prenom" 
+                                       value="{{ Auth::user()->prenom ?? Auth::user()->firstname ?? '' }}" readonly>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="fonction" class="form-label">Fonction</label>
+                                <input type="text" class="form-control" id="fonction" name="fonction"
+                                       @if(Auth::check())
+                                           value="@if(Auth::user()->is_master) Master @elseif(Auth::user()->is_president) Président @elseif(Auth::user()->is_voice_donor) Donneur de Voix @else Membre @endif"
+                                       @endif
+                                       readonly>
+                            </div>
+                        </div>
+
                         <!-- Titre de la discussion -->
                         <div class="mb-3">
                             <label for="title" class="form-label">Titre de la discussion</label>
@@ -25,7 +47,6 @@
                             <label for="group" class="form-label">Groupe</label>
                             <select class="form-select" id="group" name="group" required>
                                 <option value="" selected disabled>Sélectionnez un groupe</option>
-                                <option value="Espace membre">Espace membre</option>
                                 <option value="Secrétariat">Secrétariat</option>
                                 <option value="Président">Président</option>
                                 <option value="Donneurs Temps">Donneurs Temps</option>
@@ -72,8 +93,16 @@
                     </form>
                 </div>
             </div>
+
+    <!-- Lien pour retourner à l'espace membre -->
+    <div class="my-4">
+        <a href="/espace-membre" class="btn btn-bordeaux text-white">
+            <i class="bi bi-arrow-left me-2"></i> Retour à l'espace membre
+        </a>
+    </div>
         </div>
     </div>
+
 </div>
 
 <!-- CSS pour la zone de glisser-déposer -->
@@ -172,4 +201,5 @@
         }
     });
 </script>
+
 @endsection

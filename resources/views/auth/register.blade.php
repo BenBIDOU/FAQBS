@@ -75,6 +75,8 @@
 </style>
 
 <script>
+    const currentUser = { name: 'Visiteur', role: 'Visiteur' };
+
     document.addEventListener('DOMContentLoaded', function() {
         const chatInput = document.getElementById('chatInput');
         const chatSend = document.getElementById('chatSend');
@@ -86,13 +88,17 @@
             const message = (customMessage || chatInput.value).trim();
             if (!message) return;
 
-            addUserMessage(message, true);
+            addUserMessage(message, currentUser.name, currentUser.role, true);
             chatInput.value = '';
 
-            const reply = getAutoReply(message);
-            setTimeout(function() {
-                addBotMessage(reply, true);
-            }, 500);
+            // Ne répondre automatiquement que si c'est le premier message
+            const hasUserMessages = messages.some(m => m.role === 'user');
+            if (!hasUserMessages) {
+                const reply = getAutoReply(message);
+                setTimeout(function() {
+                    addBotMessage(reply, true);
+                }, 500);
+            }
         }
 
         chatSend.addEventListener('click', function() {
@@ -106,23 +112,45 @@
             }
         });
 
-        function addUserMessage(message, persist = false) {
+        function addUserMessage(message, userName, userRole, persist = false) {
             const messageDiv = document.createElement('div');
-            messageDiv.className = 'mb-2 d-flex justify-content-end';
-            messageDiv.innerHTML = `
-                <div class="flex-grow-1 me-2 text-end">
-                    <div class="p-2 text-white bg-primary rounded-3">
-                        <small class="text-white-50">Vous</small>
-                        <p class="mb-0">${message}</p>
+            
+            // Vérifier si c'est l'utilisateur actuel
+            const isCurrentUser = userName === currentUser.name && userRole === currentUser.role;
+            
+            if (isCurrentUser) {
+                // Message de l'utilisateur actuel : à droite en bleu
+                messageDiv.className = 'mb-2 d-flex justify-content-end';
+                messageDiv.innerHTML = `
+                    <div class="flex-grow-1 me-2 text-end">
+                        <div class="p-2 text-white bg-primary rounded-3">
+                            <small class="text-white-50">${userName} (${userRole})</small>
+                            <p class="mb-0">${message}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="flex-shrink-0">
-                    <img src="{{ asset('images/vous.png') }}" class="rounded-circle" alt="Vous" width="40" height="40">
-                </div>
-            `;
+                    <div class="flex-shrink-0">
+                        <img src="{{ asset('images/vous.png') }}" class="rounded-circle" alt="${userName}" width="40" height="40">
+                    </div>
+                `;
+            } else {
+                // Message d'un autre profil : à gauche en gris
+                messageDiv.className = 'mb-2 d-flex';
+                messageDiv.innerHTML = `
+                    <div class="flex-shrink-0">
+                        <img src="{{ asset('images/vous.png') }}" class="rounded-circle" alt="${userName}" width="40" height="40">
+                    </div>
+                    <div class="flex-grow-1 ms-2">
+                        <div class="p-2 bg-light rounded-3">
+                            <small class="text-muted">${userName} (${userRole})</small>
+                            <p class="mb-0">${message}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
             chatBody.appendChild(messageDiv);
             if (persist) {
-                messages.push({ role: 'user', text: message });
+                messages.push({ role: 'user', text: message, userName: userName, userRole: userRole });
                 saveMessages();
             }
             chatBody.scrollTop = chatBody.scrollHeight;
@@ -196,7 +224,10 @@
 
             messages.forEach(item => {
                 if (item.role === 'user') {
-                    addUserMessage(item.text, false);
+                    // Utiliser les infos utilisateur stockées ou currentUser par défaut
+                    const userName = item.userName || currentUser.name;
+                    const userRole = item.userRole || currentUser.role;
+                    addUserMessage(item.text, userName, userRole, false);
                 } else {
                     addBotMessage(item.text, false);
                 }

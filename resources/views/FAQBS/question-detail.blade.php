@@ -78,6 +78,17 @@
                             @endif
                         </p>
                     </div>
+                    
+                    <!-- Résolue par -->
+                    @if($question->resolved && $question->resolver)
+                    <div class="mb-4">
+                        <label class="form-label fw-bold"><i class="bi bi-person-check me-2"></i>Résolue par :</label>
+                        <div class="d-flex align-items-center">
+                            <img src="{{ asset('images/vous.png') }}" class="rounded-circle me-2" alt="Résolveur" width="24" height="24">
+                            <p class="mb-0">{{ $question->resolver->name }}</p>
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -87,6 +98,12 @@
     <!-- Boutons d'action -->
     <div class="row justify-content-center mt-2">
         <div class="col-md-8 col-lg-6">
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
             <div class="d-flex gap-3 mb-4">
                 <a href="{{ route('questions.reply', ['question' => $question->id]) }}" class="btn btn-primary btn-lg text-white w-50" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
                     <i class="bi bi-reply me-1"></i> Répondre
@@ -96,6 +113,14 @@
                 </a>
             </div>
             <div class="d-flex gap-3">
+                @if(!$question->resolved)
+                    <form action="{{ route('questions.resolve', ['question' => $question->id]) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-success" title="Marquer comme résolue">
+                            <i class="bi bi-check-circle me-2"></i> Marquer comme résolue
+                        </button>
+                    </form>
+                @endif
                 <a href="/questions-en-attente/{{ $question->team }}" class="btn btn-outline-bordeaux text-bordeaux">
                     <i class="bi bi-folder me-2"></i> Retour aux questions de l'équipe
                 </a>

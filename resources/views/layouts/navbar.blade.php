@@ -15,9 +15,19 @@
         <!-- Éléments à droite -->
         <ul class="navbar-nav ms-auto">
             @auth
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('discussion.create') }}">Ajouter discussion</a>
-                </li>
+                @if(!Auth::user()->is_master)
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('discussion.create') }}">Ajouter discussion</a>
+                    </li>
+                @endif
+                @if(Auth::user()->is_master)
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('a-faire') }}">À faire</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('discussions.manage') }}">Gérer discussions</a>
+                    </li>
+                @endif
             @endauth
 
             <!-- Affichage du nom de l'utilisateur connecté ou lien de connexion -->
@@ -30,6 +40,7 @@
                         <li>
                             <a class="dropdown-item" href="{{ route('profile.edit') }}">Mon profil</a>
                         </li>
+                        <li><hr class="dropdown-divider"></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf

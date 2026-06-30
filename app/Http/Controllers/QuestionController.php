@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class QuestionController extends Controller
 {
@@ -12,14 +14,25 @@ class QuestionController extends Controller
      */
     public function index($team = null)
     {
-        $query = Question::where('resolved', false)->orderBy('created_at', 'desc');
+        $query = Question::orderBy('created_at', 'desc');
         
         if ($team) {
             $query->where('team', $team);
         }
         
-        $questions = $query->get();
-        return view('FAQBS.questions-en-attente', compact('questions', 'team'));
+        $pendingQuestions = Question::orderBy('created_at', 'desc');
+        if ($team) {
+            $pendingQuestions->where('team', $team);
+        }
+        $pendingQuestions = $pendingQuestions->where('resolved', false)->get();
+        
+        $resolvedQuestions = Question::orderBy('created_at', 'desc');
+        if ($team) {
+            $resolvedQuestions->where('team', $team);
+        }
+        $resolvedQuestions = $resolvedQuestions->where('resolved', true)->get();
+        
+        return view('FAQBS.questions-en-attente', compact('team', 'pendingQuestions', 'resolvedQuestions'));
     }
 
     /**
@@ -58,11 +71,30 @@ class QuestionController extends Controller
     }
 
     /**
-     * Show the form for replying to a question.
+     * Show the form for replying to a question or store the reply.
      */
-    public function reply(string $id)
+    public function reply(Request $request, string $id)
     {
         $question = Question::findOrFail($id);
+        
+        if ($request->isMethod('post')) {
+            // Enregistrer la réponse
+            $request->validate([
+                'response' => 'required|string',
+            ]);
+            
+            $question->answer = $request->input('response');
+            $question->answered_by = Auth::id();
+            $question->answered_at = now();
+            $question->resolved = true;
+            $question->resolved_by = Auth::id();
+            $question->resolved_at = now();
+            $question->save();
+            
+            return redirect()->route('questions-en-attente')->with('success', 'Réponse enregistrée avec succès !');
+        }
+        
+        // Afficher le formulaire de réponse
         return view('FAQBS.reply', compact('question'));
     }
 
@@ -88,5 +120,19 @@ class QuestionController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Marquer une question comme résolue
+     */
+    public function markAsResolved(string $id)
+    {
+        $question = Question::findOrFail($id);
+        $question->resolved = true;
+        $question->resolved_by = Auth::id();
+        $question->resolved_at = now();
+        $question->save();
+
+        return redirect()->back()->with('success', 'Question marquée comme résolue avec succès !');
     }
 }

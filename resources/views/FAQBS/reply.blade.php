@@ -49,9 +49,8 @@
                     <h4 class="mb-0">Votre réponse</h4>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="#">
+                    <form method="POST" action="{{ route('questions.reply', $question->id) }}">
                         @csrf
-                        <input type="hidden" name="question_id" value="{{ $question->id }}">
                         
                         <div class="mb-3">
                             <label for="response" class="form-label">Votre réponse</label>
@@ -118,5 +117,193 @@
         background-color: #007bff;
         border-color: #007bff;
     }
+    .chat-body {
+        display: flex;
+        flex-direction: column;
+    }
+    .chat-body::-webkit-scrollbar {
+        width: 8px;
+    }
+    .chat-body::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+    .chat-body::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+    }
+    .chat-body::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
 </style>
+
+<!-- JavaScript pour le chat -->
+<script>
+    @auth
+        const currentUser = {
+            name: '{{ Auth::user()->name }}',
+            role: @if(Auth::user()->is_master) 'Master' @elseif(Auth::user()->is_president) 'Président' @elseif(Auth::user()->is_voice_donor) 'Donneur de Voix' @else 'Membre' @endif
+        };
+    @else
+        const currentUser = { name: 'Anonyme', role: 'Visiteur' };
+    @endauth
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const chatInput = document.getElementById('chatInput');
+        const chatSend = document.getElementById('chatSend');
+        const chatBody = document.querySelector('.chat-body');
+        const storageKey = chatBody.getAttribute('data-chat-storage-key') || 'faqbs-chat-messages';
+        let messages = loadMessages();
+
+        function sendMessage(customMessage) {
+            const message = (customMessage || chatInput.value).trim();
+            if (!message) return;
+
+            addUserMessage(message, currentUser.name, currentUser.role, true);
+            chatInput.value = '';
+
+            // Ne répondre automatiquement que si c'est le premier message
+            const hasUserMessages = messages.some(m => m.role === 'user');
+            if (!hasUserMessages) {
+                const reply = getAutoReply(message);
+                setTimeout(function() {
+                    addBotMessage(reply, true);
+                }, 500);
+            }
+        }
+
+        chatSend.addEventListener('click', function() {
+            sendMessage();
+        });
+
+        chatInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+
+        function addUserMessage(message, userName, userRole, persist = false) {
+            const messageDiv = document.createElement('div');
+            
+            // Vérifier si c'est l'utilisateur actuel
+            const isCurrentUser = userName === currentUser.name && userRole === currentUser.role;
+            
+            if (isCurrentUser) {
+                // Message de l'utilisateur actuel : à droite en bleu
+                messageDiv.className = 'mb-2 d-flex justify-content-end';
+                messageDiv.innerHTML = `
+                    <div class="flex-grow-1 me-2 text-end">
+                        <div class="p-2 text-white bg-primary rounded-3">
+                            <small class="text-white-50">${userName} (${userRole})</small>
+                            <p class="mb-0">${message}</p>
+                        </div>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <img src="{{ asset('images/vous.png') }}" class="rounded-circle" alt="${userName}" width="30" height="30">
+                    </div>
+                `;
+            } else {
+                // Message d'un autre profil : à gauche en gris
+                messageDiv.className = 'mb-2 d-flex';
+                messageDiv.innerHTML = `
+                    <div class="flex-shrink-0">
+                        <img src="{{ asset('images/vous.png') }}" class="rounded-circle" alt="${userName}" width="30" height="30">
+                    </div>
+                    <div class="flex-grow-1 ms-2">
+                        <div class="p-2 bg-light rounded-3">
+                            <small class="text-muted">${userName} (${userRole})</small>
+                            <p class="mb-0">${message}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            chatBody.appendChild(messageDiv);
+            if (persist) {
+                messages.push({ role: 'user', text: message, userName: userName, userRole: userRole });
+                saveMessages();
+            }
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function addBotMessage(message, persist = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'mb-2 d-flex';
+            messageDiv.innerHTML = `
+                <div class="flex-shrink-0">
+                    <img src="{{ asset('images/logo.png') }}" class="rounded-circle" alt="BSB" width="30" height="30">
+                </div>
+                <div class="flex-grow-1 ms-2">
+                    <div class="p-2 bg-light rounded-3">
+                        <small class="text-muted">Bibliothèques Sonores (Administrateur)</small>
+                        <p class="mb-0">${message}</p>
+                    </div>
+                </div>
+            `;
+            chatBody.appendChild(messageDiv);
+            if (persist) {
+                messages.push({ role: 'bot', text: message });
+                saveMessages();
+            }
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function getAutoReply(message) {
+            const lowerMessage = message.toLowerCase();
+
+            if (lowerMessage.includes('bonjour') || lowerMessage.includes('salut')) {
+                return 'Bonjour ! Comment puis-je vous aider aujourd\'hui ?';
+            }
+
+            if (lowerMessage.includes('prix') || lowerMessage.includes('tarif')) {
+                return 'Les tarifs dépendent du service demandé. Merci de nous préciser votre besoin.';
+            }
+
+            if (lowerMessage.includes('contact') || lowerMessage.includes('email')) {
+                return 'Vous pouvez nous contacter par email ou via le formulaire de contact du site.';
+            }
+
+            if (lowerMessage.includes('faq') || lowerMessage.includes('question')) {
+                return 'Vous pouvez consulter notre FAQ ou nous envoyer votre demande précise.';
+            }
+
+            return 'Nous vous répondrons dès qu’un membre de l’association sera présent.';
+        }
+
+        function saveMessages() {
+            localStorage.setItem(storageKey, JSON.stringify(messages));
+        }
+
+        function loadMessages() {
+            try {
+                const saved = localStorage.getItem(storageKey);
+                return saved ? JSON.parse(saved) : [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        renderMessages();
+
+        function renderMessages() {
+            chatBody.innerHTML = '';
+            if (messages.length === 0) {
+                addBotMessage('Bonjour ! Comment puis-je vous aider aujourd\'hui ?', false);
+                return;
+            }
+
+            messages.forEach(item => {
+                if (item.role === 'user') {
+                    // Utiliser les infos utilisateur stockées ou currentUser par défaut
+                    const userName = item.userName || currentUser.name;
+                    const userRole = item.userRole || currentUser.role;
+                    addUserMessage(item.text, userName, userRole, false);
+                } else {
+                    addBotMessage(item.text, false);
+                }
+            });
+        }
+    });
+</script>
 @endsection

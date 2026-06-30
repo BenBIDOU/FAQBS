@@ -14,6 +14,12 @@ class Discussion extends Model
         'group',
         'link',
         'content',
-        'image_path'
+        'image_path',
+        'user_id'
     ];
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

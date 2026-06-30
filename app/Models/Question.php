@@ -15,6 +15,27 @@ class Question extends Model
         'team',
         'subject',
         'message',
-        'resolved'
+        'resolved',
+        'resolved_by',
+        'resolved_at',
+        'answer',
+        'answered_by',
+        'answered_at'
     ];
+    
+    protected $casts = [
+        'resolved' => 'boolean',
+        'resolved_at' => 'datetime',
+        'answered_at' => 'datetime',
+    ];
+    
+    public function resolver()
+    {
+        return $this->belongsTo(User::class, 'resolved_by');
+    }
+    
+    public function answerer()
+    {
+        return $this->belongsTo(User::class, 'answered_by');
+    }
 }

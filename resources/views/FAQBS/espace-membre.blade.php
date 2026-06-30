@@ -32,8 +32,10 @@
     <div class="mb-4 row">
         <div class="col-12">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Rechercher une discussion..." id="faqSearch">
-                <button class="text-white btn bg-bordeaux" type="button">Rechercher</button>
+                <input type="text" class="form-control" placeholder="Rechercher une discussion..." id="faqSearch" autocomplete="off">
+                <button class="text-white btn bg-bordeaux" type="button" id="searchButton">
+                    <i class="bi bi-search me-1"></i> Rechercher
+                </button>
             </div>
         </div>
     </div>
@@ -58,7 +60,9 @@
                                 <div id="collapseDonneursVoixResolues" class="accordion-collapse collapse" data-bs-parent="#donneursVoixAccordionResolues">
                                     <div class="accordion-body">
                                         @forelse($discussionsByGroup['Donneurs Voix'] ?? [] as $discussion)
-                                            <a href="/discussion/{{ $discussion->id }}" class="list-group-item list-group-item-action border-0 ps-4">
+                                            <a href="{{ route('discussions.show', $discussion->id) }}" 
+                                               class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
+                                               data-title="{{ $discussion->title }}">
                                                 {{ Str::limit($discussion->title, 40) }}
                                             </a>
                                         @empty
@@ -78,7 +82,9 @@
                                 <div id="collapseDonneursTempsResolues" class="accordion-collapse collapse" data-bs-parent="#donneursTempsAccordionResolues">
                                     <div class="accordion-body">
                                         @forelse($discussionsByGroup['Donneurs Temps'] ?? [] as $discussion)
-                                            <a href="/discussion/{{ $discussion->id }}" class="list-group-item list-group-item-action border-0 ps-4">
+                                            <a href="{{ route('discussions.show', $discussion->id) }}" 
+                                               class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
+                                               data-title="{{ $discussion->title }}">
                                                 {{ Str::limit($discussion->title, 40) }}
                                             </a>
                                         @empty
@@ -98,27 +104,9 @@
                                 <div id="collapseSecretariatResolues" class="accordion-collapse collapse" data-bs-parent="#secretariatAccordionResolues">
                                     <div class="accordion-body">
                                         @forelse($discussionsByGroup['Secrétariat'] ?? [] as $discussion)
-                                            <a href="/discussion/{{ $discussion->id }}" class="list-group-item list-group-item-action border-0 ps-4">
-                                                {{ Str::limit($discussion->title, 40) }}
-                                            </a>
-                                        @empty
-                                            <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
-                                        @endforelse
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion" id="espaceMembreAccordionResolues">
-                            <div class="accordion-item border-0">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed list-group-item list-group-item-action border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEspaceMembreResolues" aria-expanded="false" aria-controls="collapseEspaceMembreResolues">
-                                        Espace membre
-                                    </button>
-                                </h2>
-                                <div id="collapseEspaceMembreResolues" class="accordion-collapse collapse" data-bs-parent="#espaceMembreAccordionResolues">
-                                    <div class="accordion-body">
-                                        @forelse($discussionsByGroup['Espace membre'] ?? [] as $discussion)
-                                            <a href="/discussion/{{ $discussion->id }}" class="list-group-item list-group-item-action border-0 ps-4">
+                                            <a href="{{ route('discussions.show', $discussion->id) }}" 
+                                               class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
+                                               data-title="{{ $discussion->title }}">
                                                 {{ Str::limit($discussion->title, 40) }}
                                             </a>
                                         @empty
@@ -138,7 +126,9 @@
                                 <div id="collapsePresidentResolues" class="accordion-collapse collapse" data-bs-parent="#presidentAccordionResolues">
                                     <div class="accordion-body">
                                         @forelse($discussionsByGroup['Président'] ?? [] as $discussion)
-                                            <a href="/discussion/{{ $discussion->id }}" class="list-group-item list-group-item-action border-0 ps-4">
+                                            <a href="{{ route('discussions.show', $discussion->id) }}" 
+                                               class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
+                                               data-title="{{ $discussion->title }}">
                                                 {{ Str::limit($discussion->title, 40) }}
                                             </a>
                                         @empty
@@ -256,10 +246,31 @@
     .list-group-item-action:hover {
         background-color: #f8f9fa;
     }
+    
+    /* Séparateurs entre les discussions */
+    .discussion-link {
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 8px;
+        margin-bottom: 8px;
+    }
+    .discussion-link:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
 </style>
 
 <!-- JavaScript pour gérer l'envoi de messages -->
 <script>
+    @auth
+        const currentUser = {
+            name: '{{ Auth::user()->name }}',
+            role: @if(Auth::user()->is_master) 'Master' @elseif(Auth::user()->is_president) 'Président' @elseif(Auth::user()->is_voice_donor) 'Donneur de Voix' @else 'Membre' @endif
+        };
+    @else
+        const currentUser = { name: 'Anonyme', role: 'Visiteur' };
+    @endauth
+
     document.addEventListener('DOMContentLoaded', function() {
         const chatInput = document.getElementById('chatInput');
         const chatSend = document.getElementById('chatSend');
@@ -271,13 +282,17 @@
             const message = (customMessage || chatInput.value).trim();
             if (!message) return;
 
-            addUserMessage(message, true);
+            addUserMessage(message, currentUser.name, currentUser.role, true);
             chatInput.value = '';
 
-            const reply = getAutoReply(message);
-            setTimeout(function() {
-                addBotMessage(reply, true);
-            }, 500);
+            // Ne répondre automatiquement que si c'est le premier message
+            const hasUserMessages = messages.some(m => m.role === 'user');
+            if (!hasUserMessages) {
+                const reply = getAutoReply(message);
+                setTimeout(function() {
+                    addBotMessage(reply, true);
+                }, 500);
+            }
         }
 
         chatSend.addEventListener('click', function() {
@@ -297,23 +312,45 @@
             });
         });
 
-        function addUserMessage(message, persist = false) {
+        function addUserMessage(message, userName, userRole, persist = false) {
             const messageDiv = document.createElement('div');
-            messageDiv.className = 'mb-2 d-flex justify-content-end';
-            messageDiv.innerHTML = `
-                <div class="flex-grow-1 me-2 text-end">
-                    <div class="p-2 text-white bg-primary rounded-3">
-                        <small class="text-white-50">Vous</small>
-                        <p class="mb-0">${message}</p>
+            
+            // Vérifier si c'est l'utilisateur actuel
+            const isCurrentUser = userName === currentUser.name && userRole === currentUser.role;
+            
+            if (isCurrentUser) {
+                // Message de l'utilisateur actuel : à droite en bleu
+                messageDiv.className = 'mb-2 d-flex justify-content-end';
+                messageDiv.innerHTML = `
+                    <div class="flex-grow-1 me-2 text-end">
+                        <div class="p-2 text-white bg-primary rounded-3">
+                            <small class="text-white-50">${userName} (${userRole})</small>
+                            <p class="mb-0">${message}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="flex-shrink-0">
-                    <img src="{{ asset('images/vous.png') }}" class="rounded-circle" alt="Vous" width="40" height="40">
-                </div>
-            `;
+                    <div class="flex-shrink-0">
+                        <img src="{{ asset('images/vous.png') }}" class="rounded-circle" alt="${userName}" width="40" height="40">
+                    </div>
+                `;
+            } else {
+                // Message d'un autre profil : à gauche en gris
+                messageDiv.className = 'mb-2 d-flex';
+                messageDiv.innerHTML = `
+                    <div class="flex-shrink-0">
+                        <img src="{{ asset('images/vous.png') }}" class="rounded-circle" alt="${userName}" width="40" height="40">
+                    </div>
+                    <div class="flex-grow-1 ms-2">
+                        <div class="p-2 bg-light rounded-3">
+                            <small class="text-muted">${userName} (${userRole})</small>
+                            <p class="mb-0">${message}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
             chatBody.appendChild(messageDiv);
             if (persist) {
-                messages.push({ role: 'user', text: message });
+                messages.push({ role: 'user', text: message, userName: userName, userRole: userRole });
                 saveMessages();
             }
             chatBody.scrollTop = chatBody.scrollHeight;
@@ -387,12 +424,105 @@
 
             messages.forEach(item => {
                 if (item.role === 'user') {
-                    addUserMessage(item.text, false);
+                    // Utiliser les infos utilisateur stockées ou currentUser par défaut
+                    const userName = item.userName || currentUser.name;
+                    const userRole = item.userRole || currentUser.role;
+                    addUserMessage(item.text, userName, userRole, false);
                 } else {
                     addBotMessage(item.text, false);
                 }
             });
         }
+        
+    });
+</script>
+
+<!-- Script indépendant pour la recherche de discussions -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('faqSearch');
+        const searchButton = document.getElementById('searchButton');
+        
+        if (!searchInput || !searchButton) {
+            console.error('Éléments de recherche introuvables');
+            return;
+        }
+        
+        function filterDiscussions() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            let hasResults = false;
+            
+            // Sélectionner les liens de discussion dans les accordéons
+            const discussionLinks = document.querySelectorAll('.accordion-body a.list-group-item-action');
+            const noDiscussionMessages = document.querySelectorAll('.text-muted.small.mb-0.ps-4');
+            const accordionCollapses = document.querySelectorAll('.accordion-collapse');
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            
+            console.log('Recherche:', searchTerm, '-> Nombre de liens trouvés:', discussionLinks.length);
+            
+            // Filtrer les discussions
+            discussionLinks.forEach(link => {
+                const fullTitle = (link.getAttribute('data-title') || link.textContent).toLowerCase();
+                const isVisible = fullTitle.includes(searchTerm);
+                link.classList.toggle('d-none', !isVisible);
+                if (isVisible) hasResults = true;
+            });
+            
+            // Gérer les messages "Aucune discussion"
+            noDiscussionMessages.forEach(el => {
+                el.classList.toggle('d-none', hasResults);
+            });
+            
+            // Réinitialiser si vide
+            if (searchTerm === '') {
+                discussionLinks.forEach(link => link.classList.remove('d-none'));
+                noDiscussionMessages.forEach(el => el.classList.add('d-none'));
+                accordionCollapses.forEach(c => c.classList.remove('show'));
+                accordionButtons.forEach(b => {
+                    b.classList.add('collapsed');
+                    b.setAttribute('aria-expanded', 'false');
+                });
+                return;
+            }
+            
+            // Ouvrir les accordéons avec résultats
+            accordionCollapses.forEach(collapse => {
+                const body = collapse.querySelector('.accordion-body');
+                if (!body) return;
+                
+                const visibleLinks = Array.from(body.querySelectorAll('a.list-group-item-action'))
+                    .some(link => !link.classList.contains('d-none'));
+                
+                const buttonId = collapse.getAttribute('id');
+                const button = buttonId ? document.querySelector(`[data-bs-target="#${buttonId}"]`) : null;
+                
+                if (visibleLinks) {
+                    collapse.classList.add('show');
+                    if (button) {
+                        button.classList.remove('collapsed');
+                        button.setAttribute('aria-expanded', 'true');
+                    }
+                } else {
+                    collapse.classList.remove('show');
+                    if (button) {
+                        button.classList.add('collapsed');
+                        button.setAttribute('aria-expanded', 'false');
+                    }
+                }
+            });
+        }
+        
+        // Écouteurs
+        searchInput.addEventListener('input', filterDiscussions);
+        searchButton.addEventListener('click', filterDiscussions);
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                filterDiscussions();
+            }
+        });
+        
+        console.log('Recherche initialisée - OK');
     });
 </script>
 @endsection

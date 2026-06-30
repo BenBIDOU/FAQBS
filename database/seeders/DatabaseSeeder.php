@@ -27,5 +27,10 @@ class DatabaseSeeder extends Seeder
             'email' => 'donneur.voix@example.com',
             'is_voice_donor' => true,
         ]);
+
+        // Créer l'utilisateur master
+        $this->call([
+            MasterUserSeeder::class,
+        ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Question;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,8 +17,18 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $user = $request->user();
+        
+        // Récupérer les questions de l'utilisateur qui ont une réponse
+        $answeredQuestions = Question::where('email', $user->email)
+            ->whereNotNull('answer')
+            ->orWhere('resolved', true)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => $user,
+            'answeredQuestions' => $answeredQuestions,
         ]);
     }
 
@@ -35,6 +46,45 @@ class ProfileController extends Controller
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    }
+
+    /**
+     * Update the user's profile photo.
+     */
+    public function updatePhoto(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+        ]);
+
+        $user = $request->user();
+
+        // Supprimer l'ancienne photo si elle existe
+        if ($user->photo && $request->hasFile('photo')) {
+            $oldPhotoPath = storage_path('app/public/' . $user->photo);
+            if (file_exists($oldPhotoPath)) {
+                unlink($oldPhotoPath);
+            }
+        }
+
+        // Enregistrer la nouvelle photo
+        if ($request->hasFile('photo')) {
+            $photoPath = $request->file('photo')->store('profile-photos', 'public');
+            $user->photo = $photoPath;
+        } elseif ($request->filled('remove_photo')) {
+            // Supprimer la photo
+            if ($user->photo) {
+                $oldPhotoPath = storage_path('app/public/' . $user->photo);
+                if (file_exists($oldPhotoPath)) {
+                    unlink($oldPhotoPath);
+                }
+            }
+            $user->photo = null;
+        }
+
+        $user->save();
+
+        return Redirect::route('profile.edit')->with('status', 'photo-updated');
     }
 
     /**

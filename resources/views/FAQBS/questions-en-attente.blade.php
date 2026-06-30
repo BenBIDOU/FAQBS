@@ -11,7 +11,7 @@
         </div>
         <div class="col">
             <h1 class="mb-1">
-                Questions en attente
+                Questions
                 @if($team)
                     <span class="text-muted">- {{ $team }}</span>
                 @endif
@@ -53,16 +53,21 @@
         </div>
     </div>
 
-    <!-- Tableau des questions -->
-    <div class="row">
+    <!-- Questions en attente -->
+    <div class="row mb-4">
         <div class="col-12">
             <div class="card shadow-lg">
-                <div class="card-header bg-bordeaux text-white">
-                    <h4 class="mb-0">Liste des questions en attente de réponse</h4>
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0">
+                        <i class="bi bi-clock me-2"></i> Questions en attente
+                        @if($pendingQuestions->count() > 0)
+                            <span class="badge bg-dark ms-2">{{ $pendingQuestions->count() }}</span>
+                        @endif
+                    </h4>
                 </div>
                 <div class="card-body">
-                    @if($questions->isEmpty())
-                        <div class="alert alert-info">
+                    @if($pendingQuestions->isEmpty())
+                        <div class="alert alert-info mb-0">
                             Aucune question en attente.
                         </div>
                     @else
@@ -79,7 +84,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($questions as $question)
+                                    @foreach($pendingQuestions as $question)
                                         <tr>
                                             <td>{{ $question->created_at->format('d/m/Y H:i') }}</td>
                                             <td>{{ $question->name }}</td>
@@ -97,6 +102,95 @@
                             </table>
                         </div>
                     @endif
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Questions résolues (rétractable) -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0">
+                <div class="card-header bg-light text-dark cursor-pointer" 
+                     data-bs-toggle="collapse" 
+                     data-bs-target="#resolvedQuestionsCollapse" 
+                     aria-expanded="true">
+                    <h5 class="mb-0 d-flex align-items-center">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i> Questions résolues
+                        <i class="bi bi-chevron-down ms-auto"></i>
+                    </h5>
+                </div>
+                <div id="resolvedQuestionsCollapse" class="collapse show" data-bs-parent="#questionsAccordion">
+                    <div class="card-body">
+                        @if($resolvedQuestions->isEmpty())
+                            <div class="alert alert-info mb-0">
+                                Aucune question résolue.
+                            </div>
+                        @else
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Nom</th>
+                                            <th>Email</th>
+                                            <th>Objet</th>
+                                            <th>Message</th>
+                                            <th>Résolue par</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($resolvedQuestions as $question)
+                                            <tr class="table-success">
+                                                <td>{{ $question->created_at->format('d/m/Y H:i') }}</td>
+                                                <td>{{ $question->name }}</td>
+                                                <td>{{ $question->email }}</td>
+                                                <td>{{ $question->subject }}</td>
+                                                <td>{{ Str::limit($question->message, 50) }}</td>
+                                                <td>
+                                                    @if($question->resolver)
+                                                        <div class="d-flex align-items-center">
+                                                            <img src="{{ asset('images/vous.png') }}" class="rounded-circle me-1" alt="Résolveur" width="20" height="20">
+                                                            <small>{{ $question->resolver->name }}</small>
+                                                        </div>
+                                                    @else
+                                                        <small class="text-muted">Inconnu</small>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @php
+                                                        $forumUrl = '';
+                                                        switch($question->team) {
+                                                            case 'Président':
+                                                                $forumUrl = '/Président';
+                                                                break;
+                                                            case 'Secrétariat':
+                                                                $forumUrl = '/Secrétariat';
+                                                                break;
+                                                            case 'Donneurs de Voix':
+                                                            case 'Donneurs Voix':
+                                                                $forumUrl = '/Donneurs-Voix';
+                                                                break;
+                                                            case 'Donneurs de Temps':
+                                                            case 'Donneurs Temps':
+                                                                $forumUrl = '/Donneurs-Temps';
+                                                                break;
+                                                        }
+                                                    @endphp
+                                                    @if($forumUrl)
+                                                        <a href="{{ $forumUrl }}" class="btn btn-sm btn-outline-success" target="_blank">
+                                                            <i class="bi bi-eye me-1"></i> Voir le forum
+                                                        </a>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -143,5 +237,35 @@
         background-color: #6D071A;
         color: white;
     }
+    .cursor-pointer {
+        cursor: pointer;
+    }
+    .card-header[aria-expanded="false"] .bi-chevron-down {
+        transform: rotate(-90deg);
+    }
+    .card-header[aria-expanded="true"] .bi-chevron-down {
+        transform: rotate(0deg);
+    }
+    #resolvedQuestionsCollapse {
+        transition: all 0.3s ease;
+    }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Gestion de l'icône chevron pour l'accordéon
+        const resolvedHeader = document.querySelector('.card-header[data-bs-target="#resolvedQuestionsCollapse"]');
+        if (resolvedHeader) {
+            resolvedHeader.addEventListener('click', function() {
+                const chevron = this.querySelector('.bi-chevron-down');
+                const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                if (isExpanded) {
+                    chevron.style.transform = 'rotate(-90deg)';
+                } else {
+                    chevron.style.transform = 'rotate(0deg)';
+                }
+            });
+        }
+    });
+</script>
 @endsection

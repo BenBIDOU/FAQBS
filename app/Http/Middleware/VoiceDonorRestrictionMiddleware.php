@@ -10,21 +10,9 @@ class VoiceDonorRestrictionMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        // Si l'utilisateur est un donateur de voix, il peut accéder à toutes les pages internes
-        if (Auth::check() && Auth::user()->is_voice_donor) {
-            $allowedPaths = [
-                '/',
-                '/Donneurs-Voix',
-                '/faq',
-                '/Secrétariat',
-                '/espace-membre',
-                '/Donneurs-Temps',
-                '/Président',
-            ];
-
-            if (!in_array($request->getPathInfo(), $allowedPaths, true)) {
-                return redirect('/')->with('error', 'Accès réservé aux membres.');
-            }
+        // Tous les utilisateurs connectés peuvent accéder aux pages internes
+        if (!Auth::check()) {
+            return redirect('/')->with('error', 'Vous devez être connecté pour accéder à cette page.');
         }
 
         return $next($request);

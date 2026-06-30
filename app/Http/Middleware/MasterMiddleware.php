@@ -10,8 +10,12 @@ class MasterMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check() || !Auth::user()->is_master) {
-            return redirect('/')->with('error', 'Vous n\'avez pas les droits nécessaires pour accéder à cette page.');
+        if (!Auth::check()) {
+            return redirect('/')->with('error', 'Vous devez être connecté.');
+        }
+        
+        if (!Auth::user()->is_master) {
+            return redirect('/')->with('error', 'Vous n\'avez pas les droits master pour accéder à cette page.');
         }
 
         return $next($request);
