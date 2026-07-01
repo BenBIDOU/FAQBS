@@ -43,14 +43,14 @@
     <!-- Section Questions résolues et Questions en attente -->
     <div class="row mb-4">
         <!-- Questions résolues - 1/4 à gauche -->
-        <div class="col-md-3 d-flex mb-4">
+        <div class="col-md-3 d-flex">
             <div class="card flex-grow-1 h-100">
                 <div class="card-header bg-bordeaux text-white">
                     <h5 class="mb-0">Questions résolues</h5>
                 </div>
-                <div class="card-body d-flex flex-column flex-grow-1">
-                    <div class="list-group list-group-flush d-flex flex-column" style="max-height: 55vh; overflow-y: auto;">
-                        <div class="accordion flex-grow-1" id="donneursVoixAccordionResolues">
+                <div class="card-body d-flex flex-column flex-grow-1" style="max-height: 60vh; overflow-y: auto;">
+                    <div class="list-group list-group-flush d-flex flex-column" style="height: 100%;">
+                        <div class="accordion flex-grow-1 accordion-bottom" id="donneursVoixAccordionResolues">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed list-group-item list-group-item-action border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDonneursVoixResolues" aria-expanded="false" aria-controls="collapseDonneursVoixResolues">
@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         <div class="w-100" style="border-bottom: 1px solid #6c757d; margin: 8px 0;"></div>
-                        <div class="accordion flex-grow-1" id="donneursTempsAccordionResolues">
+                        <div class="accordion flex-grow-1 accordion-bottom" id="donneursTempsAccordionResolues">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed list-group-item list-group-item-action border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDonneursTempsResolues" aria-expanded="false" aria-controls="collapseDonneursTempsResolues">
@@ -96,7 +96,7 @@
                             </div>
                         </div>
                         <div class="w-100" style="border-bottom: 1px solid #6c757d; margin: 8px 0;"></div>
-                        <div class="accordion flex-grow-1" id="secretariatAccordionResolues">
+                        <div class="accordion flex-grow-1 accordion-bottom" id="secretariatAccordionResolues">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed list-group-item list-group-item-action border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSecretariatResolues" aria-expanded="false" aria-controls="collapseSecretariatResolues">
@@ -119,7 +119,7 @@
                             </div>
                         </div>
                         <div class="w-100" style="border-bottom: 1px solid #6c757d; margin: 8px 0;"></div>
-                        <div class="accordion flex-grow-1" id="presidentAccordionResolues">
+                        <div class="accordion flex-grow-1 accordion-bottom" id="presidentAccordionResolues">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed list-group-item list-group-item-action border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePresidentResolues" aria-expanded="false" aria-controls="collapsePresidentResolues">
@@ -148,7 +148,7 @@
         
         <!-- Mode d'emploi au centre -->
         <div class="col-md-6 d-flex">
-            <div class="card flex-grow-1 border-bordeaux">
+            <div class="card flex-grow-1 border-bordeaux h-100">
                 <div class="card-body d-flex align-items-center justify-content-center">
                     <h2 class="mb-0">-- mode d'emploi --</h2>
                 </div>
@@ -157,7 +157,7 @@
         
         <!-- Questions en attente - 1/4 à droite -->
         <div class="col-md-3 d-flex">
-            <div class="card flex-grow-1">
+            <div class="card flex-grow-1 h-100">
                 <div class="card-header bg-bordeaux text-white">
                     <h5 class="mb-0">Questions en attente</h5>
                 </div>
@@ -260,6 +260,12 @@
         border-bottom: none;
         margin-bottom: 0;
         padding-bottom: 0;
+    }
+    /* Alignement bas des sections dans Questions résolues */
+    .accordion-bottom {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
     }
     /* Effet Gemme pour le bouton */
     .gemme-btn {
