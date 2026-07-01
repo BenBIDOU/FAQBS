@@ -1,7 +1,7 @@
 @php
 use Illuminate\Support\Facades\Auth;
 @endphp
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(to right, #1a1a1a, #000000);">
     <a class="navbar-brand d-flex align-items-center ps-4" href="@auth /agora @else / @endauth">
         <img src="{{ asset('images/logo.png') }}" alt="Logo" width="30" height="30" class="d-inline-block me-2">
         Bibliothèques sonores du Centre val de Loire
