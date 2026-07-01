@@ -74,7 +74,7 @@
                             <button type="reset" class="btn btn-outline-secondary">
                                 <i class="bi bi-x-circle me-1"></i> Réinitialiser
                             </button>
-                            <button type="submit" class="btn btn-bordeaux text-white">
+                            <button type="submit" class="btn btn-bordeaux text-white" style="box-shadow: 0 4px 8px rgba(0,0,0,0.3); transition: all 0.3s ease;">
                                 <i class="bi bi-send me-1"></i> Envoyer ma question
                             </button>
                         </div>
