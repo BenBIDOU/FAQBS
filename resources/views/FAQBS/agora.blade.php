@@ -72,6 +72,7 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="w-100" style="border-bottom: 1px solid #6c757d; margin: 8px 0;"></div>
                         <div class="accordion" id="donneursTempsAccordionResolues">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
@@ -94,6 +95,7 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="w-100" style="border-bottom: 1px solid #6c757d; margin: 8px 0;"></div>
                         <div class="accordion" id="secretariatAccordionResolues">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
@@ -116,6 +118,7 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="w-100" style="border-bottom: 1px solid #6c757d; margin: 8px 0;"></div>
                         <div class="accordion" id="presidentAccordionResolues">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
@@ -262,7 +265,7 @@
     .gemme-btn {
         background: linear-gradient(135deg, #7C0A1E 0%, #A00000 50%, #7C0A1E 100%);
         background-size: 200% 200%;
-        border-radius: 4px;
+        border-radius: 6px;
         position: relative;
         overflow: hidden;
         transition: all 0.3s ease;
