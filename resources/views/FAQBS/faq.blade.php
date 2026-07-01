@@ -65,7 +65,7 @@
     
     <!-- Carousel des villes -->
     <div class="mt-3">
-        <div id="villeCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div id="villeCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <img src="{{ asset('images/Blois.jpg') }}" alt="Blois - Centre Val de Loire" class="d-block w-100" style="max-height: 400px; object-fit: cover;">
