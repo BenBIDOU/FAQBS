@@ -196,9 +196,9 @@
         </div>
     </div>
 
-    <!-- Gros bouton "Je pose ma question" -->
+    <!-- Gros bouton "Je pose ma question" avec effet gemme -->
     <div class="text-center my-5">
-        <a href="/poser-question" class="btn btn-bordeaux btn-lg text-white px-5 py-4 shadow-lg" style="font-size: 1.3rem; font-weight: bold;">
+        <a href="/poser-question" class="btn btn-lg text-white px-5 py-4 shadow-lg gemme-btn" style="font-size: 1.3rem; font-weight: bold; border: none;">
             <i class="bi bi-envelope me-2"></i> Je pose ma question
         </a>
     </div>
@@ -257,6 +257,34 @@
         border-bottom: none;
         margin-bottom: 0;
         padding-bottom: 0;
+    }
+    /* Effet Gemme pour le bouton */
+    .gemme-btn {
+        background: linear-gradient(135deg, #6D071A 0%, #96637B 50%, #6D071A 100%);
+        background-size: 200% 200%;
+        border-radius: 50px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(109, 7, 26, 0.4);
+    }
+    .gemme-btn:hover {
+        background-position: 100% 100%;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(109, 7, 26, 0.6);
+    }
+    .gemme-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s ease;
+    }
+    .gemme-btn:hover::before {
+        left: 100%;
     }
 </style>
 
