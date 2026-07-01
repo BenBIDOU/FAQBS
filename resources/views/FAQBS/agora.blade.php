@@ -54,7 +54,7 @@
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed list-group-item list-group-item-action border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDonneursVoixResolues" aria-expanded="false" aria-controls="collapseDonneursVoixResolues">
-                                        Donneurs Voix
+                                        <i class="bi bi-mic me-2"></i> Donneurs Voix
                                     </button>
                                 </h2>
                                 <div id="collapseDonneursVoixResolues" class="accordion-collapse collapse" data-bs-parent="#donneursVoixAccordionResolues">
@@ -63,7 +63,7 @@
                                             <a href="{{ route('discussions.show', $discussion->id) }}" 
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
                                                data-title="{{ $discussion->title }}">
-                                                {{ Str::limit($discussion->title, 40) }}
+                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>{{ Str::limit($discussion->title, 40) }}
                                             </a>
                                         @empty
                                             <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
@@ -77,7 +77,7 @@
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed list-group-item list-group-item-action border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDonneursTempsResolues" aria-expanded="false" aria-controls="collapseDonneursTempsResolues">
-                                        Donneurs Temps
+                                        <i class="bi bi-clock me-2"></i> Donneurs Temps
                                     </button>
                                 </h2>
                                 <div id="collapseDonneursTempsResolues" class="accordion-collapse collapse" data-bs-parent="#donneursTempsAccordionResolues">
@@ -86,7 +86,7 @@
                                             <a href="{{ route('discussions.show', $discussion->id) }}" 
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
                                                data-title="{{ $discussion->title }}">
-                                                {{ Str::limit($discussion->title, 40) }}
+                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>{{ Str::limit($discussion->title, 40) }}
                                             </a>
                                         @empty
                                             <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
@@ -100,7 +100,7 @@
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed list-group-item list-group-item-action border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSecretariatResolues" aria-expanded="false" aria-controls="collapseSecretariatResolues">
-                                        Secrétariat
+                                        <i class="bi bi-file-text me-2"></i> Secrétariat
                                     </button>
                                 </h2>
                                 <div id="collapseSecretariatResolues" class="accordion-collapse collapse" data-bs-parent="#secretariatAccordionResolues">
@@ -109,7 +109,7 @@
                                             <a href="{{ route('discussions.show', $discussion->id) }}" 
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
                                                data-title="{{ $discussion->title }}">
-                                                {{ Str::limit($discussion->title, 40) }}
+                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>{{ Str::limit($discussion->title, 40) }}
                                             </a>
                                         @empty
                                             <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
@@ -123,7 +123,7 @@
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed list-group-item list-group-item-action border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePresidentResolues" aria-expanded="false" aria-controls="collapsePresidentResolues">
-                                        Président
+                                        <i class="bi bi-person-circle me-2"></i> Président
                                     </button>
                                 </h2>
                                 <div id="collapsePresidentResolues" class="accordion-collapse collapse" data-bs-parent="#presidentAccordionResolues">
@@ -132,7 +132,7 @@
                                             <a href="{{ route('discussions.show', $discussion->id) }}" 
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
                                                data-title="{{ $discussion->title }}">
-                                                {{ Str::limit($discussion->title, 40) }}
+                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>{{ Str::limit($discussion->title, 40) }}
                                             </a>
                                         @empty
                                             <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
