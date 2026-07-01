@@ -78,6 +78,11 @@
                                             <td>{{ $user->ville_bs ?? 'Non renseigné' }}</td>
                                             <td>
                                                 <div class="d-flex gap-2">
+                                                    <a href="{{ route('messages.create', $user->id) }}" 
+                                                       class="btn btn-sm btn-outline-info"
+                                                       title="Écrire un message" style="color: #0dcaf0; border-color: #0dcaf0;">
+                                                        <i class="bi bi-envelope"></i>
+                                                    </a>
                                                     <a href="{{ route('membres.edit', $user->id) }}" 
                                                        class="btn btn-sm btn-outline-warning"
                                                        title="Modifier" style="color: #ffc107; border-color: #ffc107;">
@@ -95,7 +100,7 @@
                                                     <form action="{{ route('membres.toggleSuspend', $user->id) }}" method="POST">
                                                         @csrf
                                                         <button type="submit" class="btn btn-sm btn-outline-{{ $user->is_active ? 'success' : 'secondary' }}"
-                                                                title="{{ $user->is_active ? 'Réactiver l\'accès' : 'Suspendre l\'accès' }}"
+                                                                title="{{ $user->is_active ? 'Suspendre l\'accès' : 'Réactiver l\'accès' }}"
                                                                 style="color: {{ $user->is_active ? '#28a745' : '#6c757d' }}; border-color: {{ $user->is_active ? '#28a745' : '#6c757d' }};">
                                                             <i class="bi bi-{{ $user->is_active ? 'slash-circle' : 'check-circle' }}"></i>
                                                         </button>

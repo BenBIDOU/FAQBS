@@ -3,6 +3,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DiscussionController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 
 // Seule la page d'accueil est accessible sans authentification
@@ -98,6 +99,10 @@ Route::middleware(['auth.home', 'master'])->group(function () {
     Route::put('/membres/{user}', [UserController::class, 'update'])->name('membres.update');
     Route::delete('/membres/{user}', [UserController::class, 'destroy'])->name('membres.destroy');
     Route::post('/membres/{user}/toggle-suspend', [UserController::class, 'toggleSuspend'])->name('membres.toggleSuspend');
+
+    // Messagerie (masters peuvent écrire à n'importe quel membre)
+    Route::get('/membres/{user}/message/nouveau', [MessageController::class, 'create'])->name('messages.create');
+    Route::post('/membres/{user}/message', [MessageController::class, 'store'])->name('messages.store');
 });
 
 require __DIR__.'/auth.php';

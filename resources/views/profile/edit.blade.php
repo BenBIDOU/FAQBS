@@ -76,7 +76,18 @@
                             data-bs-toggle="collapse" data-bs-target="#messagerieCollapse" 
                             aria-expanded="false" aria-controls="messagerieCollapse">
                         <span class="d-flex justify-content-between align-items-center w-100 p-3">
-                            <span><i class="bi bi-envelope me-2"></i> Messagerie</span>
+                            <span class="d-flex align-items-center">
+                                <i class="bi bi-envelope me-2"></i> Messagerie
+                                @php
+                                    $unreadCount = \App\Models\Question::where('email', auth()->user()->email)
+                                        ->whereNotNull('answer')
+                                        ->where('answer', '!=', '')
+                                        ->count();
+                                @endphp
+                                @if($unreadCount > 0)
+                                    <span class="badge bg-danger ms-2">{{ $unreadCount }}</span>
+                                @endif
+                            </span>
                             <i class="bi bi-chevron-down"></i>
                         </span>
                     </button>
