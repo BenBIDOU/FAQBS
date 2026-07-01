@@ -105,10 +105,10 @@
                 </div>
             @endif
             <div class="d-flex gap-3 mb-4">
-                <a href="{{ route('questions.reply', ['question' => $question->id]) }}" class="btn btn-primary btn-lg text-white w-50" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
+                <a href="{{ route('questions.reply', ['question' => $question->id]) }}" class="btn btn-lg text-white w-50 gemme-btn-primary" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
                     <i class="bi bi-reply me-1"></i> Répondre
                 </a>
-                <a href="{{ route('discussion.create', ['subject' => $question->subject, 'group' => $question->team, 'content' => $question->message]) }}" class="btn btn-success btn-lg text-white w-50" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
+                <a href="{{ route('discussion.create', ['subject' => $question->subject, 'group' => $question->team, 'content' => $question->message]) }}" class="btn btn-lg text-white w-50 gemme-btn-success" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
                     <i class="bi bi-chat-square-text me-1"></i> Ouvrir la discussion
                 </a>
             </div>
@@ -149,6 +149,61 @@
     .btn-outline-bordeaux:hover {
         background-color: #6D071A;
         color: white;
+    }
+    /* Effet Gemme pour les boutons */
+    .gemme-btn-primary {
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 50%, #007bff 100%);
+        background-size: 200% 200%;
+        border: none;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+    }
+    .gemme-btn-primary:hover {
+        background-position: 100% 100%;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.6);
+    }
+    .gemme-btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s ease;
+    }
+    .gemme-btn-primary:hover::before {
+        left: 100%;
+    }
+    .gemme-btn-success {
+        background: linear-gradient(135deg, #28a745 0%, #218838 50%, #28a745 100%);
+        background-size: 200% 200%;
+        border: none;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+    }
+    .gemme-btn-success:hover {
+        background-position: 100% 100%;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(40, 167, 69, 0.6);
+    }
+    .gemme-btn-success::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s ease;
+    }
+    .gemme-btn-success:hover::before {
+        left: 100%;
     }
 </style>
 @endsection
