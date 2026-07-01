@@ -3,11 +3,11 @@
 @section('title', 'Message - Bibliothèques Sonores')
 
 @section('content')
-<div class="container-fluid py-4" style="background-color: #1a1a1a; min-height: 100vh;">
+<div class="container-fluid py-4">
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="shadow card">
-                <div class="text-white card-header bg-bordeaux">
+                <div class="card-header bg-bordeaux text-white">
                     <h4 class="mb-0 d-flex align-items-center">
                         <i class="bi bi-envelope-open me-2"></i>
                         {{ $message->subject }}
@@ -38,19 +38,19 @@
 
                     <!-- Statut du message -->
                     @if($message->is_read)
-                        <div class="alert alert-info mb-4" style="background-color: rgba(40, 167, 69, 0.1); border-color: #28a745; color: #28a745;">
+                        <div class="alert alert-success mb-4">
                             <i class="bi bi-check-circle me-2"></i>
                             Message marqué comme lu
                         </div>
                     @else
-                        <div class="alert alert-warning mb-4" style="background-color: rgba(255, 193, 7, 0.1); border-color: #ffc107; color: #ffc107;">
+                        <div class="alert alert-warning mb-4">
                             <i class="bi bi-exclamation-circle me-2"></i>
                             Nouveau message
                         </div>
                     @endif
 
                     <!-- Contenu du message -->
-                    <div class="card bg-light mb-4">
+                    <div class="card mb-4">
                         <div class="card-body" style="white-space: pre-line;">
                             {{ $message->content }}
                         </div>
@@ -58,14 +58,14 @@
 
                     <!-- Boutons d'action -->
                     <div class="d-flex gap-2">
-                        <a href="{{ route('messages.inbox') }}" class="btn btn-outline-bordeaux text-bordeaux">
+                        <a href="{{ route('messages.inbox') }}" class="btn btn-outline-bordeaux">
                             <i class="bi bi-arrow-left me-1"></i> Retour à la boîte de réception
                         </a>
                         <form action="{{ route('messages.destroy', $message->id) }}" method="POST"
                               onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce message ?')">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-outline-danger" style="color: #dc3545; border-color: #dc3545;">
+                            <button type="submit" class="btn btn-outline-danger">
                                 <i class="bi bi-trash me-1"></i> Supprimer
                             </button>
                         </form>
@@ -90,34 +90,12 @@
         border-color: #8a091e;
     }
     .btn-outline-bordeaux {
-        color: #ff9999;
+        color: #6D071A;
         border-color: #6D071A;
     }
     .btn-outline-bordeaux:hover {
         background-color: #6D071A;
         color: white;
-        border-color: #6D071A;
-    }
-    .text-bordeaux {
-        color: #ff9999;
-    }
-    .card {
-        background-color: #252525;
-        border-color: #444;
-    }
-    .card-body {
-        background-color: #252525;
-        color: #e0e0e0;
-    }
-    .card-header {
-        background-color: #1a1a1a;
-    }
-    .text-muted {
-        color: #999 !important;
-    }
-    .bg-light {
-        background-color: #2d2d2d !important;
-        color: #e0e0e0 !important;
     }
     .btn-outline-danger {
         color: #dc3545;
@@ -126,10 +104,6 @@
     .btn-outline-danger:hover {
         background-color: #dc3545;
         color: white;
-        border-color: #dc3545;
-    }
-    .btn-close-white {
-        filter: invert(1) grayscale(100%) brightness(200%);
     }
 </style>
 
