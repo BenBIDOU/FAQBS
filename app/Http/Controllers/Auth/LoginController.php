@@ -25,7 +25,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/espace-membre';
+    protected $redirectTo = '/agora';
 
     /**
      * Get the post login redirect path.

@@ -194,10 +194,10 @@
         </div>
     </div>
 
-    <!-- Lien pour retourner à l'espace membre -->
+    <!-- Lien pour retourner à Agora -->
     <div class="my-4">
-        <a href="/espace-membre" class="btn btn-bordeaux text-white">
-            <i class="bi bi-arrow-left me-2"></i> Retour à l'espace membre
+        <a href="/agora" class="btn btn-bordeaux text-white">
+            <i class="bi bi-arrow-left me-2"></i> Retour à Agora
         </a>
     </div>
 </div>

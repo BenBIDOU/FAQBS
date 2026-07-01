@@ -28,7 +28,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended('/espace-membre');
+        return redirect()->intended('/agora');
     }
 
     /**

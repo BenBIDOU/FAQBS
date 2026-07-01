@@ -51,7 +51,7 @@ class DiscussionController extends Controller
 
             $discussion->save();
 
-            return redirect('/espace-membre')->with('success', 'Discussion ajoutée avec succès !');
+            return redirect('/agora')->with('success', 'Discussion ajoutée avec succès !');
 
         } catch (\Exception $e) {
             Log::error('Erreur lors de l\'ajout d\'une discussion: ' . $e->getMessage());

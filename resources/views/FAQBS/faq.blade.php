@@ -144,7 +144,7 @@
         <div class="col-md-6 col-lg-4">
             <div class="card shadow-lg border-0">
                 <div class="card-header bg-bordeaux text-white text-center">
-                    <h4 class="mb-0">Se connecter à votre espace</h4>
+                    <h4 class="mb-0">Se connecter à Agora</h4>
                 </div>
                 <div class="card-body p-4">
                     @guest

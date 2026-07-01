@@ -24,7 +24,7 @@
     <!-- Message de bienvenue -->
     <div class="alert alert-info mb-4">
         <h4 class="alert-heading">Bonjour, {{ Auth::user()->name }} !</h4>
-        <p>Vous êtes connecté à l'espace réservé aux membres des Bibliothèques Sonores. 
+        <p>Vous êtes connecté à l'Agora des Bibliothèques Sonores. 
         Ici, vous pouvez accéder aux discussions et interagir avec la communauté.</p>
     </div>
 

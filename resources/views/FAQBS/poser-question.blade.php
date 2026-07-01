@@ -68,7 +68,7 @@
 
                         <!-- Boutons -->
                         <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                            <a href="/espace-membre" class="btn btn-outline-bordeaux text-bordeaux">
+                            <a href="/agora" class="btn btn-outline-bordeaux text-bordeaux">
                                 <i class="bi bi-arrow-left me-1"></i> Retour
                             </a>
                             <button type="reset" class="btn btn-outline-secondary">

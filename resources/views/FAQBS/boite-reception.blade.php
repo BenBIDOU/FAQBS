@@ -29,7 +29,7 @@
 
                     <div class="mb-4 d-flex justify-content-between align-items-center">
                         <p class="text-muted mb-0">Liste de vos messages reçus</p>
-                        <a href="/espace-membre" class="btn btn-outline-bordeaux">
+                        <a href="/agora" class="btn btn-outline-bordeaux">
                             <i class="bi bi-arrow-left me-1"></i> Retour
                         </a>
                     </div>

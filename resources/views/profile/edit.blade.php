@@ -8,7 +8,7 @@
         <div class="col-md-10">
             <!-- Bouton Retour -->
             <div class="d-flex justify-content-end mb-3">
-                <a href="/espace-membre" class="btn btn-outline-bordeaux">
+                <a href="/agora" class="btn btn-outline-bordeaux">
                     <i class="bi bi-arrow-left me-1"></i> Retour
                 </a>
             </div>

@@ -31,7 +31,7 @@ Route::get('/discussions/gerer', [DiscussionController::class, 'manage'])->name(
 Route::middleware(['auth.home', 'voice_donor_restrict'])->get('/discussions/{discussion}', [DiscussionController::class, 'show'])->name('discussions.show');
 
 // Page d'accueil des membres - accessible à tous les utilisateurs connectés
-Route::middleware(['auth.home'])->get('/espace-membre', function () { 
+Route::middleware(['auth.home'])->get('/agora', function () { 
     $questionsCount = App\Models\Question::where('resolved', false)->count();
     $countsByTeam = App\Models\Question::where('resolved', false)
         ->selectRaw('team, COUNT(*) as count')
@@ -44,8 +44,8 @@ Route::middleware(['auth.home'])->get('/espace-membre', function () {
         ->get()
         ->groupBy('group');
     
-    return view('FAQBS/espace-membre', compact('questionsCount', 'countsByTeam', 'discussions', 'discussionsByGroup'));
-});
+    return view('FAQBS.agora', compact('questionsCount', 'countsByTeam', 'discussions', 'discussionsByGroup'));
+})->name('agora');
 
 // Page poser question
 Route::middleware(['auth.home'])->get('/poser-question', [QuestionController::class, 'create'])->name('poser-question');

@@ -23,7 +23,7 @@
 
                     <div class="mb-4 d-flex justify-content-between align-items-center">
                         <p class="text-muted mb-0">Tâches à réaliser pour l'administration</p>
-                        <a href="/espace-membre" class="btn btn-outline-bordeaux text-bordeaux">
+                        <a href="/agora" class="btn btn-outline-bordeaux text-bordeaux">
                             <i class="bi bi-arrow-left me-1"></i> Retour
                         </a>
                     </div>
