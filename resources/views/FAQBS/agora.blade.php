@@ -44,11 +44,11 @@
     <div class="row mb-4">
         <!-- Questions résolues - 1/4 à gauche -->
         <div class="col-md-3 d-flex">
-            <div class="card flex-grow-1">
+            <div class="card flex-grow-1 h-100">
                 <div class="card-header bg-bordeaux text-white">
                     <h5 class="mb-0">Questions résolues</h5>
                 </div>
-                <div class="card-body d-flex flex-column flex-grow-1">
+                <div class="card-body d-flex flex-column flex-grow-1" style="max-height: 60vh; overflow-y: auto;">
                     <div class="list-group list-group-flush d-flex flex-column" style="height: 100%;">
                         <div class="accordion flex-grow-1" id="donneursVoixAccordionResolues">
                             <div class="accordion-item border-0">
