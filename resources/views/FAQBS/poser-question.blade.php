@@ -68,6 +68,9 @@
 
                         <!-- Boutons -->
                         <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                            <a href="/espace-membre" class="btn btn-outline-bordeaux text-bordeaux">
+                                <i class="bi bi-arrow-left me-1"></i> Retour
+                            </a>
                             <button type="reset" class="btn btn-outline-secondary">
                                 <i class="bi bi-x-circle me-1"></i> Réinitialiser
                             </button>
@@ -93,6 +96,15 @@
     .btn-bordeaux:hover {
         background-color: #5a0514;
         border-color: #5a0514;
+    }
+    .btn-outline-bordeaux {
+        border-color: #6D071A;
+        color: #6D071A;
+    }
+    .btn-outline-bordeaux:hover {
+        background-color: #6D071A;
+        color: white;
+        border-color: #6D071A;
     }
 </style>
 @endsection
