@@ -105,4 +105,11 @@ Route::middleware(['auth.home', 'master'])->group(function () {
     Route::post('/membres/{user}/message', [MessageController::class, 'store'])->name('messages.store');
 });
 
+// Routes messagerie pour tous les utilisateurs connectés
+Route::middleware(['auth.home'])->group(function () {
+    Route::get('/messages/boite-reception', [MessageController::class, 'inbox'])->name('messages.inbox');
+    Route::get('/messages/{message}', [MessageController::class, 'show'])->name('messages.show');
+    Route::delete('/messages/{message}', [MessageController::class, 'destroy'])->name('messages.destroy');
+});
+
 require __DIR__.'/auth.php';

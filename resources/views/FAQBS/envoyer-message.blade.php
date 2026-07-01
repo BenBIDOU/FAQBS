@@ -10,11 +10,11 @@
                 <div class="text-white card-header bg-bordeaux">
                     <h4 class="mb-0 d-flex align-items-center">
                         <i class="bi bi-envelope-plus me-2"></i>
-                        Envoyer un message à {{ $receiver->name }}
+                        Envoyer un message à {{ $user->name }}
                     </h4>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('messages.store', $receiver->id) }}">
+                    <form method="POST" action="{{ route('messages.store', $user->id) }}">
                         @csrf
 
                         <div class="mb-3">
@@ -33,8 +33,8 @@
                             <div class="card bg-light">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
-                                        @if($receiver->photo)
-                                            <img src="{{ asset('storage/' . $receiver->photo) }}" alt="Photo" 
+                                        @if($user->photo)
+                                            <img src="{{ asset('storage/' . $user->photo) }}" alt="Photo" 
                                                  class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
                                         @else
                                             <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center me-3" 
@@ -43,10 +43,10 @@
                                             </div>
                                         @endif
                                         <div>
-                                            <strong>{{ $receiver->name }}</strong>
-                                            <div class="text-muted small">{{ $receiver->email }}</div>
-                                            @if($receiver->telephone)
-                                                <div class="text-muted small">{{ $receiver->telephone }}</div>
+                                            <strong>{{ $user->name }}</strong>
+                                            <div class="text-muted small">{{ $user->email }}</div>
+                                            @if($user->telephone)
+                                                <div class="text-muted small">{{ $user->telephone }}</div>
                                             @endif
                                         </div>
                                     </div>

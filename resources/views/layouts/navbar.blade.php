@@ -39,16 +39,24 @@ use Illuminate\Support\Facades\Auth;
             <!-- Affichage du nom de l'utilisateur connecté ou lien de connexion -->
             @auth
                 @php
-                    $unreadCount = \App\Models\Question::where('email', Auth::user()->email)
+                    // Compter les questions avec réponse non lues
+                    $unreadQuestions = \App\Models\Question::where('email', Auth::user()->email)
                         ->whereNotNull('answer')
                         ->where('answer', '!=', '')
                         ->count();
+                    
+                    // Compter les messages non lus
+                    $unreadMessages = \App\Models\Message::where('receiver_id', Auth::user()->id)
+                        ->where('is_read', false)
+                        ->count();
+                    
+                    $totalUnread = $unreadQuestions + $unreadMessages;
                 @endphp
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
                         {{ Auth::user()->name }}
-                        @if($unreadCount > 0)
-                            <span class="badge bg-danger ms-2">{{ $unreadCount }}</span>
+                        @if($totalUnread > 0)
+                            <span class="badge bg-danger ms-2">{{ $totalUnread }}</span>
                         @endif
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
@@ -56,10 +64,18 @@ use Illuminate\Support\Facades\Auth;
                             <a class="dropdown-item" href="{{ route('profile.edit') }}">Mon profil</a>
                         </li>
                         <li>
+                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="{{ route('messages.inbox') }}">
+                                Boîte de réception
+                                @if($unreadMessages > 0)
+                                    <span class="badge bg-danger">{{ $unreadMessages }}</span>
+                                @endif
+                            </a>
+                        </li>
+                        <li>
                             <a class="dropdown-item d-flex justify-content-between align-items-center" href="{{ route('profile.edit') }}#messagerieCollapse">
-                                Mes messages
-                                @if($unreadCount > 0)
-                                    <span class="badge bg-danger">{{ $unreadCount }}</span>
+                                Mes questions
+                                @if($unreadQuestions > 0)
+                                    <span class="badge bg-danger">{{ $unreadQuestions }}</span>
                                 @endif
                             </a>
                         </li>
