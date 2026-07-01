@@ -1,3 +1,6 @@
+@php
+use Illuminate\Support\Facades\Auth;
+@endphp
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand d-flex align-items-center ps-4" href="@auth /espace-membre @else / @endauth">
         <img src="{{ asset('images/logo.png') }}" alt="Logo" width="30" height="30" class="d-inline-block me-2">

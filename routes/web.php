@@ -86,7 +86,7 @@ Route::middleware(['auth.home', 'master'])->group(function () {
 });
 
 // Gestion des discussions (master uniquement)
-Route::middleware(['auth.home'])->get('/discussions/gerer', [\App\Http\Controllers\DiscussionController::class, 'manage'])->name('discussions.manage');
+Route::middleware(['auth.home', 'master'])->get('/discussions/gerer', [\App\Http\Controllers\DiscussionController::class, 'manage'])->name('discussions.manage');
 Route::middleware(['auth.home', 'master'])->get('/discussions/{discussion}/edit', [\App\Http\Controllers\DiscussionController::class, 'edit'])->name('discussions.edit');
 Route::middleware(['auth.home', 'master'])->put('/discussions/{discussion}', [\App\Http\Controllers\DiscussionController::class, 'update'])->name('discussions.update');
 Route::middleware(['auth.home', 'master'])->post('/discussions/{discussion}/duplicate', [\App\Http\Controllers\DiscussionController::class, 'duplicate'])->name('discussions.duplicate');

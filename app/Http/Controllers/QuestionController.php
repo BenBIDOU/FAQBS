@@ -32,7 +32,10 @@ class QuestionController extends Controller
         }
         $resolvedQuestions = $resolvedQuestions->where('resolved', true)->get();
         
-        return view('FAQBS.questions-en-attente', compact('team', 'pendingQuestions', 'resolvedQuestions'));
+        // Charger toutes les discussions pour vérifier les correspondances de titres
+        $discussions = \App\Models\Discussion::orderBy('title')->get();
+        
+        return view('FAQBS.questions-en-attente', compact('team', 'pendingQuestions', 'resolvedQuestions', 'discussions'));
     }
 
     /**

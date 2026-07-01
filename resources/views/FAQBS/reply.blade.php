@@ -58,6 +58,11 @@
                         </div>
 
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{{ route('discussion.create', ['subject' => $question->subject]) }}" 
+                               class="btn btn-outline-bordeaux text-bordeaux" 
+                               target="_blank">
+                                <i class="bi bi-chat-square-text me-1"></i> Créer une discussion
+                            </a>
                             <button type="reset" class="btn btn-outline-secondary">
                                 <i class="bi bi-x-circle me-1"></i> Réinitialiser
                             </button>

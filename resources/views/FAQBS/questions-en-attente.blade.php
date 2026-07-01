@@ -11,10 +11,7 @@
         </div>
         <div class="col">
             <h1 class="mb-1">
-                Questions
-                @if($team)
-                    <span class="text-muted">- {{ $team }}</span>
-                @endif
+                Questions en attente
             </h1>
         </div>
     </div>
@@ -60,9 +57,6 @@
                 <div class="card-header bg-warning text-dark">
                     <h4 class="mb-0">
                         <i class="bi bi-clock me-2"></i> Questions en attente
-                        @if($pendingQuestions->count() > 0)
-                            <span class="badge bg-dark ms-2">{{ $pendingQuestions->count() }}</span>
-                        @endif
                     </h4>
                 </div>
                 <div class="card-body">
@@ -160,28 +154,30 @@
                                                 </td>
                                                 <td>
                                                     @php
-                                                        $forumUrl = '';
-                                                        switch($question->team) {
-                                                            case 'Président':
-                                                                $forumUrl = '/Président';
+                                                        // Chercher une discussion avec un titre correspondant au sujet de la question (comparaison flexible)
+                                                        $matchingDiscussion = null;
+                                                        $questionSubject = trim(strtolower($question->subject));
+                                                        foreach($discussions as $discussion) {
+                                                            $discussionTitle = trim(strtolower($discussion->title));
+                                                            // Vérifier si le titre contient le sujet ou vice versa
+                                                            if (str_contains($discussionTitle, $questionSubject) || str_contains($questionSubject, $discussionTitle)) {
+                                                                $matchingDiscussion = $discussion;
                                                                 break;
-                                                            case 'Secrétariat':
-                                                                $forumUrl = '/Secrétariat';
-                                                                break;
-                                                            case 'Donneurs de Voix':
-                                                            case 'Donneurs Voix':
-                                                                $forumUrl = '/Donneurs-Voix';
-                                                                break;
-                                                            case 'Donneurs de Temps':
-                                                            case 'Donneurs Temps':
-                                                                $forumUrl = '/Donneurs-Temps';
-                                                                break;
+                                                            }
                                                         }
                                                     @endphp
-                                                    @if($forumUrl)
-                                                        <a href="{{ $forumUrl }}" class="btn btn-sm btn-outline-success" target="_blank">
+                                                    @if($matchingDiscussion)
+                                                        <a href="{{ route('discussions.show', $matchingDiscussion->id) }}" 
+                                                           class="btn btn-sm btn-outline-success" 
+                                                           target="_blank">
                                                             <i class="bi bi-eye me-1"></i> Voir le forum
                                                         </a>
+                                                    @else
+                                                        <button class="btn btn-sm btn-outline-secondary" 
+                                                                onclick="alert('Aucun forum correspondant trouvé pour : {{ addslashes($question->subject) }}');"
+                                                                title="Aucun forum trouvé">
+                                                            <i class="bi bi-eye me-1"></i> Voir le forum
+                                                        </button>
                                                     @endif
                                                 </td>
                                             </tr>

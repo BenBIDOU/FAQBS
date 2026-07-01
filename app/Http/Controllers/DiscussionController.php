@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Discussion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
@@ -12,9 +13,13 @@ class DiscussionController extends Controller
     /**
      * Affiche le formulaire pour créer une nouvelle discussion
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('FAQBS/ajouter-discu');
+        $subject = $request->input('subject', '');
+        $title = $request->input('title', $subject); // Alias pour compatibilité
+        $group = $request->input('group', '');
+        $content = $request->input('content', '');
+        return view('FAQBS/ajouter-discu', compact('subject', 'title', 'group', 'content'));
     }
 
     /**

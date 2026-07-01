@@ -39,18 +39,18 @@
                         <!-- Titre de la discussion -->
                         <div class="mb-3">
                             <label for="title" class="form-label">Titre de la discussion</label>
-                            <input type="text" class="form-control" id="title" name="title" required>
+                            <input type="text" class="form-control" id="title" name="title" value="{{ $title ?? $subject ?? '' }}" required>
                         </div>
 
                         <!-- Groupe (menu déroulant) -->
                         <div class="mb-3">
                             <label for="group" class="form-label">Groupe</label>
                             <select class="form-select" id="group" name="group" required>
-                                <option value="" selected disabled>Sélectionnez un groupe</option>
-                                <option value="Secrétariat">Secrétariat</option>
-                                <option value="Président">Président</option>
-                                <option value="Donneurs Temps">Donneurs Temps</option>
-                                <option value="Donneurs Voix">Donneurs Voix</option>
+                                <option value="" @if(!($group ?? '')) selected disabled @endif>Sélectionnez un groupe</option>
+                                <option value="Secrétariat" @if(($group ?? '') === 'Secrétariat') selected @endif>Secrétariat</option>
+                                <option value="Président" @if(($group ?? '') === 'Président') selected @endif>Président</option>
+                                <option value="Donneurs Temps" @if(($group ?? '') === 'Donneurs Temps') selected @endif>Donneurs Temps</option>
+                                <option value="Donneurs Voix" @if(($group ?? '') === 'Donneurs Voix') selected @endif>Donneurs Voix</option>
                             </select>
                         </div>
 
@@ -66,7 +66,7 @@
                         <!-- Zone de texte -->
                         <div class="mb-3">
                             <label for="content" class="form-label">Contenu de la discussion</label>
-                            <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+                            <textarea class="form-control" id="content" name="content" rows="5" required>{{ $content ?? '' }}</textarea>
                         </div>
 
                         <!-- Zone de glisser-déposer pour la photo -->

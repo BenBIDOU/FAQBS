@@ -108,7 +108,7 @@
                 <a href="{{ route('questions.reply', ['question' => $question->id]) }}" class="btn btn-primary btn-lg text-white w-50" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
                     <i class="bi bi-reply me-1"></i> Répondre
                 </a>
-                <a href="{{ route('discussion.create') }}?title={{ urlencode($question->subject) }}&group={{ urlencode($question->team) }}&content={{ urlencode($question->message) }}" class="btn btn-success btn-lg text-white w-50" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
+                <a href="{{ route('discussion.create', ['subject' => $question->subject, 'group' => $question->team, 'content' => $question->message]) }}" class="btn btn-success btn-lg text-white w-50" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
                     <i class="bi bi-chat-square-text me-1"></i> Ouvrir la discussion
                 </a>
             </div>
