@@ -63,9 +63,34 @@
         <h1>Agora Bibliothèques Sonores du Centre val de Loire</h1>
     </div>
     
-    <!-- Photo de Blois -->
+    <!-- Carousel des villes -->
     <div class="mt-3">
-        <img src="{{ asset('images/Blois.jpg') }}" alt="Blois - Centre Val de Loire" class="img-fluid w-100" style="max-height: 400px; object-fit: cover;">
+        <div id="villeCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{{ asset('images/Blois.jpg') }}" alt="Blois - Centre Val de Loire" class="d-block w-100" style="max-height: 400px; object-fit: cover;">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ asset('images/Tours.jpg') }}" alt="Tours - Centre Val de Loire" class="d-block w-100" style="max-height: 400px; object-fit: cover;">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ asset('images/Orleans.jpg') }}" alt="Orléans - Centre Val de Loire" class="d-block w-100" style="max-height: 400px; object-fit: cover;">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#villeCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Précédent</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#villeCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Suivant</span>
+            </button>
+            <div class="carousel-indicators" style="bottom: -30px;">
+                <button type="button" data-bs-target="#villeCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Blois"></button>
+                <button type="button" data-bs-target="#villeCarousel" data-bs-slide-to="1" aria-label="Tours"></button>
+                <button type="button" data-bs-target="#villeCarousel" data-bs-slide-to="2" aria-label="Orléans"></button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -151,6 +176,40 @@
     .chat-body {
         display: flex;
         flex-direction: column;
+    }
+    /* Styles pour le carrousel */
+    #villeCarousel {
+        max-height: 400px;
+        overflow: hidden;
+    }
+    #villeCarousel .carousel-item img {
+        max-height: 400px;
+        object-fit: cover;
+        width: 100%;
+    }
+    #villeCarousel .carousel-control-prev,
+    #villeCarousel .carousel-control-next {
+        width: 5%;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 50%;
+    }
+    #villeCarousel .carousel-indicators [data-bs-target] {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #6D071A;
+        border: 2px solid white;
+        box-shadow: 0 0 0 2px #6D071A;
+    }
+    #villeCarousel .carousel-indicators .active {
+        background-color: white;
+        border-color: #6D071A;
+    }
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        width: 2rem;
+        height: 2rem;
+        background-size: 100%, 100%;
     }
 </style>
 @endsection
