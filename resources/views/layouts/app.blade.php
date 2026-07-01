@@ -19,7 +19,7 @@
     </div>
 
     <!-- Pied de page fixe en bas -->
-    <div class="fixed-bottom w-100 bg-bordeaux text-white text-center py-3" style="background-color: #6D071A;">
+    <div class="fixed-bottom w-100 text-center py-3" style="background-color: #2c3e50; color: #e0e0e0;">
         <p class="mb-0">Bibliothèques sonores - Tous droits réservés</p>
     </div>
 
