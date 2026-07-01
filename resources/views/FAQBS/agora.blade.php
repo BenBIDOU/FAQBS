@@ -260,18 +260,19 @@
     }
     /* Effet Gemme pour le bouton */
     .gemme-btn {
-        background: linear-gradient(135deg, #6D071A 0%, #96637B 50%, #6D071A 100%);
+        background: linear-gradient(135deg, #7C0A1E 0%, #A00000 50%, #7C0A1E 100%);
         background-size: 200% 200%;
-        border-radius: 50px;
+        border-radius: 4px;
         position: relative;
         overflow: hidden;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(109, 7, 26, 0.4);
+        box-shadow: 0 4px 15px rgba(124, 10, 30, 0.4);
+        border: none;
     }
     .gemme-btn:hover {
         background-position: 100% 100%;
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(109, 7, 26, 0.6);
+        box-shadow: 0 6px 20px rgba(124, 10, 30, 0.6);
     }
     .gemme-btn::before {
         content: '';
