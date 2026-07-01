@@ -48,8 +48,8 @@
                 <div class="card-header bg-bordeaux text-white">
                     <h5 class="mb-0">Questions résolues</h5>
                 </div>
-                <div class="card-body d-flex flex-column flex-grow-1" style="max-height: 60vh; overflow-y: auto;">
-                    <div class="list-group list-group-flush d-flex flex-column" style="height: 100%;">
+                <div class="card-body d-flex flex-column flex-grow-1">
+                    <div class="list-group list-group-flush d-flex flex-column" style="max-height: 55vh; overflow-y: auto;">
                         <div class="accordion flex-grow-1" id="donneursVoixAccordionResolues">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
