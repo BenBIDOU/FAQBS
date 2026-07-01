@@ -1,27 +1,44 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
+@extends('layouts.app')
+
+@section('title', 'Confirmer mot de passe - Bibliothèques Sonores')
+
+@section('content')
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="shadow card">
+                <div class="text-white card-header bg-bordeaux">
+                    <h4 class="mb-0 text-center">
+                        <i class="bi bi-shield-lock me-2"></i>
+                        Confirmer votre mot de passe
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4 text-center">
+                        Ceci est une zone sécurisée. Veuillez confirmer votre mot de passe pour continuer.
+                    </div>
+
+                    <form method="POST" action="{{ route('password.confirm') }}">
+                        @csrf
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                   id="password" name="password" required autocomplete="current-password">
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-bordeaux text-white text-uppercase" style="font-weight: bold;">
+                                <i class="bi bi-check-lg me-1"></i> Confirmer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <form method="POST" action="{{ route('password.confirm') }}">
-        @csrf
-
-        <!-- Password -->
-        <div>
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <div class="flex justify-end mt-4">
-            <x-primary-button>
-                {{ __('Confirm') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+</div>
+@endsection
