@@ -28,3 +28,10 @@
     @stack('scripts')
 </body>
 </html>
+
+<style>
+    /* Dégradé vertical sur les en-têtes bordeaux */
+    .card-header.bg-bordeaux, .bg-bordeaux.card-header {
+        background: linear-gradient(to bottom, #6D071A, #4a0510) !important;
+    }
+</style>
