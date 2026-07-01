@@ -43,7 +43,7 @@
     <!-- Section Questions résolues et Questions en attente -->
     <div class="row mb-4">
         <!-- Questions résolues - 1/4 à gauche -->
-        <div class="col-md-3 d-flex">
+        <div class="col-md-3 d-flex mb-4">
             <div class="card flex-grow-1 h-100">
                 <div class="card-header bg-bordeaux text-white">
                     <h5 class="mb-0">Questions résolues</h5>
