@@ -135,7 +135,7 @@
                             Connexion
                         </button>
                         <div class="mt-3 text-center">
-                            <p class="mb-0 small text-muted">Mot de passe oublié ? <a href="#">Réinitialiser</a></p>
+                            <p class="mb-0 small text-muted">Mot de passe oublié ? <a href="{{ route('password.request') }}">Réinitialiser</a></p>
                             @if (Route::has('register'))
                                 <p class="mb-0 small mt-1">Pas encore de compte ? <a href="{{ route('register') }}">S'inscrire</a></p>
                             @endif
