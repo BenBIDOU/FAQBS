@@ -103,6 +103,10 @@ Route::middleware(['auth.home', 'master'])->group(function () {
     // Messagerie (masters peuvent écrire à n'importe quel membre)
     Route::get('/membres/{user}/message/nouveau', [MessageController::class, 'create'])->name('messages.create');
     Route::post('/membres/{user}/message', [MessageController::class, 'store'])->name('messages.store');
+
+    // Gestion des questions (master uniquement)
+    Route::get('/gestion-questions', [QuestionController::class, 'gestion'])->name('gestion-questions');
+    Route::delete('/questions/{question}', [QuestionController::class, 'destroy'])->name('questions.destroy');
 });
 
 // Routes messagerie pour tous les utilisateurs connectés

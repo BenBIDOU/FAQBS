@@ -118,14 +118,6 @@ class QuestionController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
-    /**
      * Marquer une question comme résolue
      */
     public function markAsResolved(string $id)
@@ -137,5 +129,24 @@ class QuestionController extends Controller
         $question->save();
 
         return redirect()->back()->with('success', 'Question marquée comme résolue avec succès !');
+    }
+
+    /**
+     * Gestion complète des questions pour les masters
+     */
+    public function gestion()
+    {
+        $questions = Question::orderBy('created_at', 'desc')->get();
+        return view('FAQBS.gestion-questions', compact('questions'));
+    }
+
+    /**
+     * Supprimer une question
+     */
+    public function destroy(string $id)
+    {
+        $question = Question::findOrFail($id);
+        $question->delete();
+        return redirect()->back()->with('success', 'Question supprimée avec succès !');
     }
 }

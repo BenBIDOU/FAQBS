@@ -33,6 +33,9 @@ use Illuminate\Support\Facades\Auth;
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('membres.manage') }}" style="color: #0dcaf0;">Gestion membres</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('gestion-questions') }}" style="color: #0dcaf0;">Gestion questions</a>
+                    </li>
                 @endif
             @endauth
 
