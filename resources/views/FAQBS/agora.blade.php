@@ -41,10 +41,10 @@
     </div>
 
     <!-- Section Questions résolues et Questions en attente -->
-    <div class="row mb-4">
+    <div class="row mb-4 align-items-start">
         <!-- Questions résolues - 1/4 à gauche -->
-        <div class="col-md-3 d-flex">
-            <div class="card flex-grow-1 h-100">
+        <div class="col-md-3 d-flex align-self-start">
+            <div class="card flex-grow-1">
                 <div class="card-header bg-bordeaux text-white">
                     <h5 class="mb-0">Questions résolues</h5>
                 </div>
@@ -146,23 +146,26 @@
             </div>
         </div>
         
-        <!-- Mode d'emploi au centre -->
-        <div class="col-md-6 d-flex">
-            <div class="card flex-grow-1 border-bordeaux h-100">
-                <div class="card-body d-flex align-items-center justify-content-center">
-                    <h2 class="mb-0">-- mode d'emploi --</h2>
+        <!-- Colonnes de droite - regroupées pour même hauteur -->
+        <div class="col-md-9 d-flex align-self-start position-relative">
+            <div class="row w-100 align-items-stretch">
+                <!-- Mode d'emploi au centre-gauche -->
+                <div class="col-md-8 d-flex">
+                    <div class="card flex-grow-1 border-bordeaux">
+                        <div class="card-body d-flex align-items-center justify-content-center">
+                            <h2 class="mb-0">-- mode d'emploi --</h2>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        
-        <!-- Questions en attente - 1/4 à droite -->
-        <div class="col-md-3 d-flex">
-            <div class="card flex-grow-1 h-100">
-                <div class="card-header bg-bordeaux text-white">
-                    <h5 class="mb-0">Questions en attente</h5>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex flex-column gap-2 w-100">
+                
+                <!-- Questions en attente - centre-droit -->
+                <div class="col-md-4 d-flex">
+                    <div class="card flex-grow-1">
+                        <div class="card-header bg-bordeaux text-white">
+                            <h5 class="mb-0">Questions en attente</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex flex-column gap-2 w-100">
                         <a href="/questions-en-attente" class="btn btn-bordeaux-light text-white w-100 text-start d-flex justify-content-between align-items-center">
                             <span><i class="bi bi-inbox me-1"></i> Toutes</span>
                             @if($questionsCount > 0)
@@ -197,13 +200,14 @@
                 </div>
             </div>
         </div>
+        <!-- Bouton ancré au bas du centre -->
+        <div class="text-center" style="position: absolute; bottom: -150px; left: 32%; transform: translateX(-50%); z-index: 1000; width: 100%;">
+            <a href="/poser-question" class="btn btn-lg text-white px-5 py-4 shadow-lg gemme-btn" style="font-size: 1.3rem; font-weight: bold; border: none;">
+                <i class="bi bi-envelope me-2"></i> Je pose ma question
+            </a>
+        </div>
     </div>
-
-    <!-- Gros bouton "Je pose ma question" avec effet gemme -->
-    <div class="text-center my-5">
-        <a href="/poser-question" class="btn btn-lg text-white px-5 py-4 shadow-lg gemme-btn" style="font-size: 1.3rem; font-weight: bold; border: none;">
-            <i class="bi bi-envelope me-2"></i> Je pose ma question
-        </a>
+</div>
     </div>
 
 <style>
@@ -287,7 +291,7 @@
         content: '';
         position: absolute;
         top: 0;
-        left: -100%;
+        left: 100%;
         width: 100%;
         height: 100%;
         background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
