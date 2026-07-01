@@ -106,6 +106,8 @@ Route::middleware(['auth.home', 'master'])->group(function () {
 
     // Gestion des questions (master uniquement)
     Route::get('/gestion-questions', [QuestionController::class, 'gestion'])->name('gestion-questions');
+    Route::get('/questions/{question}/edit', [QuestionController::class, 'edit'])->name('questions.edit');
+    Route::put('/questions/{question}', [QuestionController::class, 'update'])->name('questions.update');
     Route::delete('/questions/{question}', [QuestionController::class, 'destroy'])->name('questions.destroy');
 });
 

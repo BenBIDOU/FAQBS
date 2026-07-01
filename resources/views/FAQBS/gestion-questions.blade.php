@@ -89,6 +89,11 @@
                                                        title="Voir" style="color: #0dcaf0; border-color: #0dcaf0;">
                                                         <i class="bi bi-eye"></i>
                                                     </a>
+                                                    <a href="{{ route('questions.edit', $question->id) }}" 
+                                                       class="btn btn-sm btn-outline-warning"
+                                                       title="Modifier" style="color: #ffc107; border-color: #ffc107;">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
                                                     <form action="{{ route('questions.destroy', $question->id) }}" method="POST"
                                                           onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette question ?')">
                                                         @csrf

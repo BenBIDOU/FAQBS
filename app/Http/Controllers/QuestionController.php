@@ -106,7 +106,8 @@ class QuestionController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $question = Question::findOrFail($id);
+        return view('FAQBS.editer-question', compact('question'));
     }
 
     /**
@@ -114,7 +115,18 @@ class QuestionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'team' => 'required|string',
+            'subject' => 'required|string',
+            'message' => 'required|string',
+        ]);
+
+        $question = Question::findOrFail($id);
+        $question->update($validated);
+
+        return redirect()->route('gestion-questions')->with('success', 'Question modifiée avec succès !');
     }
 
     /**
