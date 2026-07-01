@@ -4,19 +4,19 @@
 <!-- Bandeau supérieur -->
 <div class="bg-white py-3 shadow-sm">
     <div class="container-fluid">
-        <div class="row align-items-start">
-            <!-- Logo à gauche -->
-            <div class="col-md-3 text-start mb-3 mb-md-0">
+        <div class="row align-items-center">
+            <!-- Logo à gauche - cachée sur mobile, visible sur md+ -->
+            <div class="col-md-3 text-start mb-3 mb-md-0 d-none d-md-block">
                 <img src="{{ asset('images/logo.png') }}" alt="Bibliothèques Sonores de France" class="img-fluid" style="max-height: 100px;">
             </div>
             
-            <!-- Bogo au centre sur 2/3 -->
-            <div class="col-md-6 text-center mb-3 mb-md-0">
-                <img src="{{ asset('images/bogobibsonores.png') }}" alt="Les Bibliothèques Sonores" class="img-fluid" style="max-height: 360px; max-width: 200%;">
+            <!-- Image au centre - plein large sur mobile, 6/12 sur md+ -->
+            <div class="col-md-6 text-center mb-3 mb-md-0 order-md-1 order-1">
+                <img src="{{ asset('images/bogobibsonores.png') }}" alt="Les Bibliothèques Sonores" class="img-fluid" style="max-height: 360px; width: 100%; max-width: 100%;">
             </div>
             
-            <!-- Module de connexion à droite -->
-            <div class="col-md-3 text-end">
+            <!-- Module de connexion à droite - en haut sur mobile, à droite sur md+ -->
+            <div class="col-md-3 text-end mb-3 mb-md-0 order-md-2 order-2 d-none d-md-block">
                 <div class="d-flex flex-column align-items-end">
                     <p class="mb-1" style="font-size: 1.1rem;">Se connecter</p>
                     @guest
@@ -51,6 +51,43 @@
                             <i class="bi bi-envelope-fill" style="font-size: 1.5rem; color: #6D071A;"></i>
                         </div>
                     </div>
+                </div>
+            </div>
+            
+            <!-- Module de connexion pour mobile - affiché uniquement sur mobile -->
+            <div class="col-12 d-md-none order-3">
+                <div class="text-center mt-3">
+                    <p class="mb-2" style="font-size: 1.1rem;">Se connecter</p>
+                    @guest
+                    <form method="POST" action="{{ route('login') }}" class="mb-2">
+                        @csrf
+                        <div class="row justify-content-center">
+                            <div class="col-sm-8 col-10">
+                                <div class="mb-2">
+                                    <input type="email" class="form-control form-control-sm" name="email" placeholder="Mon adresse email" required>
+                                </div>
+                                <div class="mb-2">
+                                    <input type="password" class="form-control form-control-sm" name="password" placeholder="Mon mot de passe" required>
+                                </div>
+                                <button type="submit" class="btn btn-bordeaux text-uppercase text-white w-100" style="font-weight: bold; font-size: 0.9rem; padding: 0.5rem;">
+                                    <i class="bi bi-box-arrow-in-right me-1"></i> Connexion
+                                </button>
+                                <p class="small text-danger mb-0 mt-1">
+                                    <a href="{{ route('password.request') }}" class="text-decoration-none">Mot de passe oublié ?</a>
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+                    @endguest
+                    @auth
+                    <div class="text-center">
+                        <p class="mb-2" style="font-size: 1.1rem;">Bonjour, {{ Auth::user()->name }}</p>
+                        <a href="{{ route('logout') }}" class="btn btn-bordeaux text-white" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="bi bi-box-arrow-right me-1"></i> Déconnexion
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
+                    </div>
+                    @endauth
                 </div>
             </div>
         </div>
