@@ -10,7 +10,7 @@
             <img src="{{ asset('images/logo.png') }}" alt="Bibliothèques Sonores de France" class="img-fluid" style="max-height: 100px;">
         </div>
         <div class="flex-grow-1 text-center">
-            <h1 class="mb-1">Bienvenue sur l'espace membres</h1>
+            <h1 class="mb-1">Bienvenue dans l'Agora </h1>
         </div>
     </div>
 

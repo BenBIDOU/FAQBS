@@ -78,12 +78,12 @@ class DiscussionController extends Controller
     }
 
     /**
-     * Affiche la liste des discussions pour gestion (master uniquement)
+     * Affiche la page de gestion des discussions (master uniquement)
      */
     public function manage()
     {
         $discussions = Discussion::orderBy('created_at', 'desc')->get();
-        return view('FAQBS/gerer-discussions', compact('discussions'));
+        return view('FAQBS.gerer-discussions', compact('discussions'));
     }
 
     /**
@@ -91,7 +91,7 @@ class DiscussionController extends Controller
      */
     public function edit(Discussion $discussion)
     {
-        return view('FAQBS.edit-discussion', compact('discussion'));
+        return view('FAQBS.editer-discussion', compact('discussion'));
     }
 
     /**
@@ -99,39 +99,30 @@ class DiscussionController extends Controller
      */
     public function update(Request $request, Discussion $discussion)
     {
-        try {
-            $validatedData = $request->validate([
-                'title' => 'required|string|max:255',
-                'group' => 'required|string|in:Secrétariat,Président,Donneurs Temps,Donneurs Voix',
-                'link' => 'nullable|url|max:255',
-                'content' => 'required|string',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            ]);
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'group' => 'required|string|in:Secrétariat,Président,Donneurs Temps,Donneurs Voix',
+            'link' => 'nullable|url|max:255',
+            'content' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-            $discussion->title = $validatedData['title'];
-            $discussion->group = $validatedData['group'];
-            $discussion->link = $validatedData['link'] ?? null;
-            $discussion->content = $validatedData['content'];
+        $discussion->title = $validatedData['title'];
+        $discussion->group = $validatedData['group'];
+        $discussion->link = $validatedData['link'] ?? null;
+        $discussion->content = $validatedData['content'];
 
-            // Gestion de l'image (suppression de l'ancienne si nouvelle image)
-            if ($request->hasFile('image')) {
-                // Supprimer l'ancienne image si elle existe
-                if ($discussion->image_path && Storage::disk('public')->exists($discussion->image_path)) {
-                    Storage::disk('public')->delete($discussion->image_path);
-                }
-                
-                $path = $request->file('image')->store('discussion_images', 'public');
-                $discussion->image_path = $path;
+        if ($request->hasFile('image')) {
+            if ($discussion->image_path && Storage::disk('public')->exists($discussion->image_path)) {
+                Storage::disk('public')->delete($discussion->image_path);
             }
-
-            $discussion->save();
-
-            return redirect()->route('discussions.manage')->with('success', 'Discussion modifiée avec succès !');
-
-        } catch (\Exception $e) {
-            Log::error('Erreur lors de la modification d\'une discussion: ' . $e->getMessage());
-            return back()->withInput()->with('error', 'Une erreur est survenue lors de la modification.');
+            $path = $request->file('image')->store('discussion_images', 'public');
+            $discussion->image_path = $path;
         }
+
+        $discussion->save();
+
+        return redirect()->route('discussions.manage')->with('success', 'Discussion modifiée avec succès !');
     }
 
     /**
@@ -139,40 +130,12 @@ class DiscussionController extends Controller
      */
     public function destroy(Discussion $discussion)
     {
-        try {
-            // Supprimer l'image si elle existe
-            if ($discussion->image_path && Storage::disk('public')->exists($discussion->image_path)) {
-                Storage::disk('public')->delete($discussion->image_path);
-            }
-
-            $discussion->delete();
-            return redirect()->route('discussions.manage')->with('success', 'Discussion supprimée avec succès !');
-
-        } catch (\Exception $e) {
-            Log::error('Erreur lors de la suppression d\'une discussion: ' . $e->getMessage());
-            return back()->with('error', 'Une erreur est survenue lors de la suppression.');
+        if ($discussion->image_path && Storage::disk('public')->exists($discussion->image_path)) {
+            Storage::disk('public')->delete($discussion->image_path);
         }
-    }
 
-    /**
-     * Dupliquer une discussion
-     */
-    public function duplicate(Discussion $discussion)
-    {
-        try {
-            $newDiscussion = $discussion->replicate();
-            
-            // Ajouter un suffixe au titre pour indiquer que c'est une copie
-            $newDiscussion->title = $discussion->title . ' (Copie)';
-            
-            // Sauvegarder la nouvelle discussion
-            $newDiscussion->save();
+        $discussion->delete();
 
-            return redirect()->route('discussions.manage')->with('success', 'Discussion dupliquée avec succès !');
-
-        } catch (\Exception $e) {
-            Log::error('Erreur lors de la duplication d\'une discussion: ' . $e->getMessage());
-            return back()->with('error', 'Une erreur est survenue lors de la duplication.');
-        }
+        return redirect()->route('discussions.manage')->with('success', 'Discussion supprimée avec succès !');
     }
 }

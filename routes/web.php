@@ -2,6 +2,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DiscussionController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Seule la page d'accueil est accessible sans authentification
@@ -19,9 +20,14 @@ Route::middleware(['auth.home', 'voice_donor_restrict'])->group(function () {
     // Routes accessibles à tous les utilisateurs connectés
     Route::get('/discussion/ajouter', [DiscussionController::class, 'create'])->name('discussion.create');
     Route::post('/discussions', [DiscussionController::class, 'store'])->name('discussions.store');
-    Route::get('/discussions/{discussion}', [DiscussionController::class, 'show'])->name('discussions.show');
     Route::get('/actualite/ajouter', function () { return view('FAQBS/ajouter-actualite'); })->name('actualite.create');
 });
+
+// ===== Route statique avant la route paramétrée =====
+Route::get('/discussions/gerer', [DiscussionController::class, 'manage'])->name('discussions.manage')->middleware(['auth.home', 'master']);
+
+// Route paramétrée (doit être après la route statique)
+Route::middleware(['auth.home', 'voice_donor_restrict'])->get('/discussions/{discussion}', [DiscussionController::class, 'show'])->name('discussions.show');
 
 // Page d'accueil des membres - accessible à tous les utilisateurs connectés
 Route::middleware(['auth.home'])->get('/espace-membre', function () { 
@@ -75,13 +81,23 @@ Route::middleware(['auth.home', 'master'])->group(function () {
     Route::put('/tasks/{task}', [\App\Http\Controllers\TaskController::class, 'update'])->name('tasks.update');
     Route::delete('/tasks/{task}', [\App\Http\Controllers\TaskController::class, 'destroy'])->name('tasks.destroy');
     Route::post('/tasks/{task}/toggle-complete', [\App\Http\Controllers\TaskController::class, 'toggleComplete'])->name('tasks.toggle-complete');
-});
 
-// Gestion des discussions (master uniquement)
-Route::middleware(['auth.home', 'master'])->get('/discussions/gerer', [\App\Http\Controllers\DiscussionController::class, 'manage'])->name('discussions.manage');
-Route::middleware(['auth.home', 'master'])->get('/discussions/{discussion}/edit', [\App\Http\Controllers\DiscussionController::class, 'edit'])->name('discussions.edit');
-Route::middleware(['auth.home', 'master'])->put('/discussions/{discussion}', [\App\Http\Controllers\DiscussionController::class, 'update'])->name('discussions.update');
-Route::middleware(['auth.home', 'master'])->post('/discussions/{discussion}/duplicate', [\App\Http\Controllers\DiscussionController::class, 'duplicate'])->name('discussions.duplicate');
-Route::middleware(['auth.home', 'master'])->delete('/discussions/{discussion}', [\App\Http\Controllers\DiscussionController::class, 'destroy'])->name('discussions.destroy');
+    // Gestion des discussions (modification et suppression)
+    Route::get('/discussions/{discussion}/edit', [DiscussionController::class, 'edit'])->name('discussions.edit');
+    Route::put('/discussions/{discussion}', [DiscussionController::class, 'update'])->name('discussions.update');
+    Route::delete('/discussions/{discussion}', [DiscussionController::class, 'destroy'])->name('discussions.destroy');
+
+    // Gestion des membres
+    Route::get('/gestion-membres', function () {
+        $users = \App\Models\User::orderBy('name')->get();
+        return view('FAQBS.gestion-membres', compact('users'));
+    })->name('membres.manage');
+
+    // Actions sur les membres
+    Route::get('/membres/{user}/edit', [UserController::class, 'edit'])->name('membres.edit');
+    Route::put('/membres/{user}', [UserController::class, 'update'])->name('membres.update');
+    Route::delete('/membres/{user}', [UserController::class, 'destroy'])->name('membres.destroy');
+    Route::post('/membres/{user}/toggle-suspend', [UserController::class, 'toggleSuspend'])->name('membres.toggleSuspend');
+});
 
 require __DIR__.'/auth.php';

@@ -25,10 +25,13 @@ use Illuminate\Support\Facades\Auth;
                 @endif
                 @if(Auth::user()->is_master)
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('a-faire') }}">À faire</a>
+                        <a class="nav-link" href="{{ route('discussions.manage') }}" style="color: #0dcaf0;">Gérer discussions</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('discussions.manage') }}">Gérer discussions</a>
+                        <a class="nav-link" href="{{ route('a-faire') }}" style="color: #0dcaf0;">À faire</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('membres.manage') }}" style="color: #0dcaf0;">Gestion membres</a>
                     </li>
                 @endif
             @endauth

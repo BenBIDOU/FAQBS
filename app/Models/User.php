@@ -27,6 +27,7 @@ protected $fillable = [
         'is_master',
         'is_voice_donor',
         'is_president',
+        'is_active',
     ];
 
     /**
@@ -50,5 +51,6 @@ protected $fillable = [
         'is_master' => 'boolean',
         'is_voice_donor' => 'boolean',
         'is_president' => 'boolean',
+        'is_active' => 'boolean',
     ];
 }
