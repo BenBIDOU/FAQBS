@@ -33,5 +33,15 @@
     /* Dégradé vertical sur les en-têtes bordeaux */
     .card-header.bg-bordeaux, .bg-bordeaux.card-header {
         background: linear-gradient(to bottom, #6D071A, #4a0510) !important;
+        color: white !important;
+    }
+    /* Tous les textes dans bg-bordeaux sont en blanc */
+    .bg-bordeaux, .card-header.bg-bordeaux, .bg-bordeaux.card-header {
+        color: white !important;
+    }
+    .bg-bordeaux h1, .bg-bordeaux h2, .bg-bordeaux h3, .bg-bordeaux h4, 
+    .bg-bordeaux h5, .bg-bordeaux h6, .bg-bordeaux p, .bg-bordeaux span, 
+    .bg-bordeaux a, .bg-bordeaux strong, .bg-bordeaux i {
+        color: white !important;
     }
 </style>
