@@ -9,10 +9,7 @@ Route::get('/', function () { return view('FAQBS/faq'); });
 
 // Pages internes accessibles seulement après connexion
 Route::middleware(['auth.home', 'voice_donor_restrict'])->group(function () {
-    Route::get('/Donneurs-Voix', function () { return view('FAQBS/DV'); });
     Route::get('/faq', function () { return view('faq'); });
-    Route::get('/Secrétariat', function () { return view('FAQBS/Secretariat'); });
-    Route::get('/Donneurs-Temps', function () { return view('FAQBS/DT'); });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -66,11 +63,6 @@ Route::middleware(['auth.home'])->get('/questions-en-attente/donneurs-voix', fun
 });
 Route::middleware(['auth.home'])->get('/questions-en-attente/donneurs-temps', function () {
     return redirect()->route('questions-en-attente.team', ['team' => 'Donneurs de Temps']);
-});
-
-// Route réservée au président
-Route::middleware(['auth.home', 'president'])->get('/Président', function () {
-    return view('FAQBS/President');
 });
 
 // Routes protégées pour les masters

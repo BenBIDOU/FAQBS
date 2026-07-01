@@ -14,7 +14,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'master' => \App\Http\Middleware\MasterMiddleware::class,
             'voice_donor_restrict' => \App\Http\Middleware\VoiceDonorRestrictionMiddleware::class,
-            'president' => \App\Http\Middleware\PresidentMiddleware::class,
             'auth.home' => \App\Http\Middleware\RedirectNonAuthenticatedToHome::class,
         ]);
     })

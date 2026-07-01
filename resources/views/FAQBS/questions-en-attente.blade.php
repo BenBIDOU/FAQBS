@@ -108,13 +108,13 @@
                 <div class="card-header bg-light text-dark cursor-pointer" 
                      data-bs-toggle="collapse" 
                      data-bs-target="#resolvedQuestionsCollapse" 
-                     aria-expanded="true">
+                     aria-expanded="false">
                     <h5 class="mb-0 d-flex align-items-center">
                         <i class="bi bi-check-circle-fill text-success me-2"></i> Questions résolues
                         <i class="bi bi-chevron-down ms-auto"></i>
                     </h5>
                 </div>
-                <div id="resolvedQuestionsCollapse" class="collapse show" data-bs-parent="#questionsAccordion">
+                <div id="resolvedQuestionsCollapse" class="collapse" data-bs-parent="#questionsAccordion">
                     <div class="card-body">
                         @if($resolvedQuestions->isEmpty())
                             <div class="alert alert-info mb-0">
@@ -166,7 +166,9 @@
                                                             }
                                                         }
                                                     @endphp
-                                                    @if($matchingDiscussion)
+                                                    @if($question->answered_by)
+                                                        <span class="text-muted small">Réponse directe</span>
+                                                    @elseif($matchingDiscussion)
                                                         <a href="{{ route('discussions.show', $matchingDiscussion->id) }}" 
                                                            class="btn btn-sm btn-outline-success" 
                                                            target="_blank">
