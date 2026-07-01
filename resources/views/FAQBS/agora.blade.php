@@ -48,9 +48,9 @@
                 <div class="card-header bg-bordeaux text-white">
                     <h5 class="mb-0">Questions résolues</h5>
                 </div>
-                <div class="card-body">
-                    <div class="list-group list-group-flush">
-                        <div class="accordion" id="donneursVoixAccordionResolues">
+                <div class="card-body d-flex flex-column flex-grow-1">
+                    <div class="list-group list-group-flush d-flex flex-column" style="height: 100%;">
+                        <div class="accordion flex-grow-1" id="donneursVoixAccordionResolues">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed list-group-item list-group-item-action border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDonneursVoixResolues" aria-expanded="false" aria-controls="collapseDonneursVoixResolues">
@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         <div class="w-100" style="border-bottom: 1px solid #6c757d; margin: 8px 0;"></div>
-                        <div class="accordion" id="donneursTempsAccordionResolues">
+                        <div class="accordion flex-grow-1" id="donneursTempsAccordionResolues">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed list-group-item list-group-item-action border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDonneursTempsResolues" aria-expanded="false" aria-controls="collapseDonneursTempsResolues">
@@ -96,7 +96,7 @@
                             </div>
                         </div>
                         <div class="w-100" style="border-bottom: 1px solid #6c757d; margin: 8px 0;"></div>
-                        <div class="accordion" id="secretariatAccordionResolues">
+                        <div class="accordion flex-grow-1" id="secretariatAccordionResolues">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed list-group-item list-group-item-action border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSecretariatResolues" aria-expanded="false" aria-controls="collapseSecretariatResolues">
@@ -119,7 +119,7 @@
                             </div>
                         </div>
                         <div class="w-100" style="border-bottom: 1px solid #6c757d; margin: 8px 0;"></div>
-                        <div class="accordion" id="presidentAccordionResolues">
+                        <div class="accordion flex-grow-1" id="presidentAccordionResolues">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed list-group-item list-group-item-action border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePresidentResolues" aria-expanded="false" aria-controls="collapsePresidentResolues">
