@@ -42,8 +42,8 @@
                         </div>
                     @else
                         <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead class="table-light" style="background-color: #2d2d2d; color: #e0e0e0;">
+                            <table class="table table-hover" style="background-color: #1e1e1e; color: #e0e0e0;">
+                                <thead style="background-color: #252525; color: #e0e0e0;">
                                     <tr>
                                         <th>Nom</th>
                                         <th>Email</th>
@@ -56,7 +56,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach($questions as $question)
-                                        <tr style="background-color: #2d2d2d; color: #e0e0e0; border-color: #444;">
+                                        <tr style="background-color: #1e1e1e; color: #e0e0e0; border-color: #333;">
                                             <td>
                                                 <strong>{{ $question->name }}</strong>
                                             </td>
