@@ -1,39 +1,49 @@
 @extends('layouts.app')
 
-@section('title', 'Accueil des membres - Bibliothèques Sonores')
+@section('title', 'Agora - Bibliothèques Sonores de la région Centrre Val de Loire')
 
 @section('content')
-<div class="container-fluid">
-    <!-- Logo à gauche et titre centré sur la même ligne -->
-    <div class="d-flex align-items-center mb-4">
-        <div class="flex-shrink-0">
-            <img src="{{ asset('images/logo.png') }}" alt="Bibliothèques Sonores de France" class="img-fluid" style="max-height: 100px;">
-        </div>
-        <div class="flex-grow-1 text-center">
-            <h1 class="mb-1">Bienvenue dans l'Agora </h1>
+<div class="container-fluid" style="background: linear-gradient(135deg, #f7e8e8 0%, #A00000 600%); min-height: 100vh;">
+    <!-- Header moderne -->
+    <div class="page-header mb-4" style="background-color: #FFFFFF; border-bottom: 2px solid #002D5D; padding: 1.5rem 0; margin-bottom: 1.5rem !important;">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <img src="{{ asset('images/logo.png') }}" class="img-fluid" style="max-height: 120px;">
+            </div>
+            <div class="col text-center">
+                <h1 class="mb-1" style="color: #002D5D; font-weight: 700; font-size: 2rem;">Bienvenue dans l'Agora</h1>
+                <p class="mb-0" style="color: #495057; font-size: 1.1rem;">Bibliothèques Sonores de la région Centre Val de Loire</p>
+            </div>
         </div>
     </div>
 
     <!-- Message de succès -->
     @if(session('success'))
-        <div class="alert alert-success mb-4">
+        <div class="alert alert-success mb-4" style="background: rgba(40, 167, 69, 0.1); border-left: 4px solid #28A745; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
             {{ session('success') }}
         </div>
     @endif
 
     <!-- Message de bienvenue -->
-    <div class="alert alert-info mb-4">
-        <h4 class="alert-heading">Bonjour, {{ Auth::user()->name }} !</h4>
-        <p>Vous êtes connecté à l'Agora des Bibliothèques Sonores. 
-        Ici, vous pouvez accéder aux discussions et interagir avec la communauté.</p>
+    <div class="alert mb-4" style="background: #FFFFFF; border-left: 4px solid #002D5D; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+        <div class="d-flex align-items-center">
+            <i class="bi bi-info-circle-fill me-2" style="color: #002D5D; font-size: 1.2rem;"></i>
+            <div>
+                <h4 class="mb-1" style="color: #002D5D;">Bonjour, {{ Auth::user()->name }} !</h4>
+                <p class="mb-0" style="color: #495057;">Vous êtes connecté à l'espace d'échange des Bibliothèques Sonores de la région Centre Val de Loire. Posez vos questions, consultez les discussions et interagissez avec la communauté.</p>
+            </div>
+        </div>
     </div>
 
     <!-- Zone de recherche -->
-    <div class="mb-4 row">
-        <div class="col-12">
+    <div class="mb-4">
+        <div style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Rechercher une discussion..." id="faqSearch" autocomplete="off">
-                <button class="text-white btn bg-bordeaux" type="button" id="searchButton">
+                <span class="input-group-text" style="background: transparent; border: none; color: #002D5D;">
+                    <i class="bi bi-search"></i>
+                </span>
+                <input type="text" class="form-control" placeholder="Rechercher une discussion..." id="faqSearch" autocomplete="off" style="border: none; box-shadow: none; background: transparent;">
+                <button class="btn" type="button" id="searchButton" style="background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); color: white; border-radius: 0 8px 8px 0; transition: all 0.3s ease;">
                     <i class="bi bi-search me-1"></i> Rechercher
                 </button>
             </div>
@@ -44,22 +54,24 @@
     <div class="row mb-4 align-items-start">
         <!-- Questions résolues - 1/4 à gauche -->
         <div class="col-md-3 d-flex align-self-start">
-            <div class="card flex-grow-1">
-                <div class="card-header bg-bordeaux text-white">
-                    <h5 class="mb-0">Questions résolues</h5>
+            <div class="card flex-grow-1" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div class="card-header" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); border: none; color: white; font-weight: 600; border-radius: 10px 10px 0 0;">
+                    <h5 class="mb-0 d-flex align-items-center">
+                        <i class="bi bi-check-circle-fill me-2"></i> Questions résolues
+                    </h5>
                 </div>
-                <div class="card-body d-flex flex-column flex-grow-1" style="max-height: 60vh; overflow-y: auto;">
+                <div class="card-body d-flex flex-column flex-grow-1" style="padding: 0;">
                     <div class="list-group list-group-flush d-flex flex-column" style="height: 100%;">
-                        <div class="accordion flex-grow-1 accordion-bottom" id="donneursVoixAccordionResolues">
+                        <div class="accordion flex-grow-1 accordion-bottom" id="presidentAccordionResolues">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed list-group-item list-group-item-action border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDonneursVoixResolues" aria-expanded="false" aria-controls="collapseDonneursVoixResolues">
-                                        <i class="bi bi-mic me-2"></i> Donneurs Voix
+                                    <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePresidentResolues" aria-expanded="false" aria-controls="collapsePresidentResolues" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
+                                        <i class="bi bi-person-circle me-2"></i> Président
                                     </button>
                                 </h2>
-                                <div id="collapseDonneursVoixResolues" class="accordion-collapse collapse" data-bs-parent="#donneursVoixAccordionResolues">
+                                <div id="collapsePresidentResolues" class="accordion-collapse collapse" data-bs-parent="#presidentAccordionResolues">
                                     <div class="accordion-body">
-                                        @forelse($discussionsByGroup['Donneurs Voix'] ?? [] as $discussion)
+                                        @forelse($discussionsByGroup['Président'] ?? [] as $discussion)
                                             <a href="{{ route('discussions.show', $discussion->id) }}" 
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
                                                data-title="{{ $discussion->title }}">
@@ -72,34 +84,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="w-100" style="border-bottom: 1px solid #6c757d; margin: 8px 0;"></div>
-                        <div class="accordion flex-grow-1 accordion-bottom" id="donneursTempsAccordionResolues">
-                            <div class="accordion-item border-0">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed list-group-item list-group-item-action border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDonneursTempsResolues" aria-expanded="false" aria-controls="collapseDonneursTempsResolues">
-                                        <i class="bi bi-clock me-2"></i> Donneurs Temps
-                                    </button>
-                                </h2>
-                                <div id="collapseDonneursTempsResolues" class="accordion-collapse collapse" data-bs-parent="#donneursTempsAccordionResolues">
-                                    <div class="accordion-body">
-                                        @forelse($discussionsByGroup['Donneurs Temps'] ?? [] as $discussion)
-                                            <a href="{{ route('discussions.show', $discussion->id) }}" 
-                                               class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
-                                               data-title="{{ $discussion->title }}">
-                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>{{ Str::limit($discussion->title, 40) }}
-                                            </a>
-                                        @empty
-                                            <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
-                                        @endforelse
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="w-100" style="border-bottom: 1px solid #6c757d; margin: 8px 0;"></div>
+                        <div class="w-100" style="border-bottom: 1px solid #E9ECEF; margin: 4px 0;"></div>
                         <div class="accordion flex-grow-1 accordion-bottom" id="secretariatAccordionResolues">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed list-group-item list-group-item-action border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSecretariatResolues" aria-expanded="false" aria-controls="collapseSecretariatResolues">
+                                    <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSecretariatResolues" aria-expanded="false" aria-controls="collapseSecretariatResolues" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
                                         <i class="bi bi-file-text me-2"></i> Secrétariat
                                     </button>
                                 </h2>
@@ -118,17 +107,63 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="w-100" style="border-bottom: 1px solid #6c757d; margin: 8px 0;"></div>
-                        <div class="accordion flex-grow-1 accordion-bottom" id="presidentAccordionResolues">
+                        <div class="w-100" style="border-bottom: 1px solid #E9ECEF; margin: 4px 0;"></div>
+                        <div class="accordion flex-grow-1 accordion-bottom" id="tresorerieAccordionResolues">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed list-group-item list-group-item-action border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePresidentResolues" aria-expanded="false" aria-controls="collapsePresidentResolues">
-                                        <i class="bi bi-person-circle me-2"></i> Président
+                                    <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTresorerieResolues" aria-expanded="false" aria-controls="collapseTresorerieResolues" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
+                                        <i class="bi bi-cash-coin me-2"></i> Trésorerie
                                     </button>
                                 </h2>
-                                <div id="collapsePresidentResolues" class="accordion-collapse collapse" data-bs-parent="#presidentAccordionResolues">
+                                <div id="collapseTresorerieResolues" class="accordion-collapse collapse" data-bs-parent="#tresorerieAccordionResolues">
                                     <div class="accordion-body">
-                                        @forelse($discussionsByGroup['Président'] ?? [] as $discussion)
+                                        @forelse($discussionsByGroup['Trésorerie'] ?? [] as $discussion)
+                                            <a href="{{ route('discussions.show', $discussion->id) }}" 
+                                               class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
+                                               data-title="{{ $discussion->title }}">
+                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>{{ Str::limit($discussion->title, 40) }}
+                                            </a>
+                                        @empty
+                                            <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
+                                        @endforelse
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-100" style="border-bottom: 1px solid #E9ECEF; margin: 4px 0;"></div>
+                        <div class="accordion flex-grow-1 accordion-bottom" id="donneursVoixAccordionResolues">
+                            <div class="accordion-item border-0">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDonneursVoixResolues" aria-expanded="false" aria-controls="collapseDonneursVoixResolues" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
+                                        <i class="bi bi-mic me-2"></i> Donneurs Voix
+                                    </button>
+                                </h2>
+                                <div id="collapseDonneursVoixResolues" class="accordion-collapse collapse" data-bs-parent="#donneursVoixAccordionResolues">
+                                    <div class="accordion-body">
+                                        @forelse($discussionsByGroup['Donneurs Voix'] ?? [] as $discussion)
+                                            <a href="{{ route('discussions.show', $discussion->id) }}" 
+                                               class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
+                                               data-title="{{ $discussion->title }}">
+                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>{{ Str::limit($discussion->title, 40) }}
+                                            </a>
+                                        @empty
+                                            <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
+                                        @endforelse
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-100" style="border-bottom: 1px solid #E9ECEF; margin: 4px 0;"></div>
+                        <div class="accordion flex-grow-1 accordion-bottom" id="donneursTempsAccordionResolues">
+                            <div class="accordion-item border-0">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDonneursTempsResolues" aria-expanded="false" aria-controls="collapseDonneursTempsResolues" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
+                                        <i class="bi bi-clock me-2"></i> Donneurs Temps
+                                    </button>
+                                </h2>
+                                <div id="collapseDonneursTempsResolues" class="accordion-collapse collapse" data-bs-parent="#donneursTempsAccordionResolues">
+                                    <div class="accordion-body">
+                                        @forelse($discussionsByGroup['Donneurs Temps'] ?? [] as $discussion)
                                             <a href="{{ route('discussions.show', $discussion->id) }}" 
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
                                                data-title="{{ $discussion->title }}">
@@ -151,46 +186,48 @@
             <div class="row w-100 align-items-stretch">
                 <!-- Mode d'emploi au centre-gauche -->
                 <div class="col-md-8 d-flex">
-                    <div class="card flex-grow-1 border-bordeaux">
-                        <div class="card-body d-flex align-items-center justify-content-center">
-                            <h2 class="mb-0">-- mode d'emploi --</h2>
+                    <div class="card flex-grow-1" style="border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden; transition: all 0.3s ease; background: linear-gradient(135deg, #FFFFFF 0%, #FFFBFB 100%);">
+                        <div class="card-body d-flex align-items-center justify-content-center" style="background: transparent;">
+                            <h2 class="mb-0" style="color: #002D5D; font-weight: 700; font-style: italic;">-- mode d'emploi --</h2>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Questions en attente - centre-droit -->
                 <div class="col-md-4 d-flex">
-                    <div class="card flex-grow-1">
-                        <div class="card-header bg-bordeaux text-white">
-                            <h5 class="mb-0">Questions en attente</h5>
+                    <div class="card flex-grow-1" style="border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden; transition: all 0.3s ease; background: #FFFFFF;">
+                        <div class="card-header" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); border: none; color: white; font-weight: 600; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                            <h5 class="mb-0 d-flex align-items-center">
+                                <i class="bi bi-clock me-2"></i> Questions en attente
+                            </h5>
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-column gap-2 w-100">
-                        <a href="/questions-en-attente" class="btn btn-bordeaux-light text-white w-100 text-start d-flex justify-content-between align-items-center">
-                            <span><i class="bi bi-inbox me-1"></i> Toutes</span>
-                            @if($questionsCount > 0)
-                                <span class="badge bg-success badge-2x">{{ $questionsCount }}</span>
-                            @endif
-                        </a>
-                        <a href="/questions-en-attente/Président" class="btn btn-outline-bordeaux text-bordeaux w-100 text-start d-flex justify-content-between align-items-center">
+                        <a href="/questions-en-attente/Président" class="btn btn-outline-primary text-primary w-100 text-start d-flex justify-content-between align-items-center py-2" style="border-radius: 8px; border: 1px solid #002D5D; background: #FFFFFF; transition: all 0.2s ease; color: #002D5D !important;">
                             <span><i class="bi bi-person me-1"></i> Président</span>
                             @if(($countsByTeam['Président'] ?? 0) > 0)
                                 <span class="badge bg-success badge-2x">{{ $countsByTeam['Président'] }}</span>
                             @endif
                         </a>
-                        <a href="/questions-en-attente/Secrétariat" class="btn btn-outline-bordeaux text-bordeaux w-100 text-start d-flex justify-content-between align-items-center">
+                        <a href="/questions-en-attente/Secrétariat" class="btn btn-outline-primary text-primary w-100 text-start d-flex justify-content-between align-items-center py-2" style="border-radius: 8px; border: 1px solid #002D5D; background: #FFFFFF; transition: all 0.2s ease; color: #002D5D !important;">
                             <span><i class="bi bi-file-earmark-text me-1"></i> Secrétariat</span>
                             @if(($countsByTeam['Secrétariat'] ?? 0) > 0)
                                 <span class="badge bg-success badge-2x">{{ $countsByTeam['Secrétariat'] }}</span>
                             @endif
                         </a>
-                        <a href="/questions-en-attente/Donneurs de Voix" class="btn btn-outline-bordeaux text-bordeaux w-100 text-start d-flex justify-content-between align-items-center">
+                        <a href="/questions-en-attente/Trésorerie" class="btn btn-outline-primary text-primary w-100 text-start d-flex justify-content-between align-items-center py-2" style="border-radius: 8px; border: 1px solid #002D5D; background: #FFFFFF; transition: all 0.2s ease; color: #002D5D !important;">
+                            <span><i class="bi bi-cash-coin me-1"></i> Trésorerie</span>
+                            @if(($countsByTeam['Trésorerie'] ?? 0) > 0)
+                                <span class="badge bg-success badge-2x">{{ $countsByTeam['Trésorerie'] }}</span>
+                            @endif
+                        </a>
+                        <a href="/questions-en-attente/Donneurs de Voix" class="btn btn-outline-primary text-primary w-100 text-start d-flex justify-content-between align-items-center py-2" style="border-radius: 8px; border: 1px solid #002D5D; background: #FFFFFF; transition: all 0.2s ease; color: #002D5D !important;">
                             <span><i class="bi bi-mic me-1"></i> Donneurs Voix</span>
                             @if(($countsByTeam['Donneurs de Voix'] ?? 0) > 0)
                                 <span class="badge bg-success badge-2x">{{ $countsByTeam['Donneurs de Voix'] }}</span>
                             @endif
                         </a>
-                        <a href="/questions-en-attente/Donneurs de Temps" class="btn btn-outline-bordeaux text-bordeaux w-100 text-start d-flex justify-content-between align-items-center">
+                        <a href="/questions-en-attente/Donneurs de Temps" class="btn btn-outline-primary text-primary w-100 text-start d-flex justify-content-between align-items-center py-2" style="border-radius: 8px; border: 1px solid #002D5D; background: #FFFFFF; transition: all 0.2s ease; color: #002D5D !important;">
                             <span><i class="bi bi-clock me-1"></i> Donneurs Temps</span>
                             @if(($countsByTeam['Donneurs de Temps'] ?? 0) > 0)
                                 <span class="badge bg-success badge-2x">{{ $countsByTeam['Donneurs de Temps'] }}</span>
@@ -201,104 +238,217 @@
             </div>
         </div>
         <!-- Bouton ancré au bas du centre -->
-        <div class="text-center" style="position: absolute; bottom: -150px; left: 32%; transform: translateX(-50%); z-index: 1000; width: 100%;">
-            <a href="/poser-question" class="btn btn-lg text-white px-5 py-4 shadow-lg gemme-btn" style="font-size: 1.3rem; font-weight: bold; border: none;">
+        <div class="text-center" style="position: absolute; bottom: -130px; left: 32%; transform: translateX(-50%); z-index: 1000; width: 100%;">
+            <a href="/poser-question" class="btn btn-lg text-white px-5 py-4 shadow-lg ask-question-btn" style="font-size: 1.3rem; font-weight: 700; border: none; border-radius: 10px; background: linear-gradient(135deg, #990000 0%, #A00000 100%); box-shadow: 0 4px 15px rgba(153, 0, 0, 0.3); transition: all 0.3s ease;">
                 <i class="bi bi-envelope me-2"></i> Je pose ma question
             </a>
         </div>
     </div>
 </div>
-    </div>
 
 <style>
-    .bg-bordeaux {
-        background-color: #6D071A;
+    /* Charte graphique officielle et sympa */
+    :root {
+        --primary: #002D5D;
+        --primary-light: #0056B3;
+        --success: #28A745;
+        --light: #FFFBFB;
+        --border: #E9ECEF;
+        --text: #495057;
     }
-    .bg-bordeaux-light {
-        background-color: #96637B;
+    
+    .bg-primary {
+        background-color: var(--primary);
     }
-    .btn-bordeaux {
-        background-color: #6D071A;
-        border-color: #6D071A;
+    .text-primary {
+        color: var(--primary) !important;
     }
-    .btn-bordeaux:hover {
-        background-color: #5a0514;
-        border-color: #5a0514;
+    .btn-primary {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        transition: all 0.3s ease;
     }
-    .btn-bordeaux-light {
-        background-color: #96637B;
-        border-color: #96637B;
-        color: white;
-    }
-    .btn-bordeaux-light:hover {
-        background-color: #85556d;
-        border-color: #85556d;
+    .btn-primary:hover {
+        background-color: var(--primary-light);
+        border-color: var(--primary-light);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 45, 93, 0.25);
     }
     .badge-2x {
-        font-size: 1.4rem !important;
+        font-size: 1rem !important;
         padding: 0.35em 0.65em !important;
+        border-radius: 20px;
     }
-    .btn-outline-bordeaux {
-        color: #6D071A;
-        border-color: #6D071A;
+    
+    /* Style des cards */
+    .card {
+        border: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        border-radius: 10px;
+        overflow: hidden;
+        transition: all 0.3s ease;
     }
-    .btn-outline-bordeaux:hover {
-        background-color: #6D071A;
-        color: white;
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-    .chat-body {
-        display: flex;
-        flex-direction: column;
+    
+    /* En-têtes de card */
+    .card-header {
+        border: none;
+        font-weight: 600;
     }
-    .list-group-item-action:hover {
-        background-color: #f8f9fa;
+    
+    /* Zone de recherche */
+    .input-group-text {
+        background: transparent !important;
+        border: none !important;
     }
     
     /* Séparateurs entre les discussions */
     .discussion-link {
-        border-bottom: 1px solid #e0e0e0;
-        padding-bottom: 8px;
-        margin-bottom: 8px;
+        border-bottom: 1px solid rgba(0, 45, 93, 0.1);
+        padding: 8px 12px;
+        margin: 4px 0;
+        transition: all 0.2s ease;
+        color: var(--text);
+    }
+    .discussion-link:hover {
+        background: rgba(0, 45, 93, 0.03);
+        padding-left: 16px;
+        color: var(--primary);
     }
     .discussion-link:last-child {
         border-bottom: none;
         margin-bottom: 0;
         padding-bottom: 0;
     }
+    
     /* Alignement bas des sections dans Questions résolues */
     .accordion-bottom {
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
     }
-    /* Effet Gemme pour le bouton */
-    .gemme-btn {
-        background: linear-gradient(135deg, #7C0A1E 0%, #A00000 50%, #7C0A1E 100%);
-        background-size: 200% 200%;
-        border-radius: 6px;
-        position: relative;
-        overflow: hidden;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(124, 10, 30, 0.4);
-        border: none;
+    
+    /* Accordéons avec style moderne */
+    .accordion-button {
+        background: transparent !important;
+        border: none !important;
+        color: var(--primary) !important;
+        font-weight: 500 !important;
+        padding: 12px 16px !important;
+        border-radius: 6px !important;
+        margin: 4px 8px !important;
+        transition: all 0.2s ease !important;
+        box-shadow: none !important;
     }
-    .gemme-btn:hover {
-        background-position: 100% 100%;
+    .accordion-button:hover {
+        background: rgba(0, 45, 93, 0.05) !important;
+    }
+    .accordion-button:not(.collapsed) {
+        background: rgba(0, 45, 93, 0.08) !important;
+        color: var(--primary) !important;
+        box-shadow: none !important;
+    }
+    
+    /* Boutons outline */
+    .btn-outline-primary {
+        color: var(--primary);
+        border-color: var(--primary);
+        background: #FFFFFF;
+        transition: all 0.2s ease;
+    }
+    .btn-outline-primary:hover {
+        background: var(--primary);
+        color: white !important;
+        border-color: var(--primary);
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(124, 10, 30, 0.6);
     }
-    .gemme-btn::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-        transition: left 0.5s ease;
+    
+    /* Bouton principal */
+    .btn-main {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+        border: none;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 45, 93, 0.3);
+        font-weight: 700;
     }
-    .gemme-btn:hover::before {
-        left: 100%;
+    .btn-main:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 45, 93, 0.4);
+    }
+    
+    /* Bouton Je pose ma question */
+    .ask-question-btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 8px 25px rgba(153, 0, 0, 0.5);
+        background: linear-gradient(135deg, #A00000 0%, #C00000 100%) !important;
+    }
+    
+    /* Alertes stylisées */
+    .alert {
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .alert-info {
+        background: #FFFFFF;
+        border-left: 4px solid var(--primary);
+    }
+    .alert-success {
+        background: rgba(40, 167, 69, 0.1);
+        border-left: 4px solid var(--success);
+    }
+    
+    /* Chat body */
+    .chat-body {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* Style des liens */
+    .list-group-item-action:hover {
+        background: rgba(0, 45, 93, 0.05);
+        transition: all 0.2s ease;
+    }
+    
+    /* Badges */
+    .badge {
+        padding: 0.35em 0.65em;
+        border-radius: 20px;
+        font-weight: 500;
+    }
+    .badge-success {
+        background: var(--success);
+    }
+    
+    /* Responsive improvements */
+    @media (max-width: 767.98px) {
+        .page-header {
+            padding: 1rem !important;
+        }
+        .page-header h1 {
+            font-size: 1.5rem !important;
+        }
+        .page-header p {
+            font-size: 0.9rem !important;
+        }
+        .card-body {
+            padding: 1rem !important;
+        }
+        .card {
+            border-radius: 8px !important;
+        }
+        .btn {
+            font-size: 1rem !important;
+        }
+    }
+    
+    /* Page background */
+    body {
+        background: linear-gradient(135deg, #E6F2FF 0%, #FFFFFF 100%);
     }
 </style>
 
