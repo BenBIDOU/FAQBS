@@ -46,9 +46,9 @@ Gestion des questions - Bibliothèques sonores de la région Centre - Val de Loi
         <div class="col-lg-10">
             <div class="card" style="background: #2d2d2d; border: 1px solid #495057; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
                 <div class="card-header" style="background: linear-gradient(135deg, #495057 0%, #6c757d 100%); border: none; color: white; font-weight: 600; border-radius: 10px 10px 0 0; height: 56px;">
-                    <h5 class="mb-0 d-flex align-items-center" style="height: 100%;">
+                    <h4 class="mb-0 d-flex align-items-center" style="height: 100%;">
                         <i class="bi bi-question-circle me-2"></i> Gestion des questions
-                    </h5>
+                    </h4>
                 </div>
                 <div class="card-body" style="color: #e0e0e0;">
                     <div class="mb-4 d-flex justify-content-between align-items-center">
