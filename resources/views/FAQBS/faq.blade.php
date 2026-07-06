@@ -5,17 +5,38 @@ FAQ - Bibliothèques sonores de la région Centre - Val de Loire
 @endsection
 
 @section('content')
-<div class="container-fluid" style="background: linear-gradient(135deg, #fafafa 0%, #f0dfdf 100%); min-height: 100vh;">
-    <!-- Header moderne -->
-    <div class="page-header mb-4" style="background-color: #FFFFFF; border-bottom: 2px solid #002D5D; padding: 1.5rem 0; margin-bottom: 1.5rem !important;">
-        <div class="row align-items-center">
-            <div class="col-auto">
-                <img src="{{ asset('images/logo.png') }}" class="img-fluid" style="max-height: 120px; margin-left: 6px;">
-            </div>
-            <div class="col text-center">
-                <h1 class="mb-1" style="color: #002D5D; font-weight: 700; font-size: 2rem;">FAQ - Foire Aux Questions</h1>
-                <p class="mb-0" style="color: #495057; font-size: 1.1rem;">Bibliothèques sonores de la région Centre - Val de Loire</p>
-            </div>
+<div class="container-fluid mt-5" style="background: linear-gradient(135deg, #E6F2FF 0%, #FFFFFF 100%); min-height: 100vh;">
+    <!-- Bandeau avec logo, bogo et connexion -->
+    <div class="row align-items-stretch" style="min-height: 270px; background: linear-gradient(to right, #2c3e50, #1a1a1a); margin-bottom: 2rem;">
+        <div class="col-md-2 d-flex align-items-center justify-content-start ps-4">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="header-logo" style="height: 100%; max-height: 270px;">
+        </div>
+        <div class="col-md-8 d-flex align-items-center justify-content-center">
+            <img src="{{ asset('images/bogobibsonores.png') }}" alt="Bogo" class="header-bogo" style="height: 100%; max-height: 270px;">
+        </div>
+        <div class="col-md-2 d-flex align-items-center justify-content-end pe-4">
+            @auth
+                <div class="d-flex flex-column align-items-end">
+                    <span class="text-white mb-2" style="font-weight: 500;">{{ Auth::user()->name }}</span>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="btn btn-sm btn-outline-light" style="border-radius: 6px; padding: 6px 12px; font-size: 0.85rem;">
+                            <i class="bi bi-box-arrow-right me-1"></i> Déconnexion
+                        </button>
+                    </form>
+                </div>
+            @else
+                <div class="d-flex flex-column align-items-end gap-2">
+                    <a href="{{ route('login') }}" class="btn btn-sm btn-outline-light" style="border-radius: 6px; padding: 6px 12px; font-size: 0.85rem; white-space: nowrap;">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Connexion
+                    </a>
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="btn btn-sm btn-light" style="border-radius: 6px; padding: 6px 12px; font-size: 0.85rem; color: #2c3e50; white-space: nowrap;">
+                            <i class="bi bi-person-plus me-1"></i> Inscription
+                        </a>
+                    @endif
+                </div>
+            @endauth
         </div>
     </div>
 
@@ -253,61 +274,19 @@ FAQ - Bibliothèques sonores de la région Centre - Val de Loire
         });
     });
 </script>
-@endsection
-    /* Styles hérités du design Agora - couleurs mises à jour */
-    .bg-bordeaux {
-        background: linear-gradient(135deg, #990000 0%, #A00000 100%);
+
+<!-- Styles spécifiques pour la page FAQ -->
+<style>
+    /* Styles pour le bandeau */
+    .header-logo {
+        height: 100%;
+        max-height: 270px;
+        object-fit: contain;
     }
-    .text-bordeaux {
-        color: #990000;
-    }
-    /* Styles pour le carrousel */
-    #villeCarousel {
-        max-height: 400px;
-        overflow: hidden;
-    }
-    .carousel-text-overlay {
-        position: absolute;
-        bottom: 60px;
-        left: 0;
-        right: 0;
-        background: rgba(0, 0, 0, 0.6);
-        padding: 20px 0;
-        z-index: 10;
-    }
-    .carousel-text-overlay h2 {
-        margin-bottom: 0;
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
-        font-weight: 500;
-    }
-    #villeCarousel .carousel-item img {
-        max-height: 400px;
-        object-fit: cover;
-        width: 100%;
-    }
-    #villeCarousel .carousel-control-prev,
-    #villeCarousel .carousel-control-next {
-        width: 5%;
-        background: rgba(0, 0, 0, 0.3);
-        border-radius: 50%;
-    }
-    #villeCarousel .carousel-indicators [data-bs-target] {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background-color: #990000;
-        border: 2px solid white;
-        box-shadow: 0 0 0 2px #990000;
-    }
-    #villeCarousel .carousel-indicators .active {
-        background-color: white;
-        border-color: #990000;
-    }
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
-        width: 2rem;
-        height: 2rem;
-        background-size: 100%, 100%;
+    .header-bogo {
+        height: 100%;
+        max-height: 270px;
+        object-fit: contain;
     }
     
     /* Responsive adjustments */
@@ -326,67 +305,25 @@ FAQ - Bibliothèques sonores de la région Centre - Val de Loire
         /* Adjust logo height for mobile */
         .header-logo {
             height: auto !important;
+            max-height: 150px;
         }
         
-        /* Make bogo image responsive in mobile */
-        .bogo-img {
-            max-height: 200px !important;
-            height: auto !important;
-        }
-        
-        /* Logo image mobile */
-        .logo-img {
-            max-height: 150px !important;
-        }
-        
-        /* Mobile carousel adjustments */
-        #villeCarousel {
-            max-height: 300px;
-        }
-        #villeCarousel .carousel-item img {
-            max-height: 300px;
-        }
-        .carousel-text-overlay {
-            bottom: 40px;
-            padding: 15px 0;
-        }
-        .carousel-text-overlay h2 {
-            font-size: 1.1rem !important;
-        }
-        
-        /* Mobile text spacing */
+        /* Mobile banner adjustments */
         .container-fluid.mt-5 {
             margin-top: 2rem !important;
         }
-        .text-center.mb-4 {
-            margin-bottom: 2rem !important;
-        }
         
         /* Mobile login container */
-        .col-12.d-md-none {
+        .col-md-2.d-flex.align-items-center.justify-content-end {
             margin-top: 1rem;
         }
     }
     
     @media (min-width: 768px) {
-        /* Desktop: ensure bogo image fills the height */
-        .bogo-img {
-            height: 270px !important;
-            max-height: 270px !important;
-        }
-        
-        /* Desktop logo fills height */
-        .logo-img {
-            height: 270px;
-            max-height: 270px;
-        }
-        
-        /* Ensure banner row has fixed height */
+        /* Desktop: ensure banner row has fixed height */
         .row.align-items-stretch {
             min-height: 270px;
         }
-        
-
     }
 </style>
-
+@endsection
