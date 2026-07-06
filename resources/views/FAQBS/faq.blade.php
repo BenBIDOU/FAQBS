@@ -5,9 +5,9 @@ FAQ - Bibliothèques sonores de la région Centre - Val de Loire
 @endsection
 
 @section('content')
-<div class="container-fluid mt-5" style="background: linear-gradient(135deg, #E6F2FF 0%, #FFFFFF 100%); min-height: 100vh;">
+
     <!-- Bandeau avec logo, bogo et connexion -->
-    <div class="row align-items-stretch" style="min-height: 270px; background: linear-gradient(to right, #2c3e50, #1a1a1a); margin-bottom: 2rem;">
+    <div class="row align-items-stretch" style="min-height: 270px; background: #FFFFFF; margin-bottom: 2rem; border-bottom: 2px solid #002D5D;">
         <div class="col-md-2 d-flex align-items-center justify-content-start ps-4">
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="header-logo" style="height: 100%; max-height: 270px;">
         </div>
@@ -17,37 +17,26 @@ FAQ - Bibliothèques sonores de la région Centre - Val de Loire
         <div class="col-md-2 d-flex align-items-center justify-content-end pe-4">
             @auth
                 <div class="d-flex flex-column align-items-end">
-                    <span class="text-white mb-2" style="font-weight: 500;">{{ Auth::user()->name }}</span>
+                    <span class="mb-2" style="font-weight: 500; color: #002D5D;">{{ Auth::user()->name }}</span>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="btn btn-sm btn-outline-light" style="border-radius: 6px; padding: 6px 12px; font-size: 0.85rem;">
+                        <button type="submit" class="btn btn-sm" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); color: white; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.85rem;">
                             <i class="bi bi-box-arrow-right me-1"></i> Déconnexion
                         </button>
                     </form>
                 </div>
             @else
                 <div class="d-flex flex-column align-items-end gap-2">
-                    <a href="{{ route('login') }}" class="btn btn-sm btn-outline-light" style="border-radius: 6px; padding: 6px 12px; font-size: 0.85rem; white-space: nowrap;">
+                    <a href="{{ route('login') }}" class="btn btn-sm" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); color: white; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.85rem; white-space: nowrap;">
                         <i class="bi bi-box-arrow-in-right me-1"></i> Connexion
                     </a>
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="btn btn-sm btn-light" style="border-radius: 6px; padding: 6px 12px; font-size: 0.85rem; color: #2c3e50; white-space: nowrap;">
+                        <a href="{{ route('register') }}" class="btn btn-sm" style="background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); color: white; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.85rem; white-space: nowrap;">
                             <i class="bi bi-person-plus me-1"></i> Inscription
                         </a>
                     @endif
                 </div>
             @endauth
-        </div>
-    </div>
-
-    <!-- Message de bienvenue -->
-    <div class="alert mb-4" style="background: #FFFFFF; border-left: 4px solid #002D5D; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-        <div class="d-flex align-items-center">
-            <i class="bi bi-info-circle-fill me-2" style="color: #002D5D; font-size: 1.2rem;"></i>
-            <div>
-                <h4 class="mb-1" style="color: #002D5D;">Bienvenue dans l'espace FAQ</h4>
-                <p class="mb-0" style="color: #495057;">Retrouvez ici les questions fréquentes et les réponses des Bibliothèques sonores de la région Centre - Val de Loire.</p>
-            </div>
         </div>
     </div>
 
@@ -92,68 +81,6 @@ FAQ - Bibliothèques sonores de la région Centre - Val de Loire
         </div>
     </div>
 
-    <!-- Zone de recherche -->
-    <div class="mb-4">
-        <div style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
-            <div class="input-group">
-                <span class="input-group-text" style="background: transparent; border: none; color: #002D5D;">
-                    <i class="bi bi-search"></i>
-                </span>
-                <input type="text" class="form-control" placeholder="Rechercher dans la FAQ..." id="faqSearch" autocomplete="off" style="border: none; box-shadow: none; background: transparent;">
-                <button class="btn" type="button" id="searchButton" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); color: white; border-radius: 8px; transition: all 0.3s ease;">
-                    <i class="bi bi-search me-1"></i> Rechercher
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Section FAQ par catégories -->
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <div class="card" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                <div class="card-header" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); border: none; color: white; font-weight: 600; border-radius: 10px 10px 0 0; height: 56px;">
-                    <h5 class="mb-0 d-flex align-items-center" style="height: 100%;">
-                        <i class="bi bi-question-circle-fill me-2"></i> Questions Fréquentes
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="accordion" id="faqAccordion">
-                        @foreach($faqs ?? [] as $category => $items)
-                        <div class="accordion-item border-0">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ str_replace(' ', '_', $category) }}" aria-expanded="false" aria-controls="collapse{{ str_replace(' ', '_', $category) }}" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
-                                    <i class="bi bi-folder me-2"></i> {{ $category }}
-                                </button>
-                            </h2>
-                            <div id="collapse{{ str_replace(' ', '_', $category) }}" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    @foreach($items as $faq)
-                                    <a href="#" class="list-group-item list-group-item-action border-0 ps-4 discussion-link" style="display: block; padding: 8px 12px; margin: 4px 0; transition: all 0.2s ease; color: #495057; border-bottom: 1px solid rgba(0, 45, 93, 0.1);">
-                                        <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>{{ $faq['question'] ?? $faq }}
-                                    </a>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Navigation rapide -->
-    <div class="row mb-4">
-        <div class="col-md-12 text-center">
-            <a href="/agora" class="btn btn-lg text-white px-5 py-3 shadow-lg" style="font-size: 1.2rem; font-weight: 700; border: none; border-radius: 10px; background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); box-shadow: 0 4px 15px rgba(0, 45, 93, 0.3); transition: all 0.3s ease; margin: 0 10px;">
-                <i class="bi bi-chat-left me-2"></i> Aller à l'Agora
-            </a>
-            <a href="/poser-question" class="btn btn-lg text-white px-5 py-3 shadow-lg" style="font-size: 1.2rem; font-weight: 700; border: none; border-radius: 10px; background: linear-gradient(135deg, #990000 0%, #A00000 100%); box-shadow: 0 4px 15px rgba(153, 0, 0, 0.3); transition: all 0.3s ease; margin: 0 10px;">
-                <i class="bi bi-envelope me-2"></i> Poser une question
-            </a>
-        </div>
-    </div>
-</div>
 
 <!-- Styles spécifiques pour le carrousel -->
 <style>
