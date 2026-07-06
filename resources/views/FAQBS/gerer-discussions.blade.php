@@ -79,7 +79,7 @@ Gérer les discussions - Bibliothèques sonores de la région Centre - Val de Lo
                                 </thead>
                                 <tbody>
                                     @foreach($discussions as $discussion)
-                                        <tr style="background: #6c757d; border: 1px solid #495057; border-radius: 8px; margin-bottom: 8px;">
+                                        <tr style="background: #3d3d3d; border: 1px solid #495057; border-radius: 8px; margin-bottom: 8px;">
                                             <td style="padding: 16px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #e0e0e0;">
                                                 <strong>{{ $discussion->title }}</strong>
                                                 @if($discussion->link)
