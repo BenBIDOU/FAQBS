@@ -1,39 +1,45 @@
 @extends('layouts.app')
 
-@section('title', 'Répondre à la question - Bibliothèques Sonores')
+@section('title')
+Répondre à la question - Bibliothèques sonores de la région Centre - Val de Loire
+@endsection
 
 @section('content')
-<div class="container-fluid">
-    <!-- Logo et titre -->
-    <div class="row align-items-center mb-4">
-        <div class="col-auto">
-            <img src="{{ asset('images/logo.png') }}" alt="Bibliothèques Sonores de France" class="img-fluid" style="max-height: 100px;">
-        </div>
-        <div class="col">
-            <h1 class="mb-1">Répondre à la question</h1>
-            <h2 class="text-muted mb-0">Bibliothèques Sonores - Centre Val de Loire</h2>
+<div class="container-fluid" style="background: linear-gradient(135deg, #fafafa 0%, #f0dfdf 100%); min-height: 100vh;">
+    <!-- Header moderne -->
+    <div class="page-header mb-4" style="background-color: #FFFFFF; border-bottom: 2px solid #002D5D; padding: 1.5rem 0; margin-bottom: 1.5rem !important;">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <img src="{{ asset('images/logo.png') }}" class="img-fluid" style="max-height: 120px; margin-left: 6px;">
+            </div>
+            <div class="col text-center">
+                <h1 class="mb-1" style="color: #002D5D; font-weight: 700; font-size: 2rem;">Répondre à la question</h1>
+                <p class="mb-0" style="color: #495057; font-size: 1.1rem;">Bibliothèques sonores de la région Centre - Val de Loire</p>
+            </div>
         </div>
     </div>
 
     <!-- Carte de la question originale -->
     <div class="row justify-content-center mb-4">
         <div class="col-12">
-            <div class="card border-bordeaux">
-                <div class="card-header bg-bordeaux-light text-white">
-                    <h5 class="mb-0">Question originale #{{ $question->id }}</h5>
+            <div class="card" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div class="card-header" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); border: none; color: white; font-weight: 600; border-radius: 10px 10px 0 0; height: 56px;">
+                    <h5 class="mb-0 d-flex align-items-center" style="height: 100%;">
+                        <i class="bi bi-question-circle-fill me-2"></i> Question originale #{{ $question->id }}
+                    </h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <p><strong>De :</strong> {{ $question->name }} ({{ $question->email }})</p>
+                            <p style="color: #495057;"><strong>De :</strong> {{ $question->name }} ({{ $question->email }})</p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>Équipe :</strong> {{ $question->team }}</p>
+                            <p style="color: #495057;"><strong>Équipe :</strong> {{ $question->team }}</p>
                         </div>
                     </div>
-                    <p><strong>Objet :</strong> {{ $question->subject }}</p>
-                    <div class="bg-light p-3 rounded-3">
-                        <p class="mb-0">{{ $question->message }}</p>
+                    <p style="color: #495057;"><strong>Objet :</strong> {{ $question->subject }}</p>
+                    <div class="bg-light p-3 rounded-3" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 8px;">
+                        <p class="mb-0" style="color: #495057;">{{ $question->message }}</p>
                     </div>
                     <p class="text-muted small"><em>Posée le {{ $question->created_at->format('d/m/Y H:i') }}</em></p>
                 </div>
@@ -44,29 +50,31 @@
     <!-- Formulaire de réponse -->
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
-            <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Votre réponse</h4>
+            <div class="card" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div class="card-header" style="background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); border: none; color: white; font-weight: 600; border-radius: 10px 10px 0 0; height: 56px;">
+                    <h5 class="mb-0 d-flex align-items-center" style="height: 100%;">
+                        <i class="bi bi-envelope me-2"></i> Votre réponse
+                    </h5>
                 </div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('questions.reply', $question->id) }}">
                         @csrf
                         
                         <div class="mb-3">
-                            <label for="response" class="form-label">Votre réponse</label>
-                            <textarea class="form-control" id="response" name="response" rows="8" required></textarea>
+                            <label for="response" class="form-label" style="color: #002D5D; font-weight: 500;">Votre réponse</label>
+                            <textarea class="form-control" id="response" name="response" rows="8" required style="border: 1px solid #E9ECEF; border-radius: 8px; padding: 0.75rem;"></textarea>
                         </div>
 
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
                             <a href="{{ route('discussion.create', ['subject' => $question->subject]) }}" 
-                               class="btn btn-outline-bordeaux text-bordeaux" 
-                               target="_blank">
+                               class="btn btn-main" 
+                               target="_blank" style="border-radius: 8px;">
                                 <i class="bi bi-chat-square-text me-1"></i> Créer une discussion
                             </a>
-                            <button type="reset" class="btn btn-outline-secondary">
+                            <button type="reset" class="btn btn-outline-secondary" style="border-radius: 8px;">
                                 <i class="bi bi-x-circle me-1"></i> Réinitialiser
                             </button>
-                            <button type="submit" class="btn btn-primary text-white">
+                            <button type="submit" class="btn btn-main text-white" style="border-radius: 8px;">
                                 <i class="bi bi-send me-1"></i> Envoyer la réponse
                             </button>
                         </div>
@@ -80,10 +88,10 @@
     <div class="row justify-content-center mt-4">
         <div class="col-md-8 col-lg-6">
             <div class="d-flex gap-3">
-                <a href="/questions-en-attente/{{ $question->team }}" class="btn btn-bordeaux text-white">
+                <a href="/questions-en-attente/{{ $question->team }}" class="btn btn-lg text-white px-4 py-3 shadow-lg" style="font-size: 1.1rem; font-weight: 700; border: none; border-radius: 10px; background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); box-shadow: 0 4px 15px rgba(0, 45, 93, 0.3); transition: all 0.3s ease;">
                     <i class="bi bi-folder me-2"></i> Retour aux questions de l'équipe
                 </a>
-                <a href="/questions-en-attente/{{ $question->id }}/details" class="btn btn-outline-bordeaux text-bordeaux">
+                <a href="/questions-en-attente/{{ $question->id }}/details" class="btn btn-lg text-white px-4 py-3 shadow-lg" style="font-size: 1.1rem; font-weight: 700; border: none; border-radius: 10px; background: linear-gradient(135deg, #990000 0%, #A00000 100%); box-shadow: 0 4px 15px rgba(153, 0, 0, 0.3); transition: all 0.3s ease;">
                     <i class="bi bi-arrow-left me-2"></i> Retour aux détails
                 </a>
             </div>
@@ -92,36 +100,19 @@
 </div>
 
 <style>
-    .bg-bordeaux {
-        background-color: #6D071A;
+    /* Style des champs de formulaire */
+    .form-control:focus {
+        border-color: #990000;
+        box-shadow: 0 0 0 0.25rem rgba(153, 0, 0, 0.15);
     }
-    .bg-bordeaux-light {
-        background-color: #96637B;
-    }
-    .bg-primary {
-        background-color: #007bff;
-    }
-    .btn-bordeaux {
-        background-color: #6D071A;
-        border-color: #6D071A;
+    
+    /* Style des boutons */
+    .btn-outline-secondary:hover {
+        background-color: #6c757d;
         color: white;
+        border-color: #6c757d;
     }
-    .btn-bordeaux:hover {
-        background-color: #5a0514;
-        border-color: #5a0514;
-    }
-    .btn-outline-bordeaux {
-        color: #6D071A;
-        border-color: #6D071A;
-    }
-    .btn-outline-bordeaux:hover {
-        background-color: #6D071A;
-        color: white;
-    }
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
-    }
+    
     .chat-body {
         display: flex;
         flex-direction: column;
@@ -199,7 +190,7 @@
                 messageDiv.className = 'mb-2 d-flex justify-content-end';
                 messageDiv.innerHTML = `
                     <div class="flex-grow-1 me-2 text-end">
-                        <div class="p-2 text-white bg-primary rounded-3">
+                        <div class="p-2 text-white bg-primary rounded-3" style="background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); border-radius: 8px;">
                             <small class="text-white-50">${userName} (${userRole})</small>
                             <p class="mb-0">${message}</p>
                         </div>
@@ -216,7 +207,7 @@
                         <img src="{{ asset('images/vous.png') }}" class="rounded-circle" alt="${userName}" width="30" height="30">
                     </div>
                     <div class="flex-grow-1 ms-2">
-                        <div class="p-2 bg-light rounded-3">
+                        <div class="p-2 bg-light rounded-3" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 8px;">
                             <small class="text-muted">${userName} (${userRole})</small>
                             <p class="mb-0">${message}</p>
                         </div>
@@ -240,8 +231,8 @@
                     <img src="{{ asset('images/logo.png') }}" class="rounded-circle" alt="BSB" width="30" height="30">
                 </div>
                 <div class="flex-grow-1 ms-2">
-                    <div class="p-2 bg-light rounded-3">
-                        <small class="text-muted">Bibliothèques Sonores (Administrateur)</small>
+                    <div class="p-2 bg-light rounded-3" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 8px;">
+                        <small class="text-muted">Bibliothèques sonores de la région Centre - Val de Loire (Administrateur)</small>
                         <p class="mb-0">${message}</p>
                     </div>
                 </div>
@@ -273,7 +264,7 @@
                 return 'Vous pouvez consulter notre FAQ ou nous envoyer votre demande précise.';
             }
 
-            return 'Nous vous répondrons dès qu’un membre de l’association sera présent.';
+            return 'Nous vous répondrons dès qu’un membre des Bibliothèques sonores de la région Centre - Val de Loire sera présent.';
         }
 
         function saveMessages() {

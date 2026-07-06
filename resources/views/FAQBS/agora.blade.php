@@ -1,18 +1,20 @@
 @extends('layouts.app')
 
-@section('title', 'Agora - Bibliothèques Sonores de la région Centrre Val de Loire')
+@section('title')
+Agora - Bibliothèques sonores de la région Centre - Val de Loire
+@endsection
 
 @section('content')
-<div class="container-fluid" style="background: linear-gradient(135deg, #f7e8e8 0%, #A00000 600%); min-height: 100vh;">
+<div class="container-fluid" style="background: linear-gradient(135deg, #fafafa 0%, #f0dfdf 100%); min-height: 100vh;">
     <!-- Header moderne -->
     <div class="page-header mb-4" style="background-color: #FFFFFF; border-bottom: 2px solid #002D5D; padding: 1.5rem 0; margin-bottom: 1.5rem !important;">
         <div class="row align-items-center">
             <div class="col-auto">
-                <img src="{{ asset('images/logo.png') }}" class="img-fluid" style="max-height: 120px;">
+                <img src="{{ asset('images/logo.png') }}" class="img-fluid" style="max-height: 120px; margin-left: 6px;">
             </div>
             <div class="col text-center">
                 <h1 class="mb-1" style="color: #002D5D; font-weight: 700; font-size: 2rem;">Bienvenue dans l'Agora</h1>
-                <p class="mb-0" style="color: #495057; font-size: 1.1rem;">Bibliothèques Sonores de la région Centre Val de Loire</p>
+                <p class="mb-0" style="color: #495057; font-size: 1.1rem;">Bibliothèques sonores de la région Centre - Val de Loire</p>
             </div>
         </div>
     </div>
@@ -30,7 +32,7 @@
             <i class="bi bi-info-circle-fill me-2" style="color: #002D5D; font-size: 1.2rem;"></i>
             <div>
                 <h4 class="mb-1" style="color: #002D5D;">Bonjour, {{ Auth::user()->name }} !</h4>
-                <p class="mb-0" style="color: #495057;">Vous êtes connecté à l'espace d'échange des Bibliothèques Sonores de la région Centre Val de Loire. Posez vos questions, consultez les discussions et interagissez avec la communauté.</p>
+                <p class="mb-0" style="color: #495057;">Vous êtes connecté à l'espace d'échange des Bibliothèques sonores de la région Centre - Val de Loire. Posez vos questions, consultez les discussions et interagissez avec la communauté.</p>
             </div>
         </div>
     </div>
@@ -43,7 +45,7 @@
                     <i class="bi bi-search"></i>
                 </span>
                 <input type="text" class="form-control" placeholder="Rechercher une discussion..." id="faqSearch" autocomplete="off" style="border: none; box-shadow: none; background: transparent;">
-                <button class="btn" type="button" id="searchButton" style="background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); color: white; border-radius: 0 8px 8px 0; transition: all 0.3s ease;">
+                <button class="btn" type="button" id="searchButton" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); color: white; border-radius: 8px; transition: all 0.3s ease;">
                     <i class="bi bi-search me-1"></i> Rechercher
                 </button>
             </div>
@@ -55,8 +57,8 @@
         <!-- Questions résolues - 1/4 à gauche -->
         <div class="col-md-3 d-flex align-self-start">
             <div class="card flex-grow-1" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                <div class="card-header" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); border: none; color: white; font-weight: 600; border-radius: 10px 10px 0 0;">
-                    <h5 class="mb-0 d-flex align-items-center">
+                <div class="card-header" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); border: none; color: white; font-weight: 600; border-radius: 10px 10px 0 0; height: 56px;">
+                    <h5 class="mb-0 d-flex align-items-center" style="height: 100%;">
                         <i class="bi bi-check-circle-fill me-2"></i> Questions résolues
                     </h5>
                 </div>
@@ -184,11 +186,56 @@
         <!-- Colonnes de droite - regroupées pour même hauteur -->
         <div class="col-md-9 d-flex align-self-start position-relative">
             <div class="row w-100 align-items-stretch">
-                <!-- Mode d'emploi au centre-gauche -->
+                <!-- Mode d'emploi remplacé par menus déroulants -->
                 <div class="col-md-8 d-flex">
-                    <div class="card flex-grow-1" style="border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden; transition: all 0.3s ease; background: linear-gradient(135deg, #FFFFFF 0%, #FFFBFB 100%);">
-                        <div class="card-body d-flex align-items-center justify-content-center" style="background: transparent;">
-                            <h2 class="mb-0" style="color: #002D5D; font-weight: 700; font-style: italic;">-- mode d'emploi --</h2>
+                    <div class="card flex-grow-1" style="background: transparent; border: none; border-radius: 10px; overflow: hidden; box-shadow: none;">
+                        <div class="card-header" style="background: transparent; border: none; padding: 0; border-radius: 10px 10px 0 0; height: 56px; display: flex; align-items: center;">
+                            <div class="d-flex gap-4 w-100 justify-content-center align-items-center" style="padding: 0 40px; height: 100%;">
+                                <div class="dropdown" style="flex: 0 1 50%;">
+                                    <button class="btn dropdown-toggle d-flex align-items-center w-100 justify-content-center" type="button" data-bs-toggle="dropdown" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); color: white; border: none; border-radius: 10px 10px 0 0; padding: 16px 24px; font-weight: 600; font-size: 1.1rem; transition: all 0.3s ease; white-space: nowrap; height: 56px;">
+                                        <i class="bi bi-arrow-left-circle-fill me-2"></i> J'ai une question
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-start" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px; width: 100%; min-width: 280px;">
+                                        <li class="px-3" style="color: #002D5D; font-weight: 500; margin-bottom: 8px; display: flex; align-items: flex-start;">
+                                            <span style="font-size: 1.1rem; font-weight: 600; min-width: 24px;">1°</span>
+                                            <span>Recherchez si elle a déjà été posée</span>
+                                        </li>
+                                        <li class="px-3" style="color: #002D5D; font-weight: 500; margin-bottom: 8px; display: flex; align-items: flex-start;">
+                                            <span style="font-size: 1.1rem; font-weight: 600; min-width: 24px;">2°</span>
+                                            <span>Vous ne la trouvez pas ? Cherchez-la dans les menus de Questions résolues</span>
+                                        </li>
+                                        <li class="px-3" style="color: #002D5D; font-weight: 500; margin-bottom: 12px; display: flex; align-items: flex-start;">
+                                            <span style="font-size: 1.1rem; font-weight: 600; min-width: 24px;">3°</span>
+                                            <span>Toujours sans réponse ? Posez votre question à la communauté en appuyant sur "Je pose ma question"</span>
+                                        </li>
+                                        <li><hr class="dropdown-divider m-2" style="margin: 8px 0; opacity: 0.2;"></li>
+                                        <li>
+                                            <a class="dropdown-item d-flex align-items-center justify-content-center" href="/poser-question" style="padding: 12px 16px; color: #002D5D; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease; font-weight: 600; background: rgba(153, 0, 0, 0.1);">
+                                                <i class="bi bi-envelope me-2" style="color: #990000; font-size: 1.1rem;"></i> Je pose ma question
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="dropdown" style="flex: 0 1 50%;">
+                                    <button class="btn dropdown-toggle d-flex align-items-center w-100 justify-content-center" type="button" data-bs-toggle="dropdown" style="background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); color: white; border: none; border-radius: 10px 10px 0 0; padding: 16px 24px; font-weight: 600; font-size: 1.1rem; transition: all 0.3s ease; white-space: nowrap; height: 56px;">
+                                        J'ai la réponse <i class="bi bi-arrow-right-circle-fill ms-2"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px; width: 100%; min-width: 280px;">
+                                        <li class="px-3" style="color: #002D5D; font-weight: 500; margin-bottom: 12px; display: flex; align-items: flex-start;">
+                                            Vous avez un peu de temps et très envie de participer ? Certaines questions ont été posées à la communauté, appuyez sur la zone concernée par la bulle verte et éblouissez-nous.
+                                        </li>
+                                        <li class="px-3" style="color: #002D5D; font-weight: 500; margin-bottom: 12px; display: flex; align-items: flex-start;">
+                                            Vous aurez le choix : soit de répondre en privé à la personne, soit de partager tous ensemble sur le sujet.
+                                        </li>
+                                        <li><hr class="dropdown-divider m-2" style="margin: 8px 0; opacity: 0.2;"></li>
+                                        <li>
+                                            <a class="dropdown-item d-flex align-items-center justify-content-center" href="/questions-en-attente/Président" style="padding: 12px 16px; color: #002D5D; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease; font-weight: 600; background: rgba(0, 45, 93, 0.1);">
+                                                <i class="bi bi-clock me-2" style="color: #002D5D; font-size: 1.1rem;"></i> Voir les questions en attente
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -196,8 +243,8 @@
                 <!-- Questions en attente - centre-droit -->
                 <div class="col-md-4 d-flex">
                     <div class="card flex-grow-1" style="border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden; transition: all 0.3s ease; background: #FFFFFF;">
-                        <div class="card-header" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); border: none; color: white; font-weight: 600; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-                            <h5 class="mb-0 d-flex align-items-center">
+                        <div class="card-header" style="background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); border: none; color: white; font-weight: 600; box-shadow: 0 2px 6px rgba(0,0,0,0.1); height: 56px;">
+                            <h5 class="mb-0 d-flex align-items-center" style="height: 100%;">
                                 <i class="bi bi-clock me-2"></i> Questions en attente
                             </h5>
                         </div>
@@ -245,212 +292,6 @@
         </div>
     </div>
 </div>
-
-<style>
-    /* Charte graphique officielle et sympa */
-    :root {
-        --primary: #002D5D;
-        --primary-light: #0056B3;
-        --success: #28A745;
-        --light: #FFFBFB;
-        --border: #E9ECEF;
-        --text: #495057;
-    }
-    
-    .bg-primary {
-        background-color: var(--primary);
-    }
-    .text-primary {
-        color: var(--primary) !important;
-    }
-    .btn-primary {
-        background-color: var(--primary);
-        border-color: var(--primary);
-        transition: all 0.3s ease;
-    }
-    .btn-primary:hover {
-        background-color: var(--primary-light);
-        border-color: var(--primary-light);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 45, 93, 0.25);
-    }
-    .badge-2x {
-        font-size: 1rem !important;
-        padding: 0.35em 0.65em !important;
-        border-radius: 20px;
-    }
-    
-    /* Style des cards */
-    .card {
-        border: none;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        border-radius: 10px;
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
-    .card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    
-    /* En-têtes de card */
-    .card-header {
-        border: none;
-        font-weight: 600;
-    }
-    
-    /* Zone de recherche */
-    .input-group-text {
-        background: transparent !important;
-        border: none !important;
-    }
-    
-    /* Séparateurs entre les discussions */
-    .discussion-link {
-        border-bottom: 1px solid rgba(0, 45, 93, 0.1);
-        padding: 8px 12px;
-        margin: 4px 0;
-        transition: all 0.2s ease;
-        color: var(--text);
-    }
-    .discussion-link:hover {
-        background: rgba(0, 45, 93, 0.03);
-        padding-left: 16px;
-        color: var(--primary);
-    }
-    .discussion-link:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
-    }
-    
-    /* Alignement bas des sections dans Questions résolues */
-    .accordion-bottom {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-    }
-    
-    /* Accordéons avec style moderne */
-    .accordion-button {
-        background: transparent !important;
-        border: none !important;
-        color: var(--primary) !important;
-        font-weight: 500 !important;
-        padding: 12px 16px !important;
-        border-radius: 6px !important;
-        margin: 4px 8px !important;
-        transition: all 0.2s ease !important;
-        box-shadow: none !important;
-    }
-    .accordion-button:hover {
-        background: rgba(0, 45, 93, 0.05) !important;
-    }
-    .accordion-button:not(.collapsed) {
-        background: rgba(0, 45, 93, 0.08) !important;
-        color: var(--primary) !important;
-        box-shadow: none !important;
-    }
-    
-    /* Boutons outline */
-    .btn-outline-primary {
-        color: var(--primary);
-        border-color: var(--primary);
-        background: #FFFFFF;
-        transition: all 0.2s ease;
-    }
-    .btn-outline-primary:hover {
-        background: var(--primary);
-        color: white !important;
-        border-color: var(--primary);
-        transform: translateY(-2px);
-    }
-    
-    /* Bouton principal */
-    .btn-main {
-        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-        border: none;
-        border-radius: 10px;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0, 45, 93, 0.3);
-        font-weight: 700;
-    }
-    .btn-main:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0, 45, 93, 0.4);
-    }
-    
-    /* Bouton Je pose ma question */
-    .ask-question-btn:hover {
-        transform: translateY(-3px) scale(1.05);
-        box-shadow: 0 8px 25px rgba(153, 0, 0, 0.5);
-        background: linear-gradient(135deg, #A00000 0%, #C00000 100%) !important;
-    }
-    
-    /* Alertes stylisées */
-    .alert {
-        border: none;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    .alert-info {
-        background: #FFFFFF;
-        border-left: 4px solid var(--primary);
-    }
-    .alert-success {
-        background: rgba(40, 167, 69, 0.1);
-        border-left: 4px solid var(--success);
-    }
-    
-    /* Chat body */
-    .chat-body {
-        display: flex;
-        flex-direction: column;
-    }
-    
-    /* Style des liens */
-    .list-group-item-action:hover {
-        background: rgba(0, 45, 93, 0.05);
-        transition: all 0.2s ease;
-    }
-    
-    /* Badges */
-    .badge {
-        padding: 0.35em 0.65em;
-        border-radius: 20px;
-        font-weight: 500;
-    }
-    .badge-success {
-        background: var(--success);
-    }
-    
-    /* Responsive improvements */
-    @media (max-width: 767.98px) {
-        .page-header {
-            padding: 1rem !important;
-        }
-        .page-header h1 {
-            font-size: 1.5rem !important;
-        }
-        .page-header p {
-            font-size: 0.9rem !important;
-        }
-        .card-body {
-            padding: 1rem !important;
-        }
-        .card {
-            border-radius: 8px !important;
-        }
-        .btn {
-            font-size: 1rem !important;
-        }
-    }
-    
-    /* Page background */
-    body {
-        background: linear-gradient(135deg, #E6F2FF 0%, #FFFFFF 100%);
-    }
-</style>
 
 <!-- JavaScript pour gérer l'envoi de messages -->
 <script>

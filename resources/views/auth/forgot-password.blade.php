@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Mot de passe oublié - Bibliothèques Sonores')
+@section('title')
+Mot de passe oublié - Bibliothèques sonores de la région Centre - Val de Loire
+@endsection)
 
 @section('content')
 <div class="container-fluid py-4">

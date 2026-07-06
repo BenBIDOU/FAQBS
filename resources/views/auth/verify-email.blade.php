@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Vérifier email - Bibliothèques Sonores')
+@section('title')
+Vérifier email - Bibliothèques sonores de la région Centre - Val de Loire
+@endsection)
 
 @section('content')
 <div class="container-fluid py-4">

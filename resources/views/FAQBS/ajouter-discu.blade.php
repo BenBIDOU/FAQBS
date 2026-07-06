@@ -1,14 +1,29 @@
 @extends('layouts.app')
 
-@section('title', 'Ajouter une discussion')
+@section('title')
+Ajouter une discussion - Bibliothèques sonores de la région Centre - Val de Loire
+@endsection
 
 @section('content')
-<div class="py-4 container-fluid">
+<div class="container-fluid" style="background: linear-gradient(135deg, #fafafa 0%, #f0dfdf 100%); min-height: 100vh;">
+    <!-- Header moderne -->
+    <div class="page-header mb-4" style="background-color: #FFFFFF; border-bottom: 2px solid #002D5D; padding: 1.5rem 0; margin-bottom: 1.5rem !important;">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <img src="{{ asset('images/logo.png') }}" class="img-fluid" style="max-height: 120px; margin-left: 6px;">
+            </div>
+            <div class="col text-center">
+                <h1 class="mb-1" style="color: #002D5D; font-weight: 700; font-size: 2rem;">Ajouter une discussion</h1>
+                <p class="mb-0" style="color: #495057; font-size: 1.1rem;">Bibliothèques sonores de la région Centre - Val de Loire</p>
+            </div>
+        </div>
+    </div>
+
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="shadow card">
-                <div class="text-white card-header bg-bordeaux">
-                    <h4 class="mb-0 text-dark">Ajouter une nouvelle discussion</h4>
+            <div class="card" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div class="card-header" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); border: none; color: white; font-weight: 600; border-radius: 10px 10px 0 0; height: 56px;">
+                    <h4 class="mb-0" style="height: 100%;">Ajouter une nouvelle discussion</h4>
                 </div>
                 <div class="card-body">
                     <form id="discussionForm" method="POST" action="{{ route('discussions.store') }}" enctype="multipart/form-data">
@@ -17,139 +32,106 @@
                         <!-- Nom, Prénom, Fonction (pré-remplis) -->
                         <div class="row mb-3">
                             <div class="col-md-4">
-                                <label for="nom" class="form-label">Nom</label>
+                                <label for="nom" class="form-label" style="color: #002D5D; font-weight: 500;">Nom</label>
                                 <input type="text" class="form-control" id="nom" name="nom" 
-                                       value="{{ Auth::user()->name ?? '' }}" readonly>
+                                       value="{{ Auth::user()->name ?? '' }}" readonly
+                                       style="border-radius: 6px; border: 1px solid #E9ECEF; padding: 12px 16px; color: #495057; background: #f8f9fa;">
                             </div>
                             <div class="col-md-4">
-                                <label for="prenom" class="form-label">Prénom</label>
+                                <label for="prenom" class="form-label" style="color: #002D5D; font-weight: 500;">Prénom</label>
                                 <input type="text" class="form-control" id="prenom" name="prenom" 
-                                       value="{{ Auth::user()->prenom ?? Auth::user()->firstname ?? '' }}" readonly>
+                                       value="{{ Auth::user()->prenom ?? Auth::user()->firstname ?? '' }}" readonly
+                                       style="border-radius: 6px; border: 1px solid #E9ECEF; padding: 12px 16px; color: #495057; background: #f8f9fa;">
                             </div>
                             <div class="col-md-4">
-                                <label for="fonction" class="form-label">Fonction</label>
+                                <label for="fonction" class="form-label" style="color: #002D5D; font-weight: 500;">Fonction</label>
                                 <input type="text" class="form-control" id="fonction" name="fonction"
                                        @if(Auth::check())
                                            value="@if(Auth::user()->is_master) Master @elseif(Auth::user()->is_president) Président @elseif(Auth::user()->is_voice_donor) Donneur de Voix @else Membre @endif"
                                        @endif
-                                       readonly>
+                                       readonly
+                                       style="border-radius: 6px; border: 1px solid #E9ECEF; padding: 12px 16px; color: #495057; background: #f8f9fa;">
                             </div>
                         </div>
 
                         <!-- Titre de la discussion -->
                         <div class="mb-3">
-                            <label for="title" class="form-label">Titre de la discussion</label>
-                            <input type="text" class="form-control" id="title" name="title" value="{{ $title ?? $subject ?? '' }}" required>
+                            <label for="title" class="form-label" style="color: #002D5D; font-weight: 500;">Titre de la discussion</label>
+                            <input type="text" class="form-control" id="title" name="title" value="{{ $title ?? $subject ?? '' }}" required
+                                   style="border-radius: 6px; border: 1px solid #E9ECEF; padding: 12px 16px; color: #495057;">
                         </div>
 
                         <!-- Groupe (menu déroulant) -->
                         <div class="mb-3">
-                            <label for="group" class="form-label">Groupe</label>
-                            <select class="form-select" id="group" name="group" required>
+                            <label for="group" class="form-label" style="color: #002D5D; font-weight: 500;">Groupe</label>
+                            <select class="form-select" id="group" name="group" required
+                                    style="border-radius: 6px; border: 1px solid #E9ECEF; padding: 12px 16px; color: #495057;">
                                 <option value="" @if(!($group ?? '')) selected disabled @endif>Sélectionnez un groupe</option>
-                                <option value="Secrétariat" @if(($group ?? '') === 'Secrétariat') selected @endif>Secrétariat</option>
                                 <option value="Président" @if(($group ?? '') === 'Président') selected @endif>Président</option>
-                                <option value="Donneurs Temps" @if(($group ?? '') === 'Donneurs Temps') selected @endif>Donneurs Temps</option>
+                                <option value="Secrétariat" @if(($group ?? '') === 'Secrétariat') selected @endif>Secrétariat</option>
+                                <option value="Trésorerie" @if(($group ?? '') === 'Trésorerie') selected @endif>Trésorerie</option>
                                 <option value="Donneurs Voix" @if(($group ?? '') === 'Donneurs Voix') selected @endif>Donneurs Voix</option>
+                                <option value="Donneurs Temps" @if(($group ?? '') === 'Donneurs Temps') selected @endif>Donneurs Temps</option>
                             </select>
                         </div>
 
                         <!-- Hyperlien -->
                         <div class="mb-3">
-                            <label for="link" class="form-label">Lien associé (optionnel)</label>
+                            <label for="link" class="form-label" style="color: #002D5D; font-weight: 500;">Lien associé (optionnel)</label>
                             <div class="input-group">
-                                <span class="input-group-text">https://</span>
-                                <input type="text" class="form-control" id="link" name="link" placeholder="exemple.com/discussion">
+                                <span class="input-group-text" style="background: transparent; border: 1px solid #E9ECEF; border-radius: 6px 0 0 6px; color: #002D5D;">https://</span>
+                                <input type="text" class="form-control" id="link" name="link" placeholder="exemple.com/discussion"
+                                       style="border-radius: 0 6px 6px 0; border: 1px solid #E9ECEF; padding: 12px 16px; color: #495057;">
                             </div>
                         </div>
 
                         <!-- Zone de texte -->
                         <div class="mb-3">
-                            <label for="content" class="form-label">Contenu de la discussion</label>
-                            <textarea class="form-control" id="content" name="content" rows="5" required>{{ $content ?? '' }}</textarea>
+                            <label for="content" class="form-label" style="color: #002D5D; font-weight: 500;">Contenu de la discussion</label>
+                            <textarea class="form-control" id="content" name="content" rows="5" required
+                                      style="border-radius: 6px; border: 1px solid #E9ECEF; padding: 12px 16px; color: #495057;">{{ $content ?? '' }}</textarea>
                         </div>
 
                         <!-- Zone de glisser-déposer pour la photo -->
                         <div class="mb-3">
-                            <label for="image" class="form-label">Image (optionnelle)</label>
-                            <div class="drop-zone" id="dropZone">
-                                <div class="drop-zone-text">
-                                    <i class="mb-3 fas fa-cloud-upload-alt fa-3x"></i>
-                                    <p>Glissez-déposez une image ici ou cliquez pour sélectionner</p>
+                            <label for="image" class="form-label" style="color: #002D5D; font-weight: 500;">Image (optionnelle)</label>
+                            <div class="drop-zone" id="dropZone" style="border: 2px dashed #E9ECEF; border-radius: 8px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.3s; min-height: 150px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #FFFFFF; border-color: #E9ECEF;">
+                                <div class="drop-zone-text" style="color: #6c757d;">
+                                    <i class="mb-3 bi bi-cloud-upload fa-3x" style="font-size: 3rem; color: #990000;"></i>
+                                    <p style="color: #6c757d; font-weight: 500;">Glissez-déposez une image ici ou cliquez pour sélectionner</p>
                                     <input type="file" id="image" name="image" class="form-control d-none" accept="image/*">
                                 </div>
-                                <div id="imagePreview" class="d-none">
-                                    <img id="previewImage" class="rounded img-fluid" style="max-height: 200px;">
-                                    <button type="button" class="mt-2 btn btn-sm btn-danger" id="removeImage">Retirer</button>
+                                <div id="imagePreview" class="d-none" style="text-align: center;">
+                                    <img id="previewImage" class="rounded img-fluid" style="max-height: 200px; border-radius: 8px;">
+                                    <button type="button" class="mt-2 btn" id="removeImage" style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); color: white; border: none; border-radius: 6px; padding: 8px 16px; transition: all 0.3s ease;">
+                                        Retirer
+                                    </button>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Bouton de soumission -->
                         <div class="gap-2 d-grid d-md-flex justify-content-md-end">
-                            <button type="reset" class="btn btn-outline-secondary me-md-2">Réinitialiser</button>
-                            <button type="submit" class="text-white btn btn-bordeaux">Publier la discussion</button>
+                            <button type="reset" class="btn btn-outline-secondary me-md-2" style="color: #6c757d; border-color: #6c757d; border-radius: 8px; padding: 12px 24px; transition: all 0.3s ease;">
+                                Réinitialiser
+                            </button>
+                            <button type="submit" class="btn text-white" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); border: none; border-radius: 8px; padding: 12px 24px; transition: all 0.3s ease; font-weight: 600;">
+                                Publier la discussion
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
 
-    <!-- Lien pour retourner à Agora -->
-    <div class="my-4">
-        <a href="/agora" class="btn btn-bordeaux text-white">
-            <i class="bi bi-arrow-left me-2"></i> Retour à Agora
-        </a>
-    </div>
+            <!-- Lien pour retourner à Agora -->
+            <div class="my-4 text-center">
+                <a href="/agora" class="btn text-white" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); border: none; border-radius: 8px; padding: 12px 24px; transition: all 0.3s ease; font-weight: 600;">
+                    <i class="bi bi-arrow-left me-2"></i> Retour à Agora
+                </a>
+            </div>
         </div>
     </div>
-
 </div>
-
-<!-- CSS pour la zone de glisser-déposer -->
-<style>
-    .drop-zone {
-        border: 2px dashed #ccc;
-        border-radius: 5px;
-        padding: 20px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.3s;
-        min-height: 150px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .drop-zone:hover {
-        border-color: #6D071A;
-        background-color: #f8f9fa;
-    }
-
-    .drop-zone-text {
-        color: #666;
-    }
-
-    .drop-zone.highlight {
-        border-color: #6D071A;
-        background-color: #f8f9fa;
-    }
-
-    #imagePreview img {
-        max-width: 100%;
-        max-height: 200px;
-        display: block;
-        margin: 0 auto;
-    }
-
-    .btn-bordeaux {
-        background-color: #6D071A;
-    }
-
-    .btn-bordeaux:hover {
-        background-color: #5a0515;
-    }
-</style>
 
 <!-- JavaScript pour la zone de glisser-déposer et la prévisualisation -->
 <script>
@@ -165,16 +147,19 @@
 
         dropZone.addEventListener('dragover', (e) => {
             e.preventDefault();
-            dropZone.classList.add('highlight');
+            dropZone.style.borderColor = '#990000';
+            dropZone.style.backgroundColor = 'rgba(153, 0, 0, 0.05)';
         });
 
         dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('highlight');
+            dropZone.style.borderColor = '#E9ECEF';
+            dropZone.style.backgroundColor = '#FFFFFF';
         });
 
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault();
-            dropZone.classList.remove('highlight');
+            dropZone.style.borderColor = '#E9ECEF';
+            dropZone.style.backgroundColor = '#FFFFFF';
             if (e.dataTransfer.files.length) {
                 fileInput.files = e.dataTransfer.files;
                 updatePreview();
@@ -186,6 +171,8 @@
         removeImageBtn.addEventListener('click', () => {
             fileInput.value = '';
             imagePreview.classList.add('d-none');
+            dropZone.style.borderColor = '#E9ECEF';
+            dropZone.style.backgroundColor = '#FFFFFF';
         });
 
         function updatePreview() {
@@ -201,5 +188,4 @@
         }
     });
 </script>
-
 @endsection

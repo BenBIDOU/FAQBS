@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Inscription - Bibliothèque Sonnore de Blois')
+@section('title')
+Inscription - Bibliothèque Sonnore de Blois
+@endsection)
 
 @section('content')
 <div class="container-fluid">

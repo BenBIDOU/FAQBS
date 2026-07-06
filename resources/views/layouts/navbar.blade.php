@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Auth;
 <nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(to right, #2c3e50, #1a1a1a);">
     <a class="navbar-brand d-flex align-items-center ps-4" href="@auth /agora @else / @endauth">
         <img src="{{ asset('images/logo.png') }}" alt="Logo" width="30" height="30" class="d-inline-block me-2">
-        Bibliothèques sonores du Centre val de Loire
+        Bibliothèques sonores de la région Centre - Val de Loire
     </a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">

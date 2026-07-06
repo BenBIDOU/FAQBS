@@ -1,18 +1,35 @@
 @extends('layouts.app')
 
-@section('title', $discussion->title . ' - Bibliothèques Sonores')
+@section('title')
+{{ $discussion->title . ' - Bibliothèques sonores de la région Centre - Val de Loire' }}
+@endsection
 
 @section('content')
-<div class="py-4 container-fluid">
+<div class="container-fluid" style="background: linear-gradient(135deg, #fafafa 0%, #f0dfdf 100%); min-height: 100vh;">
+    <!-- Header moderne -->
+    <div class="page-header mb-4" style="background-color: #FFFFFF; border-bottom: 2px solid #002D5D; padding: 1.5rem 0; margin-bottom: 1.5rem !important;">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <img src="{{ asset('images/logo.png') }}" class="img-fluid" style="max-height: 120px; margin-left: 6px;">
+            </div>
+            <div class="col text-center">
+                <h1 class="mb-1" style="color: #002D5D; font-weight: 700; font-size: 2rem;">{{ Str::limit($discussion->title, 50) }}</h1>
+                <p class="mb-0" style="color: #495057; font-size: 1.1rem;">Bibliothèques sonores de la région Centre - Val de Loire</p>
+            </div>
+        </div>
+    </div>
+
     <div class="row justify-content-center">
         <!-- Colonne principale - Contenu et chat -->
         <div class="col-lg-10">
-            <div class="shadow card">
-                <div class="text-white card-header bg-bordeaux d-flex justify-content-between align-items-center">
-                    <h4 class="mb-0">{{ $discussion->title }}</h4>
-                    <span class="badge bg-light text-dark">{{ $discussion->group }}</span>
+            <div class="card" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div class="card-header" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); border: none; color: white; font-weight: 600; border-radius: 10px 10px 0 0; height: 56px;">
+                    <h5 class="mb-0 d-flex align-items-center" style="height: 100%;">
+                        <i class="bi bi-chat-left-text me-2"></i> {{ $discussion->title }}
+                        <span class="badge bg-light text-dark ms-3">{{ $discussion->group }}</span>
+                    </h5>
                 </div>
-                <div class="card-header bg-light">
+                <div class="card-header" style="background: #FFFFFF; border-bottom: 1px solid #E9ECEF;">
                     <div class="d-flex align-items-center">
                         @if($discussion->user)
                             <img src="{{ asset('images/vous.png') }}" class="rounded-circle me-2" alt="Auteur" width="24" height="24">
@@ -41,19 +58,19 @@
 
                     <!-- Contenu de la discussion -->
                     <div class="mb-4">
-                        <h5>Contenu :</h5>
-                        <div class="p-3 bg-light rounded">
-                            <p class="mb-0">{{ $discussion->content }}</p>
+                        <h5 style="color: #002D5D;">Contenu :</h5>
+                        <div class="p-3 bg-light rounded" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 8px;">
+                            <p class="mb-0" style="color: #495057;">{{ $discussion->content }}</p>
                         </div>
                     </div>
 
                     <!-- Lien associé -->
                     @if($discussion->link)
                         <div class="mb-4">
-                            <h5>Lien associé :</h5>
+                            <h5 style="color: #002D5D;">Lien associé :</h5>
                             <a href="https://{{ $discussion->link }}" 
                                target="_blank" 
-                               class="btn btn-outline-primary">
+                               class="btn btn-main" style="border-radius: 8px;">
                                 <i class="bi bi-link-45deg me-2"></i> Ouvrir le lien
                             </a>
                         </div>
@@ -70,9 +87,9 @@
             </div>
 
             <!-- Zone de chat -->
-            <div class="mt-4 card shadow">
-                <div class="card-header bg-light">
-                    <h5 class="mb-0 d-flex align-items-center">
+            <div class="mt-4 card" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div class="card-header" style="background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); border: none; color: white; font-weight: 600; border-radius: 10px 10px 0 0; height: 56px;">
+                    <h5 class="mb-0 d-flex align-items-center" style="height: 100%;">
                         <i class="bi bi-chat-left-text me-2"></i>
                         Discussion en direct
                     </h5>
@@ -80,8 +97,8 @@
                 <div class="card-body">
                     <div class="chat-body p-3" style="max-height: 300px; overflow-y: auto; background-color: #f8f9fa; border-radius: 5px;" data-chat-storage-key="discussion-{{ $discussion->id }}-chat"></div>
                     <div class="mt-3 d-flex gap-2">
-                        <input type="text" class="form-control" id="chatInput" placeholder="Écrivez un message...">
-                        <button class="btn btn-bordeaux text-white" id="chatSend">
+                        <input type="text" class="form-control" id="chatInput" placeholder="Écrivez un message..." style="border: 1px solid #E9ECEF; border-radius: 8px;">
+                        <button class="btn btn-main text-white" id="chatSend" style="border-radius: 8px;">
                             <i class="bi bi-send me-1"></i> Envoyer
                         </button>
                     </div>
@@ -90,26 +107,26 @@
 
             <!-- Boutons d'action -->
             <div class="mt-4 d-flex gap-3">
-                <a href="/agora" class="btn btn-bordeaux text-white">
-                    <i class="bi bi-arrow-left me-2"></i> Retour à Agora
+                <a href="/agora" class="btn btn-lg text-white px-4 py-3 shadow-lg" style="font-size: 1.1rem; font-weight: 700; border: none; border-radius: 10px; background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); box-shadow: 0 4px 15px rgba(0, 45, 93, 0.3); transition: all 0.3s ease;">
+                    <i class="bi bi-arrow-left me-2"></i> Retour à l'Agora
                 </a>
             </div>
         </div>
 
         <!-- Colonne droite - Partage de documents -->
         <div class="col-lg-2">
-            <div class="shadow card h-100">
-                <div class="card-header bg-light">
-                    <h5 class="mb-0 d-flex align-items-center">
+            <div class="card h-100" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div class="card-header" style="background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); border: none; color: white; font-weight: 600; border-radius: 10px 10px 0 0; height: 56px;">
+                    <h5 class="mb-0 d-flex align-items-center" style="height: 100%;">
                         <i class="bi bi-file-earmark-text me-2"></i>
                         Documents partagés
                     </h5>
                 </div>
                 <div class="card-body">
                     <!-- Zone de dépôt de fichiers -->
-                    <div class="text-center mb-3 p-4 border-2 border-dashed border-secondary rounded" id="documentDropZone" style="cursor: pointer;">
-                        <i class="bi bi-cloud-arrow-up text-primary" style="font-size: 2rem;"></i>
-                        <p class="mt-2 mb-0 text-muted">
+                    <div class="text-center mb-3 p-4 border-2 border-dashed border-secondary rounded" id="documentDropZone" style="cursor: pointer; border-color: #002D5D !important; background-color: rgba(0, 45, 93, 0.05); border-radius: 8px;">
+                        <i class="bi bi-cloud-arrow-up" style="font-size: 2rem; color: #002D5D;"></i>
+                        <p class="mt-2 mb-0" style="color: #495057;">
                             Glissez-déposez un document ici ou cliquez pour sélectionner
                         </p>
                         <input type="file" id="documentInput" class="d-none" accept=".pdf,.doc,.docx,.txt,.xls,.xlsx,.ppt,.pptx" multiple>
@@ -118,8 +135,8 @@
                     <!-- Liste des documents -->
                     <div id="documentsList" class="max-vh-50" style="max-height: 300px; overflow-y: auto;">
                         <div class="text-center text-muted py-4" id="noDocuments">
-                            <i class="bi bi-inbox" style="font-size: 2rem;"></i>
-                            <p class="mt-2 mb-0">Aucun document partagé</p>
+                            <i class="bi bi-inbox" style="font-size: 2rem; color: #6c757d;"></i>
+                            <p class="mt-2 mb-0" style="color: #6c757d;">Aucun document partagé</p>
                         </div>
                     </div>
                 </div>
@@ -129,17 +146,6 @@
 </div>
 
 <style>
-    .bg-bordeaux {
-        background-color: #6D071A;
-    }
-    .btn-bordeaux {
-        background-color: #6D071A;
-        border-color: #6D071A;
-    }
-    .btn-bordeaux:hover {
-        background-color: #5a0515;
-        border-color: #5a0515;
-    }
     .chat-body {
         display: flex;
         flex-direction: column;
@@ -167,11 +173,11 @@
         background-color: #f8f9fa;
     }
     #documentDropZone:hover {
-        border-color: #6D071A;
+        border-color: #002D5D;
         background-color: #f0f1f2;
     }
     #documentDropZone.highlight {
-        border-color: #6D071A;
+        border-color: #002D5D;
         background-color: #f0f1f2;
     }
     
@@ -203,12 +209,12 @@
         border-radius: 5px;
         margin-bottom: 10px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        border-left: 3px solid #6D071A;
+        border-left: 3px solid #002D5D;
     }
     .document-item .document-icon {
         font-size: 1.5rem;
         margin-right: 12px;
-        color: #6D071A;
+        color: #002D5D;
     }
     .document-item .document-info {
         flex: 1;
@@ -219,6 +225,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        color: #495057;
     }
     .document-item .document-size {
         font-size: 0.85rem;
@@ -233,7 +240,7 @@
         font-size: 1.1rem;
     }
     .document-item .document-actions a:hover {
-        color: #6D071A;
+        color: #002D5D;
     }
     .document-item .btn-download {
         padding: 4px 8px;
@@ -298,7 +305,7 @@
                 messageDiv.className = 'mb-2 d-flex justify-content-end';
                 messageDiv.innerHTML = `
                     <div class="flex-grow-1 me-2 text-end">
-                        <div class="p-2 text-white bg-primary rounded-3">
+                        <div class="p-2 text-white bg-primary rounded-3" style="background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); border-radius: 8px;">
                             <small class="text-white-50">${userName} (${userRole})</small>
                             <p class="mb-0">${message}</p>
                         </div>
@@ -315,7 +322,7 @@
                         <img src="{{ asset('images/vous.png') }}" class="rounded-circle" alt="${userName}" width="30" height="30">
                     </div>
                     <div class="flex-grow-1 ms-2">
-                        <div class="p-2 bg-light rounded-3">
+                        <div class="p-2 bg-light rounded-3" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 8px;">
                             <small class="text-muted">${userName} (${userRole})</small>
                             <p class="mb-0">${message}</p>
                         </div>
@@ -339,8 +346,8 @@
                     <img src="{{ asset('images/logo.png') }}" class="rounded-circle" alt="BSB" width="30" height="30">
                 </div>
                 <div class="flex-grow-1 ms-2">
-                    <div class="p-2 bg-light rounded-3">
-                        <small class="text-muted">Bibliothèques Sonores (Administrateur)</small>
+                    <div class="p-2 bg-light rounded-3" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 8px;">
+                        <small class="text-muted">Bibliothèques sonores de la région Centre - Val de Loire (Administrateur)</small>
                         <p class="mb-0">${message}</p>
                     </div>
                 </div>
@@ -372,7 +379,7 @@
                 return 'Vous pouvez consulter notre FAQ ou nous envoyer votre demande précise.';
             }
 
-            return 'Nous vous répondrons dès qu’un membre de l’association sera présent.';
+            return 'Nous vous répondrons dès qu’un membre des Bibliothèques sonores de la région Centre - Val de Loire sera présent.';
         }
 
         function saveMessages() {
