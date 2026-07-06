@@ -61,13 +61,6 @@ Modifier une question - Bibliothèques sonores de la région Centre - Val de Loi
                         </div>
 
                         <div class="mb-3">
-                            <label for="subject" class="form-label" style="color: #002D5D; font-weight: 500;">Sujet *</label>
-                            <input type="text" class="form-control" id="subject" name="subject" 
-                                   value="{{ old('subject', $question->subject) }}" required
-                                   style="border: 1px solid #E9ECEF; border-radius: 8px; padding: 0.75rem;">
-                        </div>
-
-                        <div class="mb-3">
                             <label for="message" class="form-label" style="color: #002D5D; font-weight: 500;">Message *</label>
                             <textarea class="form-control" id="message" name="message" rows="5" required
                                       style="border: 1px solid #E9ECEF; border-radius: 8px; padding: 0.75rem;">{{ old('message', $question->message) }}</textarea>

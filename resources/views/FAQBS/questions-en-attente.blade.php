@@ -76,7 +76,6 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                         <th style="padding: 12px; white-space: nowrap;">Date</th>
                                         <th style="padding: 12px; white-space: nowrap;">Nom</th>
                                         <th style="padding: 12px; white-space: nowrap;">Email</th>
-                                        <th style="padding: 12px; white-space: nowrap;">Objet</th>
                                         <th style="padding: 12px;">Message</th>
                                         <th style="padding: 12px; white-space: nowrap;">Actions</th>
                                     </tr>
@@ -87,7 +86,6 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                             <td style="padding: 12px; color: #495057;">{{ $question->created_at->format('d/m/Y H:i') }}</td>
                                             <td style="padding: 12px; color: #495057;">{{ $question->name }}</td>
                                             <td style="padding: 12px; color: #495057;">{{ $question->email }}</td>
-                                            <td style="padding: 12px; color: #495057;">{{ $question->subject }}</td>
                                             <td style="padding: 12px; color: #495057;">{{ Str::limit($question->message, 50) }}</td>
                                             <td style="padding: 12px;">
                                                 <a href="{{ route('questions-details', ['question' => $question->id]) }}" class="btn btn-sm btn-main" style="font-size: 0.85rem; padding: 6px 12px; border-radius: 6px;">
@@ -133,7 +131,6 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                             <th style="padding: 12px; white-space: nowrap;">Date</th>
                                             <th style="padding: 12px; white-space: nowrap;">Nom</th>
                                             <th style="padding: 12px; white-space: nowrap;">Email</th>
-                                            <th style="padding: 12px; white-space: nowrap;">Objet</th>
                                             <th style="padding: 12px;">Message</th>
                                             <th style="padding: 12px; white-space: nowrap;">Résolue par</th>
                                             <th style="padding: 12px; white-space: nowrap;">Actions</th>
@@ -145,7 +142,6 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                                 <td style="padding: 12px; color: #495057;">{{ $question->created_at->format('d/m/Y H:i') }}</td>
                                                 <td style="padding: 12px; color: #495057;">{{ $question->name }}</td>
                                                 <td style="padding: 12px; color: #495057;">{{ $question->email }}</td>
-                                                <td style="padding: 12px; color: #495057;">{{ $question->subject }}</td>
                                                 <td style="padding: 12px; color: #495057;">{{ Str::limit($question->message, 50) }}</td>
                                                 <td style="padding: 12px; color: #495057;">
                                                     @if($question->resolver)
@@ -158,33 +154,14 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                                     @endif
                                                 </td>
                                                 <td style="padding: 12px;">
-                                                    @php
-                                                        // Chercher une discussion avec un titre correspondant au sujet de la question (comparaison flexible)
-                                                        $matchingDiscussion = null;
-                                                        $questionSubject = trim(strtolower($question->subject));
-                                                        foreach($discussions as $discussion) {
-                                                            $discussionTitle = trim(strtolower($discussion->title));
-                                                            // Vérifier si le titre contient le sujet ou vice versa
-                                                            if (str_contains($discussionTitle, $questionSubject) || str_contains($questionSubject, $discussionTitle)) {
-                                                                $matchingDiscussion = $discussion;
-                                                                break;
-                                                            }
-                                                        }
-                                                    @endphp
                                                     @if($question->answered_by)
                                                         <span class="text-muted small">Réponse directe</span>
-                                                    @elseif($matchingDiscussion)
-                                                        <a href="{{ route('discussions.show', $matchingDiscussion->id) }}" 
+                                                    @else
+                                                        <a href="/agora" 
                                                            class="btn btn-sm btn-outline-success" 
                                                            target="_blank" style="font-size: 0.8rem; padding: 4px 8px; border-radius: 6px;">
                                                             <i class="bi bi-eye me-1"></i> Voir le forum
                                                         </a>
-                                                    @else
-                                                        <button class="btn btn-sm btn-outline-secondary" 
-                                                                onclick="alert('Aucun forum correspondant trouvé pour : {{ addslashes($question->subject) }}');"
-                                                                title="Aucun forum trouvé" style="font-size: 0.8rem; padding: 4px 8px; border-radius: 6px;">
-                                                            <i class="bi bi-eye me-1"></i> Voir le forum
-                                                        </button>
                                                     @endif
                                                 </td>
                                             </tr>

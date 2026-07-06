@@ -60,12 +60,6 @@ Détails de la question - Bibliothèques sonores de la région Centre - Val de L
                         <p class="mb-0" style="color: #495057;">{{ $question->created_at->format('d/m/Y H:i') }}</p>
                     </div>
 
-                    <!-- Objet -->
-                    <div class="mb-4">
-                        <label class="form-label fw-bold" style="color: #002D5D;"><i class="bi bi-chat-square-text me-2"></i>Objet :</label>
-                        <p class="mb-0" style="color: #495057;">{{ $question->subject }}</p>
-                    </div>
-
                     <!-- Message -->
                     <div class="mb-4">
                         <label class="form-label fw-bold" style="color: #002D5D;"><i class="bi bi-file-text me-2"></i>Message :</label>
@@ -115,7 +109,7 @@ Détails de la question - Bibliothèques sonores de la région Centre - Val de L
                 <a href="{{ route('questions.reply', ['question' => $question->id]) }}" class="btn btn-lg text-white px-4 py-3 shadow-lg w-50" style="font-size: 1.1rem; font-weight: 700; border: none; border-radius: 10px; background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); box-shadow: 0 4px 15px rgba(0, 45, 93, 0.3); transition: all 0.3s ease;">
                     <i class="bi bi-reply me-1"></i> Répondre
                 </a>
-                <a href="{{ route('discussion.create', ['subject' => $question->subject, 'group' => $question->team, 'content' => $question->message]) }}" class="btn btn-lg text-white px-4 py-3 shadow-lg w-50" style="font-size: 1.1rem; font-weight: 700; border: none; border-radius: 10px; background: linear-gradient(135deg, #28A745 0%, #20C997 100%); box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3); transition: all 0.3s ease;">
+                <a href="{{ route('discussion.create', ['group' => $question->team, 'content' => $question->message]) }}" class="btn btn-lg text-white px-4 py-3 shadow-lg w-50" style="font-size: 1.1rem; font-weight: 700; border: none; border-radius: 10px; background: linear-gradient(135deg, #28A745 0%, #20C997 100%); box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3); transition: all 0.3s ease;">
                     <i class="bi bi-chat-square-text me-1"></i> Ouvrir la discussion
                 </a>
             </div>

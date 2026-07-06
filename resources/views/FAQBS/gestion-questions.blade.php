@@ -68,7 +68,6 @@ Gestion des questions - Bibliothèques sonores de la région Centre - Val de Loi
                                         <th style="padding: 12px; white-space: nowrap;">Nom</th>
                                         <th style="padding: 12px; white-space: nowrap;">Email</th>
                                         <th style="padding: 12px; white-space: nowrap;">Équipe</th>
-                                        <th style="padding: 12px; white-space: nowrap;">Sujet</th>
                                         <th style="padding: 12px; white-space: nowrap;">Date</th>
                                         <th style="padding: 12px; white-space: nowrap;">Statut</th>
                                         <th style="padding: 12px; white-space: nowrap;">Actions</th>
@@ -85,12 +84,6 @@ Gestion des questions - Bibliothèques sonores de la région Centre - Val de Loi
                                                 <span class="badge bg-secondary" style="color: white;">
                                                     {{ $question->team }}
                                                 </span>
-                                            </td>
-                                            <td style="padding: 12px; color: #495057;">
-                                                {{ Str::limit($question->subject, 50) }}
-                                                @if(strlen($question->subject) > 50)
-                                                    <span class="text-muted">...</span>
-                                                @endif
                                             </td>
                                             <td style="padding: 12px; color: #495057;">
                                                 {{ $question->created_at->setTimezone('Europe/Paris')->format('d/m/Y H:i') }}

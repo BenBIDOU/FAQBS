@@ -37,7 +37,6 @@ Répondre à la question - Bibliothèques sonores de la région Centre - Val de 
                             <p style="color: #495057;"><strong>Équipe :</strong> {{ $question->team }}</p>
                         </div>
                     </div>
-                    <p style="color: #495057;"><strong>Objet :</strong> {{ $question->subject }}</p>
                     <div class="bg-light p-3 rounded-3" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 8px;">
                         <p class="mb-0" style="color: #495057;">{{ $question->message }}</p>
                     </div>
@@ -66,7 +65,7 @@ Répondre à la question - Bibliothèques sonores de la région Centre - Val de 
                         </div>
 
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
-                            <a href="{{ route('discussion.create', ['subject' => $question->subject]) }}" 
+                            <a href="{{ route('discussion.create') }}" 
                                class="btn btn-main" 
                                target="_blank" style="border-radius: 8px;">
                                 <i class="bi bi-chat-square-text me-1"></i> Créer une discussion

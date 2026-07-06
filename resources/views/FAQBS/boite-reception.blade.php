@@ -61,7 +61,6 @@ Boîte de réception - Bibliothèques sonores de la région Centre - Val de Loir
                                 <thead style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); color: white;">
                                     <tr>
                                         <th style="padding: 12px; white-space: nowrap;">Expéditeur</th>
-                                        <th style="padding: 12px; white-space: nowrap;">Sujet</th>
                                         <th style="padding: 12px; white-space: nowrap;">Date</th>
                                         <th style="padding: 12px; white-space: nowrap;">Statut</th>
                                         <th style="padding: 12px; white-space: nowrap;">Actions</th>
@@ -73,7 +72,6 @@ Boîte de réception - Bibliothèques sonores de la région Centre - Val de Loir
                                             <td style="padding: 12px; color: #495057;">
                                                 <strong>{{ $message->sender->name ?? 'Inconnu' }}</strong>
                                             </td>
-                                            <td style="padding: 12px; color: #495057;">{{ $message->subject }}</td>
                                             <td style="padding: 12px; color: #495057;">{{ $message->created_at->format('d/m/Y H:i') }}</td>
                                             <td style="padding: 12px;">
                                                 @if($message->is_read)

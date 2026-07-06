@@ -24,8 +24,7 @@ Message - Bibliothèques sonores de la région Centre - Val de Loire
             <div class="card" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
                 <div class="card-header" style="background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); border: none; color: white; font-weight: 600; border-radius: 10px 10px 0 0; height: 56px;">
                     <h4 class="mb-0 d-flex align-items-center" style="height: 100%;">
-                        <i class="bi bi-envelope-open me-2"></i>
-                        {{ $message->subject }}
+                        <i class="bi bi-envelope-open me-2"></i> Message
                     </h4>
                 </div>
                 <div class="card-body">

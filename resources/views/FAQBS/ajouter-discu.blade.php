@@ -57,7 +57,7 @@ Ajouter une discussion - Bibliothèques sonores de la région Centre - Val de Lo
                         <!-- Titre de la discussion -->
                         <div class="mb-3">
                             <label for="title" class="form-label" style="color: #002D5D; font-weight: 500;">Titre de la discussion</label>
-                            <input type="text" class="form-control" id="title" name="title" value="{{ $title ?? $subject ?? '' }}" required
+                            <input type="text" class="form-control" id="title" name="title" value="{{ $title ?? '' }}" required
                                    style="border-radius: 6px; border: 1px solid #E9ECEF; padding: 12px 16px; color: #495057;">
                         </div>
 
