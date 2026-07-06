@@ -21,7 +21,6 @@ Route::middleware(['auth.home', 'voice_donor_restrict'])->group(function () {
     // Routes accessibles à tous les utilisateurs connectés
     Route::get('/discussion/ajouter', [DiscussionController::class, 'create'])->name('discussion.create');
     Route::post('/discussions', [DiscussionController::class, 'store'])->name('discussions.store');
-    Route::get('/actualite/ajouter', function () { return view('FAQBS/ajouter-actualite'); })->name('actualite.create');
 });
 
 // ===== Route statique avant la route paramétrée =====
