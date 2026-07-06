@@ -5,16 +5,16 @@ Gestion des questions - Bibliothèques sonores de la région Centre - Val de Loi
 @endsection
 
 @section('content')
-<div class="container-fluid" style="background: linear-gradient(135deg, #fafafa 0%, #f0dfdf 100%); min-height: 100vh;">
+<div class="container-fluid" style="background: #1a1a1a; min-height: 100vh;">
     <!-- Header moderne -->
-    <div class="page-header mb-4" style="background-color: #FFFFFF; border-bottom: 2px solid #002D5D; padding: 1.5rem 0; margin-bottom: 1.5rem !important;">
+    <div class="page-header mb-4" style="background-color: #2c3e50; border-bottom: 2px solid #005678; padding: 1.5rem 0; margin-bottom: 1.5rem !important;">
         <div class="row align-items-center">
             <div class="col-auto">
                 <img src="{{ asset('images/logo.png') }}" class="img-fluid" style="max-height: 120px; margin-left: 6px;">
             </div>
             <div class="col text-center">
-                <h1 class="mb-1" style="color: #002D5D; font-weight: 700; font-size: 2rem;">Gestion des questions</h1>
-                <p class="mb-0" style="color: #495057; font-size: 1.1rem;">Bibliothèques sonores de la région Centre - Val de Loire</p>
+                <h1 class="mb-1" style="color: #ffffff; font-weight: 700; font-size: 2rem;">Gestion des questions</h1>
+                <p class="mb-0" style="color: #e0e0e0; font-size: 1.1rem;">Bibliothèques sonores de la région Centre - Val de Loire</p>
             </div>
         </div>
     </div>
@@ -23,15 +23,19 @@ Gestion des questions - Bibliothèques sonores de la région Centre - Val de Loi
     <div class="row justify-content-center mb-4">
         <div class="col-lg-10">
             @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show mb-3" role="alert" style="background: rgba(40, 167, 69, 0.1); border-left: 4px solid #28A745; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); color: #28A745;">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div class="alert mb-4" style="background: rgba(40, 167, 69, 0.2); border-left: 4px solid #28A745; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); padding: 12px 16px;">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-check-circle me-2" style="color: #28A745; font-size: 1.2rem;"></i>
+                        <span style="color: #c3e6cb; font-weight: 500;">{{ session('success') }}</span>
+                    </div>
                 </div>
             @endif
             @if(session('error'))
-                <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert" style="background: rgba(220, 53, 69, 0.1); border-left: 4px solid #DC3545; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); color: #DC3545;">
-                    {{ session('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div class="alert mb-4" style="background: rgba(220, 53, 69, 0.2); border-left: 4px solid #dc3545; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); padding: 12px 16px;">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-exclamation-circle me-2" style="color: #dc3545; font-size: 1.2rem;"></i>
+                        <span style="color: #f5c6cb; font-weight: 500;">{{ session('error') }}</span>
+                    </div>
                 </div>
             @endif
         </div>
@@ -40,79 +44,79 @@ Gestion des questions - Bibliothèques sonores de la région Centre - Val de Loi
     <!-- Carte principale -->
     <div class="row justify-content-center">
         <div class="col-lg-10">
-            <div class="card" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                <div class="card-header" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); border: none; color: white; font-weight: 600; border-radius: 10px 10px 0 0; height: 56px;">
+            <div class="card" style="background: #2d2d2d; border: 1px solid #495057; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+                <div class="card-header" style="background: linear-gradient(135deg, #495057 0%, #6c757d 100%); border: none; color: white; font-weight: 600; border-radius: 10px 10px 0 0; height: 56px;">
                     <h5 class="mb-0 d-flex align-items-center" style="height: 100%;">
                         <i class="bi bi-question-circle me-2"></i> Gestion des questions
                     </h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="color: #e0e0e0;">
                     <div class="mb-4 d-flex justify-content-between align-items-center">
-                        <p class="mb-0" style="color: #495057;">Liste de toutes les questions posées</p>
-                        <a href="/agora" class="btn btn-outline-primary text-primary" style="border: 1px solid #002D5D; color: #002D5D !important; border-radius: 8px; transition: all 0.2s ease;">
+                        <p class="mb-0" style="color: #adadad;">Liste de toutes les questions posées</p>
+                        <a href="/agora" class="btn btn-outline-light text-light" style="border: 1px solid #6c757d;">
                             <i class="bi bi-arrow-left me-1"></i> Retour
                         </a>
                     </div>
 
                     @if($questions->isEmpty())
                         <div class="text-center py-5">
-                            <i class="bi bi-inbox text-muted" style="font-size: 4rem;"></i>
-                            <h5 class="text-muted mt-3">Aucune question trouvée</h5>
-                            <p class="text-muted">Aucune question n'a été posée pour le moment.</p>
+                            <i class="bi bi-inbox" style="font-size: 4rem; color: #6c757d !important; opacity: 0.7;"></i>
+                            <h5 class="mt-3" style="color: #adadad !important;">Aucune question trouvée</h5>
+                            <p class="text-muted" style="color: #8a8a8a !important;">Aucune question n'a été posée pour le moment.</p>
                         </div>
                     @else
                         <div class="table-responsive">
-                            <table class="table table-hover" style="border-collapse: separate; border-spacing: 0;">
-                                <thead style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); color: white;">
+                            <table class="table table-hover" style="border-collapse: separate; border-spacing: 0; color: #e0e0e0;">
+                                <thead style="background: #343a40; color: #e0e0e0; border-radius: 8px 8px 0 0; overflow: hidden;">
                                     <tr>
-                                        <th style="padding: 12px; white-space: nowrap;">Nom</th>
-                                        <th style="padding: 12px; white-space: nowrap;">Email</th>
-                                        <th style="padding: 12px; white-space: nowrap;">Équipe</th>
-                                        <th style="padding: 12px; white-space: nowrap;">Date</th>
-                                        <th style="padding: 12px; white-space: nowrap;">Statut</th>
-                                        <th style="padding: 12px; white-space: nowrap;">Actions</th>
+                                        <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #ffffff; font-weight: 600; white-space: nowrap;">Nom</th>
+                                        <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #ffffff; font-weight: 600; white-space: nowrap;">Email</th>
+                                        <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #ffffff; font-weight: 600; white-space: nowrap;">Équipe</th>
+                                        <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #ffffff; font-weight: 600; white-space: nowrap;">Date</th>
+                                        <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #ffffff; font-weight: 600; white-space: nowrap;">Statut</th>
+                                        <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #ffffff; font-weight: 600; white-space: nowrap;">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($questions as $question)
-                                        <tr style="border-bottom: 1px solid #E9ECEF; transition: all 0.2s ease;">
-                                            <td style="padding: 12px; color: #495057;">
+                                        <tr style="background: #2d2d2d; border: 1px solid #495057; border-radius: 8px; margin-bottom: 8px;">
+                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #e0e0e0;">
                                                 <strong>{{ $question->name }}</strong>
                                             </td>
-                                            <td style="padding: 12px; color: #495057;">{{ $question->email }}</td>
-                                            <td style="padding: 12px;">
-                                                <span class="badge bg-secondary" style="color: white;">
+                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #e0e0e0;">{{ $question->email }}</td>
+                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057;">
+                                                <span class="badge" style="background: rgba(108, 117, 125, 0.3); color: #adb5bd; border: 1px solid #6c757d; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 500;">
                                                     {{ $question->team }}
                                                 </span>
                                             </td>
-                                            <td style="padding: 12px; color: #495057;">
+                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #e0e0e0;">
                                                 {{ $question->created_at->setTimezone('Europe/Paris')->format('d/m/Y H:i') }}
                                             </td>
-                                            <td style="padding: 12px;">
+                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057;">
                                                 @if($question->resolved)
-                                                    <span class="badge bg-success">Résolue</span>
+                                                    <span class="badge" style="background: rgba(40, 167, 69, 0.3); color: #7cf2a3; border: 1px solid #28a745; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 500;">Résolue</span>
                                                 @else
-                                                    <span class="badge bg-warning text-dark">En attente</span>
+                                                    <span class="badge" style="background: rgba(255, 193, 7, 0.3); color: #ffd700; border: 1px solid #ffc107; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 500;">En attente</span>
                                                 @endif
                                             </td>
-                                            <td style="padding: 12px;">
+                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057;">
                                                 <div class="d-flex gap-2 flex-wrap">
                                                     <a href="{{ route('questions-details', $question->id) }}" 
-                                                       class="btn btn-sm btn-outline-info"
-                                                       title="Voir" style="color: #0dcaf0; border-color: #0dcaf0; border-radius: 6px; padding: 6px 10px;">
+                                                       class="btn btn-sm" 
+                                                       title="Voir" style="background: rgba(0, 135, 189, 0.2); border: 1px solid #0087BC; color: #87ceeb; border-radius: 6px; padding: 6px 10px; transition: all 0.2s ease;">
                                                         <i class="bi bi-eye"></i>
                                                     </a>
                                                     <a href="{{ route('questions.edit', $question->id) }}" 
-                                                       class="btn btn-sm btn-outline-warning"
-                                                       title="Modifier" style="color: #ffc107; border-color: #ffc107; border-radius: 6px; padding: 6px 10px;">
+                                                       class="btn btn-sm" 
+                                                       title="Modifier" style="background: rgba(255, 193, 7, 0.2); border: 1px solid #FFC107; color: #ffd700; border-radius: 6px; padding: 6px 10px; transition: all 0.2s ease;">
                                                         <i class="bi bi-pencil"></i>
                                                     </a>
                                                     <form action="{{ route('questions.destroy', $question->id) }}" method="POST"
                                                           onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette question ?')">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                                title="Supprimer" style="color: #dc3545; border-color: #dc3545; border-radius: 6px; padding: 6px 10px;">
+                                                        <button type="submit" class="btn btn-sm"
+                                                                title="Supprimer" style="background: rgba(220, 53, 69, 0.2); border: 1px solid #dc3545; color: #ff6b6b; border-radius: 6px; padding: 6px 10px; transition: all 0.2s ease;">
                                                             <i class="bi bi-trash"></i>
                                                         </button>
                                                     </form>
@@ -131,32 +135,26 @@ Gestion des questions - Bibliothèques sonores de la région Centre - Val de Loi
 </div>
 
 <style>
-    /* Style des boutons */
-    .btn-outline-primary:hover {
-        background: #002D5D;
-        color: white !important;
-        border-color: #002D5D;
+    /* Style des boutons pour le thème sombre */
+    .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
     
-    .btn-outline-info:hover {
-        background-color: #0dcaf0;
-        color: #FFFFFF;
-        border-color: #0dcaf0;
+    /* Style du tableau pour le thème sombre */
+    .table th, .table td {
+        vertical-align: middle;
     }
     
-    .btn-outline-warning:hover {
-        background-color: #ffc107;
-        color: #000;
-        border-color: #ffc107;
+    .table tbody tr:hover {
+        background: rgba(60, 60, 60, 0.3);
     }
     
-    .btn-outline-danger:hover {
-        background-color: #dc3545;
-        color: white;
-        border-color: #dc3545;
+    .table-responsive {
+        overflow-x: auto;
     }
     
-    /* Style des badges */
+    /* Style des badges pour le thème sombre */
     .badge {
         font-size: 0.85em;
         padding: 0.35em 0.65em;
@@ -164,17 +162,13 @@ Gestion des questions - Bibliothèques sonores de la région Centre - Val de Loi
         font-weight: 500;
     }
     
-    /* Style du tableau */
-    .table th, .table td {
-        vertical-align: middle;
+    /* Boutons avec transitions */
+    .btn-sm {
+        transition: all 0.2s ease;
     }
     
-    .table tbody tr:hover {
-        background: rgba(0, 45, 93, 0.03);
-    }
-    
-    .table-responsive {
-        overflow-x: auto;
+    .btn-sm:hover {
+        transform: scale(1.05);
     }
 </style>
 

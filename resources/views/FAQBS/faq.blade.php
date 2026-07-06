@@ -5,39 +5,65 @@ FAQ - Bibliothèques sonores de la région Centre - Val de Loire
 @endsection
 
 @section('content')
+<div class="container-fluid" style="background: linear-gradient(135deg, #fafafa 0%, #f0dfdf 100%); min-height: 100vh;">
+    <!-- Bandeau avec logo, bogo et connexion - Responsive -->
+    <div class="banner-container" style="background: #FFFFFF; margin-bottom: 2rem; border-bottom: 2px solid #002D5D;">
+        <div class="row align-items-stretch g-0">
+            <!-- Logo - Mobile: plein large, Desktop: 2 colonnes -->
+            <div class="col-12 col-md-2 d-flex align-items-center justify-content-start justify-content-md-start ps-4 ps-md-4">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="header-logo" style="width: auto; max-width: 100%;">
+            </div>
+            
+            <!-- Bogo - Mobile: plein large, Desktop: 8 colonnes -->
+            <div class="col-12 col-md-8 d-flex align-items-center justify-content-center order-md-1">
+                <img src="{{ asset('images/bogobibsonores.png') }}" alt="Bogo" class="header-bogo" style="width: auto; max-width: 100%;">
+            </div>
+            
+            <!-- Connexion/Formulaire - Mobile: plein large, Desktop: 2 colonnes -->
+            <div class="col-12 col-md-2 d-flex align-items-center justify-content-end justify-content-md-end pe-4 pe-md-4 order-md-2">
+                @auth
+                    <div class="d-flex flex-column align-items-end align-items-md-end text-end">
+                        <span class="mb-2" style="font-weight: 500; color: #002D5D;">{{ Auth::user()->name }}</span>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="btn btn-sm" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); color: white; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.85rem; white-space: nowrap;">
+                                <i class="bi bi-box-arrow-right me-1"></i> Déconnexion
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <div class="w-100 text-end">
+                        <form method="POST" action="{{ route('login') }}" class="login-form-compact d-inline-block text-start">
+                            @csrf
+                            <div class="mb-2">
+                                <input type="email" name="email" class="form-control form-control-sm" placeholder="Email" required style="border: 1px solid #E9ECEF; border-radius: 6px; padding: 6px 10px; font-size: 0.85rem;">
+                            </div>
+                            <div class="mb-2">
+                                <input type="password" name="password" class="form-control form-control-sm" placeholder="Mot de passe" required style="border: 1px solid #E9ECEF; border-radius: 6px; padding: 6px 10px; font-size: 0.85rem;">
+                            </div>
+                            <div class="mb-2 d-flex align-items-center">
+                                <input type="checkbox" name="remember" id="remember-faq" class="form-check-input me-2" style="margin-top: 0;">
+                                <label for="remember-faq" class="form-check-label small" style="color: #495057; font-size: 0.8rem; white-space: nowrap;">Se souvenir</label>
+                            </div>
+                            <button type="submit" class="btn btn-sm w-100 mb-1" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); color: white; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.85rem; white-space: nowrap;">
+                                <i class="bi bi-box-arrow-in-right me-1"></i> Connexion
+                            </button>
+                            @if (Route::has('password.request'))
+                                <a href="{{ route('password.request') }}" class="btn btn-link btn-sm p-0 d-block text-end" style="color: #002D5D; font-size: 0.8rem;">
+                                    Mot de passe oublié ?
+                                </a>
+                            @endif
+                        </form>
+                    </div>
+                @endauth
+            </div>
+        </div>
+    </div>
 
-    <!-- Bandeau avec logo, bogo et connexion -->
-    <div class="row align-items-stretch" style="min-height: 270px; background: #FFFFFF; margin-bottom: 2rem; border-bottom: 2px solid #002D5D;">
-        <div class="col-md-2 d-flex align-items-center justify-content-start ps-4">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="header-logo" style="height: 100%; max-height: 270px;">
-        </div>
-        <div class="col-md-8 d-flex align-items-center justify-content-center">
-            <img src="{{ asset('images/bogobibsonores.png') }}" alt="Bogo" class="header-bogo" style="height: 100%; max-height: 270px;">
-        </div>
-        <div class="col-md-2 d-flex align-items-center justify-content-end pe-4">
-            @auth
-                <div class="d-flex flex-column align-items-end">
-                    <span class="mb-2" style="font-weight: 500; color: #002D5D;">{{ Auth::user()->name }}</span>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-sm" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); color: white; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.85rem;">
-                            <i class="bi bi-box-arrow-right me-1"></i> Déconnexion
-                        </button>
-                    </form>
-                </div>
-            @else
-                <div class="d-flex flex-column align-items-end gap-2">
-                    <a href="{{ route('login') }}" class="btn btn-sm" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); color: white; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.85rem; white-space: nowrap;">
-                        <i class="bi bi-box-arrow-in-right me-1"></i> Connexion
-                    </a>
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="btn btn-sm" style="background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); color: white; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.85rem; white-space: nowrap;">
-                            <i class="bi bi-person-plus me-1"></i> Inscription
-                        </a>
-                    @endif
-                </div>
-            @endauth
-        </div>
+    <!-- Titre principal -->
+    <div class="text-center mb-4 mt-4">
+        <h1 class="mb-2" style="color: #002D5D; font-weight: 700; font-size: 2.5rem;">Bienvenue à l'Agora</h1>
+        <p class="mb-0" style="color: #495057; font-size: 1.2rem;">Bibliothèques sonores de la région Centre - Val de Loire</p>
     </div>
 
     <!-- Carrousel des villes -->
@@ -205,52 +231,128 @@ FAQ - Bibliothèques sonores de la région Centre - Val de Loire
 <!-- Styles spécifiques pour la page FAQ -->
 <style>
     /* Styles pour le bandeau */
-    .header-logo {
-        height: 100%;
-        max-height: 270px;
-        object-fit: contain;
+    .banner-container {
+        min-height: 200px;
     }
-    .header-bogo {
-        height: 100%;
-        max-height: 270px;
-        object-fit: contain;
+    .banner-container .row {
+        min-height: 200px;
+        align-items: center;
+    }
+    .header-logo, .header-bogo {
+        width: auto;
+        max-width: 100%;
+        height: auto;
     }
     
-    /* Responsive adjustments */
+    /* Style pour le formulaire de connexion compact */
+    .login-form-compact {
+        width: 405px;
+        min-width: 338px;
+    }
+    .login-form-compact .form-control {
+        border: 1px solid #E9ECEF;
+        border-radius: 6px;
+        padding: 6px 10px;
+        font-size: 0.85rem;
+    }
+    .login-form-compact .form-control:focus {
+        border-color: #990000;
+        box-shadow: 0 0 0 0.2rem rgba(153, 0, 0, 0.15);
+    }
+    
+    /* Responsive adjustments pour le bandeau */
     @media (max-width: 767.98px) {
-        /* Mobile view - stack elements vertically */
-        .row.align-items-stretch {
+        .banner-container {
+            min-height: auto;
+            padding: 0.5rem 0;
+        }
+        .banner-container .row {
             min-height: auto;
         }
         
-        /* Remove the left shift on bogo for mobile */
-        .header-bogo {
-            transform: none !important;
-            height: auto !important;
+            /* Mobile: centrer tous les éléments avec espaces */
+        .banner-container .col-12.d-flex.align-items-center:not(:last-child) {
+            justify-content: center !important;
+            text-align: center;
+            margin-bottom: 1.5rem !important;
+        }
+        .banner-container .col-12.d-flex.align-items-center:last-child {
+            justify-content: center !important;
+            text-align: center;
         }
         
-        /* Adjust logo height for mobile */
         .header-logo {
-            height: auto !important;
-            max-height: 150px;
+            width: auto;
+            max-width: 60%;
+            height: auto;
+            margin: 0.5rem auto;
         }
         
-        /* Mobile banner adjustments */
-        .container-fluid.mt-5 {
-            margin-top: 2rem !important;
+        .header-bogo {
+            width: auto;
+            max-width: 70%;
+            height: auto;
+            margin: 0.5rem auto;
+            display: block;
         }
         
-        /* Mobile login container */
-        .col-md-2.d-flex.align-items-center.justify-content-end {
-            margin-top: 1rem;
+        /* Mobile: formulaire centré et pleine largeur */
+        .login-form-compact {
+            width: 100% !important;
+            max-width: 563px;
+            margin: 0.5rem auto;
+        }
+        
+        /* Espacement des éléments du formulaire en mobile */
+        .login-form-compact .mb-2 {
+            margin-bottom: 0.5rem !important;
         }
     }
     
     @media (min-width: 768px) {
-        /* Desktop: ensure banner row has fixed height */
-        .row.align-items-stretch {
+        /* Desktop et tablette */
+        .banner-container {
+            min-height: 200px;
+        }
+        .banner-container .row {
+            min-height: 200px;
+        }
+        .header-logo, .header-bogo {
+            width: auto;
+            max-width: 100%;
+            height: auto;
+        }
+    }
+    
+    @media (min-width: 992px) {
+        /* Desktop large */
+        .banner-container {
+            min-height: 250px;
+        }
+        .banner-container .row {
+            min-height: 250px;
+        }
+        .header-logo, .header-bogo {
+            width: auto;
+            max-width: 100%;
+            height: auto;
+        }
+    }
+    
+    @media (min-width: 1200px) {
+        /* Desktop très large */
+        .banner-container {
             min-height: 270px;
+        }
+        .banner-container .row {
+            min-height: 270px;
+        }
+        .header-logo, .header-bogo {
+            width: auto;
+            max-width: 100%;
+            height: auto;
         }
     }
 </style>
+</div>
 @endsection
