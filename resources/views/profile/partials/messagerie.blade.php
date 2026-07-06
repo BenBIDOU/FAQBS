@@ -14,7 +14,7 @@
                         <div>
                             <h5 class="card-title mb-1">
                                 <i class="bi bi-envelope-open me-2"></i>
-                                {{ $question->subject }}
+                                {{ Str::limit($question->message, 50) }}
                             </h5>
                             <p class="text-muted small mb-1">
                                 Question posée le {{ $question->created_at->format('d/m/Y à H:i') }}
