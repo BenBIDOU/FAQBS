@@ -79,7 +79,7 @@ Gestion des questions - Bibliothèques sonores de la région Centre - Val de Loi
                                 </thead>
                                 <tbody>
                                     @foreach($questions as $question)
-                                        <tr style="background: #2d2d2d; border: 1px solid #495057; border-radius: 8px; margin-bottom: 8px;">
+                                        <tr style="background: #3d3d3d; border: 1px solid #495057; border-radius: 8px; margin-bottom: 8px;">
                                             <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #e0e0e0;">
                                                 <strong>{{ $question->name }}</strong>
                                             </td>
