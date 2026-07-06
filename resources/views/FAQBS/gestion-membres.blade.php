@@ -66,40 +66,40 @@ Gestion des membres - Bibliothèques sonores de la région Centre - Val de Loire
                         </div>
                     @else
                         <div class="table-responsive">
-                            <table class="table table-hover" style="border-collapse: separate; border-spacing: 0; color: #e0e0e0;">
-                                <thead style="background: #343a40; color: #e0e0e0; border-radius: 8px 8px 0 0; overflow: hidden;">
+                            <table class="table table-hover" style="border-collapse: separate; border-spacing: 0; color: #000000;">
+                                <thead style="background: #343a40; color: #000000; border-radius: 8px 8px 0 0; overflow: hidden;">
                                     <tr>
-                                        <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #ffffff; font-weight: 600; white-space: nowrap;">Nom</th>
-                                        <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #ffffff; font-weight: 600; white-space: nowrap;">Email</th>
-                                        <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #ffffff; font-weight: 600; white-space: nowrap;">Rôle</th>
-                                        <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #ffffff; font-weight: 600; white-space: nowrap;">Téléphone</th>
-                                        <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #ffffff; font-weight: 600; white-space: nowrap;">Ville</th>
-                                        <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #ffffff; font-weight: 600; white-space: nowrap;">Actions</th>
+                                        <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap;">Nom</th>
+                                        <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap;">Email</th>
+                                        <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap;">Rôle</th>
+                                        <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap;">Téléphone</th>
+                                        <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap;">Ville</th>
+                                        <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap;">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($users as $user)
                                         <tr style="background: #3d3d3d; border: 1px solid #495057; border-radius: 8px; margin-bottom: 8px;">
-                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #e0e0e0;">
+                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #000000;">
                                                 <strong>{{ $user->name }}</strong>
                                             </td>
-                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #e0e0e0;">{{ $user->email }}</td>
+                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #000000;">{{ $user->email }}</td>
                                             <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057;">
                                                 @if($user->is_master)
-                                                    <span class="badge" style="background: rgba(255, 193, 7, 0.3); color: #ffd700; border: 1px solid #ffc107; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 500;">Master</span>
+                                                    <span class="badge" style="background: rgba(255, 193, 7, 0.3); color: #000000; border: 1px solid #ffc107; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 500;">Master</span>
                                                 @endif
                                                 @if($user->is_voice_donor)
-                                                    <span class="badge" style="background: rgba(0, 135, 189, 0.3); color: #87ceeb; border: 1px solid #0087BC; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 500;">Donneur de voix</span>
+                                                    <span class="badge" style="background: rgba(0, 135, 189, 0.3); color: #000000; border: 1px solid #0087BC; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 500;">Donneur de voix</span>
                                                 @endif
                                                 @if($user->is_president)
-                                                    <span class="badge" style="background: rgba(0, 100, 200, 0.3); color: #66c2ff; border: 1px solid #0064c8; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 500;">Président</span>
+                                                    <span class="badge" style="background: rgba(0, 100, 200, 0.3); color: #000000; border: 1px solid #0064c8; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 500;">Président</span>
                                                 @endif
                                                 @if(!($user->is_master || $user->is_voice_donor || $user->is_president))
-                                                    <span class="badge" style="background: rgba(108, 117, 125, 0.3); color: #adb5bd; border: 1px solid #6c757d; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 500;">Membre</span>
+                                                    <span class="badge" style="background: rgba(108, 117, 125, 0.3); color: #000000; border: 1px solid #6c757d; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 500;">Membre</span>
                                                 @endif
                                             </td>
-                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #e0e0e0;">{{ $user->telephone ?? 'Non renseigné' }}</td>
-                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #e0e0e0;">{{ $user->ville_bs ?? 'Non renseigné' }}</td>
+                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #000000;">{{ $user->telephone ?? 'Non renseigné' }}</td>
+                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #000000;">{{ $user->ville_bs ?? 'Non renseigné' }}</td>
                                             <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057;">
                                                 <div class="d-flex gap-2 flex-wrap">
                                                     <a href="{{ route('messages.create', $user->id) }}" 

@@ -67,44 +67,44 @@ Gérer les discussions - Bibliothèques sonores de la région Centre - Val de Lo
                         </div>
                     @else
                         <div class="table-responsive">
-                            <table class="table table-hover" style="border-collapse: separate; border-spacing: 0; color: #e0e0e0;">
-                                <thead style="background: #343a40; color: #e0e0e0; border-radius: 8px 8px 0 0; overflow: hidden;">
+                            <table class="table table-hover" style="border-collapse: separate; border-spacing: 0; color: #000000;">
+                                <thead style="background: #343a40; color: #000000; border-radius: 8px 8px 0 0; overflow: hidden;">
                                     <tr>
-                                        <th style="padding: 16px; border-top: none; border-bottom: 1px solid #495057; color: #ffffff; font-weight: 600;">Titre</th>
-                                        <th style="padding: 16px; border-top: none; border-bottom: 1px solid #495057; color: #ffffff; font-weight: 600;">Groupe</th>
-                                        <th style="padding: 16px; border-top: none; border-bottom: 1px solid #495057; color: #ffffff; font-weight: 600;">Auteur</th>
-                                        <th style="padding: 16px; border-top: none; border-bottom: 1px solid #495057; color: #ffffff; font-weight: 600;">Date de création</th>
-                                        <th style="padding: 16px; border-top: none; border-bottom: 1px solid #495057; color: #ffffff; font-weight: 600;">Actions</th>
+                                        <th style="padding: 16px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600;">Titre</th>
+                                        <th style="padding: 16px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600;">Groupe</th>
+                                        <th style="padding: 16px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600;">Auteur</th>
+                                        <th style="padding: 16px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600;">Date de création</th>
+                                        <th style="padding: 16px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600;">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($discussions as $discussion)
                                         <tr style="background: #3d3d3d; border: 1px solid #495057; border-radius: 8px; margin-bottom: 8px;">
-                                            <td style="padding: 16px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #e0e0e0;">
+                                            <td style="padding: 16px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #000000;">
                                                 <strong>{{ $discussion->title }}</strong>
                                                 @if($discussion->link)
-                                                    <div class="small" style="color: #adadad !important; margin-top: 4px;">
+                                                    <div class="small" style="color: #000000 !important; margin-top: 4px;">
                                                         <i class="bi bi-link-45deg"></i> 
-                                                        <a href="{{ $discussion->link }}" target="_blank" class="text-decoration-none" style="color: #adadad !important;">Lien</a>
+                                                        <a href="{{ $discussion->link }}" target="_blank" class="text-decoration-none" style="color: #000000 !important;">Lien</a>
                                                     </div>
                                                 @endif
                                             </td>
                                             <td style="padding: 16px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057;">
-                                                <span class="badge" style="background: rgba(0, 45, 93, 0.3); color: #c3d4e6; border: 1px solid #495057; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 500;">
+                                                <span class="badge" style="background: rgba(0, 45, 93, 0.3); color: #000000; border: 1px solid #495057; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 500;">
                                                     {{ $discussion->group }}
                                                 </span>
                                             </td>
-                                            <td style="padding: 16px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #e0e0e0;">
+                                            <td style="padding: 16px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #000000;">
                                                 @if($discussion->user)
                                                     <div class="d-flex align-items-center">
                                                         <img src="{{ asset('images/vous.png') }}" class="rounded-circle me-1" alt="Auteur" width="20" height="20">
                                                         <small>{{ $discussion->user->name }}</small>
                                                     </div>
                                                 @else
-                                                    <small style="color: #adadad !important;">Inconnu</small>
+                                                    <small style="color: #000000 !important;">Inconnu</small>
                                                 @endif
                                             </td>
-                                            <td style="padding: 16px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #adadad !important;">{{ $discussion->created_at->format('d/m/Y H:i') }}</td>
+                                            <td style="padding: 16px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #000000 !important;">{{ $discussion->created_at->format('d/m/Y H:i') }}</td>
                                             <td style="padding: 16px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057;">
                                                 <div class="d-flex gap-2">
                                                     <a href="{{ route('discussions.show', $discussion->id) }}" 
