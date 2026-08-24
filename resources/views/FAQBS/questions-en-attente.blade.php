@@ -70,19 +70,27 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                         </div>
                     @else
                         <div class="table-responsive">
-                            <table class="table table-hover" style="border-collapse: separate; border-spacing: 0;">
+                            <table class="table table-hover" id="pendingQuestionsTable" style="border-collapse: separate; border-spacing: 0;">
                                 <thead style="background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); color: white;">
                                     <tr>
-                                        <th style="padding: 12px; white-space: nowrap;">Date</th>
-                                        <th style="padding: 12px; white-space: nowrap;">Nom</th>
-                                        <th style="padding: 12px; white-space: nowrap;">Email</th>
-                                        <th style="padding: 12px;">Question</th>
+                                        <th class="sortable" data-sort="date" style="padding: 12px; white-space: nowrap; cursor: pointer; user-select: none;">
+                                            Date <i class="bi bi-arrow-down-up ms-1"></i>
+                                        </th>
+                                        <th class="sortable" data-sort="nom" style="padding: 12px; white-space: nowrap; cursor: pointer; user-select: none;">
+                                            Nom <i class="bi bi-arrow-down-up ms-1"></i>
+                                        </th>
+                                        <th class="sortable" data-sort="email" style="padding: 12px; white-space: nowrap; cursor: pointer; user-select: none;">
+                                            Email <i class="bi bi-arrow-down-up ms-1"></i>
+                                        </th>
+                                        <th class="sortable" data-sort="question" style="padding: 12px; cursor: pointer; user-select: none;">
+                                            Question <i class="bi bi-arrow-down-up ms-1"></i>
+                                        </th>
                                         <th style="padding: 12px; white-space: nowrap;">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($pendingQuestions as $question)
-                                        <tr style="border-bottom: 1px solid #E9ECEF; transition: all 0.2s ease;">
+                                        <tr style="border-bottom: 1px solid #E9ECEF; transition: all 0.2s ease;" data-date="{{ $question->created_at ? $question->created_at->timestamp : 0 }}" data-nom="{{ $question->name ? e($question->name) : '' }}" data-email="{{ $question->email ? e($question->email) : '' }}" data-question="{{ $question->message ? e($question->message) : '' }}">
                                             <td style="padding: 12px; color: #495057;">{{ $question->created_at->format('d/m/Y H:i') }}</td>
                                             <td style="padding: 12px; color: #495057;">{{ $question->name }}</td>
                                             <td style="padding: 12px; color: #495057;">{{ $question->email }}</td>
@@ -125,20 +133,28 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                             </div>
                         @else
                             <div class="table-responsive">
-                                <table class="table table-hover" style="border-collapse: separate; border-spacing: 0;">
+                                <table class="table table-hover" id="resolvedQuestionsTable" style="border-collapse: separate; border-spacing: 0;">
                                     <thead style="background: linear-gradient(135deg, #28A745 0%, #20C997 100%); color: white;">
                                         <tr>
-                                            <th style="padding: 12px; white-space: nowrap;">Date</th>
-                                            <th style="padding: 12px; white-space: nowrap;">Nom</th>
-                                            <th style="padding: 12px; white-space: nowrap;">Email</th>
-                                            <th style="padding: 12px;">Message</th>
+                                            <th class="sortable" data-sort="date" style="padding: 12px; white-space: nowrap; cursor: pointer; user-select: none;">
+                                                Date <i class="bi bi-arrow-down-up ms-1"></i>
+                                            </th>
+                                            <th class="sortable" data-sort="nom" style="padding: 12px; white-space: nowrap; cursor: pointer; user-select: none;">
+                                                Nom <i class="bi bi-arrow-down-up ms-1"></i>
+                                            </th>
+                                            <th class="sortable" data-sort="email" style="padding: 12px; white-space: nowrap; cursor: pointer; user-select: none;">
+                                                Email <i class="bi bi-arrow-down-up ms-1"></i>
+                                            </th>
+                                            <th class="sortable" data-sort="message" style="padding: 12px; cursor: pointer; user-select: none;">
+                                                Message <i class="bi bi-arrow-down-up ms-1"></i>
+                                            </th>
                                             <th style="padding: 12px; white-space: nowrap;">Résolue par</th>
                                             <th style="padding: 12px; white-space: nowrap;">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($resolvedQuestions as $question)
-                                            <tr class="table-success" style="border-bottom: 1px solid #E9ECEF;">
+                                            <tr class="table-success" style="border-bottom: 1px solid #E9ECEF;" data-date="{{ $question->created_at ? $question->created_at->timestamp : 0 }}" data-nom="{{ $question->name ? e($question->name) : '' }}" data-email="{{ $question->email ? e($question->email) : '' }}" data-question="{{ $question->message ? e($question->message) : '' }}">
                                                 <td style="padding: 12px; color: #495057;">{{ $question->created_at->format('d/m/Y H:i') }}</td>
                                                 <td style="padding: 12px; color: #495057;">{{ $question->name }}</td>
                                                 <td style="padding: 12px; color: #495057;">{{ $question->email }}</td>
@@ -230,6 +246,65 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                 }
             });
         }
+
+        // Fonction utilitaire pour trier un tableau
+        function setupTableSorting(tableId) {
+            const table = document.getElementById(tableId);
+            if (!table) return;
+            
+            const sortableHeaders = table.querySelectorAll('th.sortable');
+            
+            sortableHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const sortKey = this.getAttribute('data-sort');
+                    const tbody = table.querySelector('tbody');
+                    const rows = Array.from(tbody.querySelectorAll('tr'));
+                    
+                    // Déterminer la direction de tri
+                    const currentDir = this.getAttribute('data-dir') || 'asc';
+                    const newDir = currentDir === 'asc' ? 'desc' : 'asc';
+                    this.setAttribute('data-dir', newDir);
+                    
+                    // Mettre à jour les icônes de tri
+                    sortableHeaders.forEach(h => {
+                        const icon = h.querySelector('.bi-arrow-down-up, .bi-arrow-up, .bi-arrow-down');
+                        if (icon) {
+                            if (h === this) {
+                                icon.className = newDir === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down';
+                            } else {
+                                icon.className = 'bi bi-arrow-down-up';
+                            }
+                        }
+                    });
+                    
+                    // Trier les lignes
+                    rows.sort((a, b) => {
+                        let aValue = a.getAttribute(`data-${sortKey}`);
+                        let bValue = b.getAttribute(`data-${sortKey}`);
+                        
+                        // Gestion des valeurs numériques (pour la date)
+                        if (sortKey === 'date') {
+                            return newDir === 'asc' ? parseInt(aValue) - parseInt(bValue) : parseInt(bValue) - parseInt(aValue);
+                        }
+                        
+                        // Gestion des valeurs textuelles
+                        aValue = aValue ? aValue.toLowerCase() : '';
+                        bValue = bValue ? bValue.toLowerCase() : '';
+                        
+                        if (aValue < bValue) return newDir === 'asc' ? -1 : 1;
+                        if (aValue > bValue) return newDir === 'asc' ? 1 : -1;
+                        return 0;
+                    });
+                    
+                    // Réinsérer les lignes triées
+                    rows.forEach(row => tbody.appendChild(row));
+                });
+            });
+        }
+        
+        // Activer le tri pour les deux tableaux
+        setupTableSorting('pendingQuestionsTable');
+        setupTableSorting('resolvedQuestionsTable');
     });
 </script>
 @endsection

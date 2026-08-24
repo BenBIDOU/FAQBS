@@ -52,11 +52,11 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
         </div>
     </div>
 
-    <!-- Filtres -->
+    <!-- Filtres et Tris -->
     <div class="mb-4">
         <div style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
             <div class="row g-3">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="form-label fw-bold mb-2" style="color: #002D5D;"><i class="bi bi-people me-2"></i>Filtrer par groupe :</label>
                     <select class="form-select" id="groupFilter" style="border: 1px solid #E9ECEF; border-radius: 8px; padding: 10px; background: #FFFFFF;">
                         <option value="">Tous les groupes</option>
@@ -67,7 +67,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                         <option value="Donneurs de Temps">Donneurs de Temps</option>
                     </select>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="form-label fw-bold mb-2" style="color: #002D5D;"><i class="bi bi-calendar me-2"></i>Filtrer par date :</label>
                     <select class="form-select" id="dateFilter" style="border: 1px solid #E9ECEF; border-radius: 8px; padding: 10px; background: #FFFFFF;">
                         <option value="">Toutes les dates</option>
@@ -75,6 +75,16 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                         <option value="week">Cette semaine</option>
                         <option value="month">Ce mois</option>
                         <option value="older">Plus ancien</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-bold mb-2" style="color: #002D5D;"><i class="bi bi-sort-alpha-down me-2"></i>Trier par :</label>
+                    <select class="form-select" id="sortFilter" style="border: 1px solid #E9ECEF; border-radius: 8px; padding: 10px; background: #FFFFFF;">
+                        <option value="">Par défaut</option>
+                        <option value="date-desc">Date (récent → ancien)</option>
+                        <option value="date-asc">Date (ancien → récent)</option>
+                        <option value="title-asc">Titre (A → Z)</option>
+                        <option value="title-desc">Titre (Z → A)</option>
                     </select>
                 </div>
             </div>
@@ -93,7 +103,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                 </div>
                 <div class="card-body d-flex flex-column flex-grow-1" style="padding: 0;">
                     <div class="list-group list-group-flush d-flex flex-column" style="height: 100%;">
-                        <div class="accordion flex-grow-1 accordion-bottom" id="presidentAccordionResolues">
+                        <div class="accordion flex-grow-1 accordion-bottom" id="presidentAccordionResolues" data-group="Président">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePresidentResolues" aria-expanded="false" aria-controls="collapsePresidentResolues" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
@@ -105,7 +115,9 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                         @forelse($discussionsByGroup['Président'] ?? [] as $discussion)
                                             <a href="{{ route('discussions.show', $discussion->id) }}" 
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
-                                               data-title="{{ $discussion->title }}">
+                                               data-title="{{ $discussion->title }}"
+                                               data-group="Président"
+                                               data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp : 0 }}">
                                                 <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>{{ Str::limit($discussion->title, 40) }}
                                             </a>
                                         @empty
@@ -116,7 +128,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                             </div>
                         </div>
                         <div class="w-100" style="border-bottom: 1px solid #E9ECEF; margin: 4px 0;"></div>
-                        <div class="accordion flex-grow-1 accordion-bottom" id="secretariatAccordionResolues">
+                        <div class="accordion flex-grow-1 accordion-bottom" id="secretariatAccordionResolues" data-group="Secrétariat">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSecretariatResolues" aria-expanded="false" aria-controls="collapseSecretariatResolues" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
@@ -128,7 +140,9 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                         @forelse($discussionsByGroup['Secrétariat'] ?? [] as $discussion)
                                             <a href="{{ route('discussions.show', $discussion->id) }}" 
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
-                                               data-title="{{ $discussion->title }}">
+                                               data-title="{{ $discussion->title }}"
+                                               data-group="Secrétariat"
+                                               data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp : 0 }}">
                                                 <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>{{ Str::limit($discussion->title, 40) }}
                                             </a>
                                         @empty
@@ -139,7 +153,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                             </div>
                         </div>
                         <div class="w-100" style="border-bottom: 1px solid #E9ECEF; margin: 4px 0;"></div>
-                        <div class="accordion flex-grow-1 accordion-bottom" id="tresorerieAccordionResolues">
+                        <div class="accordion flex-grow-1 accordion-bottom" id="tresorerieAccordionResolues" data-group="Trésorerie">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTresorerieResolues" aria-expanded="false" aria-controls="collapseTresorerieResolues" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
@@ -151,7 +165,9 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                         @forelse($discussionsByGroup['Trésorerie'] ?? [] as $discussion)
                                             <a href="{{ route('discussions.show', $discussion->id) }}" 
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
-                                               data-title="{{ $discussion->title }}">
+                                               data-title="{{ $discussion->title }}"
+                                               data-group="Trésorerie"
+                                               data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp : 0 }}">
                                                 <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>{{ Str::limit($discussion->title, 40) }}
                                             </a>
                                         @empty
@@ -162,7 +178,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                             </div>
                         </div>
                         <div class="w-100" style="border-bottom: 1px solid #E9ECEF; margin: 4px 0;"></div>
-                        <div class="accordion flex-grow-1 accordion-bottom" id="donneursVoixAccordionResolues">
+                        <div class="accordion flex-grow-1 accordion-bottom" id="donneursVoixAccordionResolues" data-group="Donneurs de Voix">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDonneursVoixResolues" aria-expanded="false" aria-controls="collapseDonneursVoixResolues" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
@@ -174,7 +190,9 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                         @forelse($discussionsByGroup['Donneurs Voix'] ?? [] as $discussion)
                                             <a href="{{ route('discussions.show', $discussion->id) }}" 
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
-                                               data-title="{{ $discussion->title }}">
+                                               data-title="{{ $discussion->title }}"
+                                               data-group="Donneurs Voix"
+                                               data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp : 0 }}">
                                                 <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>{{ Str::limit($discussion->title, 40) }}
                                             </a>
                                         @empty
@@ -185,7 +203,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                             </div>
                         </div>
                         <div class="w-100" style="border-bottom: 1px solid #E9ECEF; margin: 4px 0;"></div>
-                        <div class="accordion flex-grow-1 accordion-bottom" id="donneursTempsAccordionResolues">
+                        <div class="accordion flex-grow-1 accordion-bottom" id="donneursTempsAccordionResolues" data-group="Donneurs de Temps">
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDonneursTempsResolues" aria-expanded="false" aria-controls="collapseDonneursTempsResolues" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
@@ -197,7 +215,9 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                         @forelse($discussionsByGroup['Donneurs Temps'] ?? [] as $discussion)
                                             <a href="{{ route('discussions.show', $discussion->id) }}" 
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
-                                               data-title="{{ $discussion->title }}">
+                                               data-title="{{ $discussion->title }}"
+                                               data-group="Donneurs Temps"
+                                               data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp : 0 }}">
                                                 <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>{{ Str::limit($discussion->title, 40) }}
                                             </a>
                                         @empty
@@ -574,7 +594,178 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
             }
         });
         
-        console.log('Recherche initialisée - OK');
+        // Écouteurs pour les filtres et tris
+        const groupFilter = document.getElementById('groupFilter');
+        const dateFilter = document.getElementById('dateFilter');
+        const sortFilter = document.getElementById('sortFilter');
+        
+        if (groupFilter) {
+            groupFilter.addEventListener('change', applyFiltersAndSort);
+        }
+        if (dateFilter) {
+            dateFilter.addEventListener('change', applyFiltersAndSort);
+        }
+        if (sortFilter) {
+            sortFilter.addEventListener('change', applySort);
+        }
+        
+        function applyFiltersAndSort() {
+            applyFilters();
+            applySort();
+        }
+        
+        function applySort() {
+            const sortValue = sortFilter ? sortFilter.value : '';
+            if (!sortValue) return;
+            
+            const [criteria, order] = sortValue.split('-');
+            
+            // Trier dans chaque accordéon
+            document.querySelectorAll('.accordion-body').forEach(body => {
+                const links = Array.from(body.querySelectorAll('.discussion-link'));
+                const noDiscussionMsg = body.querySelector('.text-muted.small.mb-0.ps-4');
+                
+                links.sort((a, b) => {
+                    if (criteria === 'date') {
+                        const dateA = parseInt(a.getAttribute('data-date')) || 0;
+                        const dateB = parseInt(b.getAttribute('data-date')) || 0;
+                        return order === 'desc' ? dateB - dateA : dateA - dateB;
+                    } else if (criteria === 'title') {
+                        const titleA = (a.getAttribute('data-title') || a.textContent).toLowerCase();
+                        const titleB = (b.getAttribute('data-title') || b.textContent).toLowerCase();
+                        if (order === 'desc') {
+                            return titleB.localeCompare(titleA);
+                        } else {
+                            return titleA.localeCompare(titleB);
+                        }
+                    }
+                    return 0;
+                });
+                
+                // Réinsérer les liens triés tout en conservant leur état visible/caché
+                links.forEach(link => {
+                    body.appendChild(link);
+                });
+                
+                // Réinsérer le message "Aucune discussion" s'il existe
+                if (noDiscussionMsg) {
+                    body.appendChild(noDiscussionMsg);
+                }
+            });
+        }
+        
+        function applyFilters() {
+            const selectedGroup = groupFilter ? groupFilter.value : '';
+            const selectedDate = dateFilter ? dateFilter.value : '';
+            const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+            
+            const discussionLinks = document.querySelectorAll('.discussion-link');
+            const noDiscussionMessages = document.querySelectorAll('.text-muted.small.mb-0.ps-4');
+            const accordionCollapses = document.querySelectorAll('.accordion-collapse');
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            
+            let hasResults = false;
+            
+            // D'abord réinitialiser l'affichage de tous les messages "Aucune discussion"
+            noDiscussionMessages.forEach(el => {
+                el.classList.add('d-none');
+            });
+            
+            // Filtrer chaque lien de discussion
+            discussionLinks.forEach(link => {
+                let isVisible = true;
+                
+                // Filtre par groupe
+                if (selectedGroup) {
+                    const linkGroup = link.getAttribute('data-group') || '';
+                    if (linkGroup !== selectedGroup) {
+                        isVisible = false;
+                    }
+                }
+                
+                // Filtre par date
+                if (isVisible && selectedDate) {
+                    const linkDate = parseInt(link.getAttribute('data-date')) || 0;
+                    const now = Date.now();
+                    const oneDay = 24 * 60 * 60 * 1000;
+                    const oneWeek = 7 * oneDay;
+                    const oneMonth = 30 * oneDay;
+                    
+                    let dateMatch = true;
+                    switch(selectedDate) {
+                        case 'today':
+                            dateMatch = (now - linkDate) < oneDay;
+                            break;
+                        case 'week':
+                            dateMatch = (now - linkDate) < oneWeek;
+                            break;
+                        case 'month':
+                            dateMatch = (now - linkDate) < oneMonth;
+                            break;
+                        case 'older':
+                            dateMatch = (now - linkDate) >= oneMonth;
+                            break;
+                    }
+                    isVisible = isVisible && dateMatch;
+                }
+                
+                // Filtre par recherche textuelle
+                if (isVisible && searchTerm) {
+                    const fullTitle = (link.getAttribute('data-title') || link.textContent).toLowerCase();
+                    isVisible = fullTitle.includes(searchTerm);
+                }
+                
+                link.classList.toggle('d-none', !isVisible);
+                if (isVisible) hasResults = true;
+            });
+            
+            // Afficher "Aucune discussion" si aucun résultat
+            if (!hasResults) {
+                noDiscussionMessages.forEach(el => {
+                    const parentAccordion = el.closest('.accordion');
+                    if (parentAccordion) {
+                        const parentGroup = parentAccordion.getAttribute('data-group') || '';
+                        const filterGroup = selectedGroup || '';
+                        if (!filterGroup || parentGroup === filterGroup) {
+                            el.classList.remove('d-none');
+                        }
+                    }
+                });
+            }
+            
+            // Ouvrir/fermer les accordéons en fonction des résultats
+            accordionCollapses.forEach(collapse => {
+                const body = collapse.querySelector('.accordion-body');
+                if (!body) return;
+                
+                const visibleLinks = Array.from(body.querySelectorAll('.discussion-link'))
+                    .some(link => !link.classList.contains('d-none'));
+                
+                const buttonId = collapse.getAttribute('id');
+                const button = buttonId ? document.querySelector(`[data-bs-target="#${buttonId}"]`) : null;
+                
+                if (visibleLinks) {
+                    collapse.classList.add('show');
+                    if (button) {
+                        button.classList.remove('collapsed');
+                        button.setAttribute('aria-expanded', 'true');
+                    }
+                } else {
+                    collapse.classList.remove('show');
+                    if (button) {
+                        button.classList.add('collapsed');
+                        button.setAttribute('aria-expanded', 'false');
+                    }
+                }
+            });
+        }
+        
+        // Appliquer le tri initial si un tri est sélectionné
+        if (sortFilter && sortFilter.value) {
+            applySort();
+        }
+        
+        console.log('Recherche, filtres et tris initialisés - OK');
     });
 </script>
 @endsection
