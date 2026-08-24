@@ -68,6 +68,12 @@ Je pose ma question - Bibliothèques sonores de la région Centre - Val de Loire
                             </select>
                         </div>
                         
+                        <!-- Sujet -->
+                        <div class="mb-3">
+                            <label for="subject" class="form-label" style="color: #002D5D; font-weight: 500;">Sujet de la question</label>
+                            <input type="text" class="form-control" id="subject" name="subject" required style="border: 1px solid #E9ECEF; border-radius: 8px; padding: 0.75rem;">
+                        </div>
+                        
                         <!-- Message -->
                         <div class="mb-3">
                             <label for="message" class="form-label" style="color: #002D5D; font-weight: 500;">Ma question</label>
@@ -124,4 +130,27 @@ Je pose ma question - Bibliothèques sonores de la région Centre - Val de Loire
         }
     }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('questionForm');
+        if (form) {
+            form.addEventListener('submit', function() {
+                // Désactiver le bouton et afficher un indicateur de chargement
+                const submitBtn = form.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Envoi en cours...';
+                }
+            });
+        }
+    });
+</script>
+
+<!-- Redirection automatique après soumission réussie -->
+@if(session('success'))
+    <script>
+        window.location.href = '{{ route("agora") }}';
+    </script>
+@endif
 @endsection

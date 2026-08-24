@@ -61,7 +61,7 @@ class QuestionController extends Controller
 
         Question::create($validated);
 
-        return redirect('/agora')->with('success', 'Votre question a été envoyée avec succès !');
+        return redirect()->route('agora')->with('success', 'Votre question a été envoyée avec succès !');
     }
 
     /**
