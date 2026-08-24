@@ -604,6 +604,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
         const urlGroup = urlParams.get('group');
         const urlDate = urlParams.get('date');
         const urlSort = urlParams.get('sort');
+        const urlHash = window.location.hash;
         
         if (urlGroup && groupFilter) {
             groupFilter.value = urlGroup;
@@ -613,6 +614,20 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
         }
         if (urlSort && sortFilter) {
             sortFilter.value = urlSort;
+        }
+        
+        // Ouvrir l'accordéon correspondant si un ancrage est présent
+        if (urlHash) {
+            const accordionId = urlHash.substring(1); // Enlever le #
+            const collapseElement = document.getElementById(accordionId);
+            if (collapseElement) {
+                collapseElement.classList.add('show');
+                const button = document.querySelector(`[data-bs-target="#${accordionId}"]`);
+                if (button) {
+                    button.classList.remove('collapsed');
+                    button.setAttribute('aria-expanded', 'true');
+                }
+            }
         }
         
         if (groupFilter) {

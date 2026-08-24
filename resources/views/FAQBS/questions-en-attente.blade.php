@@ -153,6 +153,15 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @php
+                                        $teamToAccordion = [
+                                            'Président' => 'collapsePresidentResolues',
+                                            'Secrétariat' => 'collapseSecretariatResolues',
+                                            'Trésorerie' => 'collapseTresorerieResolues',
+                                            'Donneurs de Voix' => 'collapseDonneursVoixResolues',
+                                            'Donneurs de Temps' => 'collapseDonneursTempsResolues',
+                                        ];
+                                        @endphp
                                         @foreach($resolvedQuestions as $question)
                                             <tr class="table-success" style="border-bottom: 1px solid #E9ECEF;" data-date="{{ $question->created_at ? $question->created_at->timestamp : 0 }}" data-nom="{{ $question->name ? e($question->name) : '' }}" data-email="{{ $question->email ? e($question->email) : '' }}" data-question="{{ $question->message ? e($question->message) : '' }}">
                                                 <td style="padding: 12px; color: #495057;">{{ $question->created_at->format('d/m/Y H:i') }}</td>
@@ -173,7 +182,11 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                                     @if($question->answered_by)
                                                         <span class="text-muted small">Réponse directe</span>
                                                     @else
-                                                        <a href="/agora?group={{ urlencode($question->destination ?? $question->team ?? $question->group ?? $team ?? '') }}" 
+                                                        @php
+                                                        $questionTeam = $question->destination ?? $question->team ?? $question->group ?? $team ?? '';
+                                                        $accordionId = $teamToAccordion[$questionTeam] ?? $teamToAccordion['Président'];
+                                                        @endphp
+                                                        <a href="/agora?group={{ urlencode($questionTeam) }}#{{ $accordionId }}" 
                                                            class="btn btn-sm btn-outline-success" 
                                                            target="_blank" style="font-size: 0.8rem; padding: 4px 8px; border-radius: 6px;">
                                                             <i class="bi bi-eye me-1"></i> Voir le forum
