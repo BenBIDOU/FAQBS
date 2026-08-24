@@ -599,6 +599,22 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
         const dateFilter = document.getElementById('dateFilter');
         const sortFilter = document.getElementById('sortFilter');
         
+        // Lire les paramètres de l'URL et pré-sélectionner les filtres
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlGroup = urlParams.get('group');
+        const urlDate = urlParams.get('date');
+        const urlSort = urlParams.get('sort');
+        
+        if (urlGroup && groupFilter) {
+            groupFilter.value = urlGroup;
+        }
+        if (urlDate && dateFilter) {
+            dateFilter.value = urlDate;
+        }
+        if (urlSort && sortFilter) {
+            sortFilter.value = urlSort;
+        }
+        
         if (groupFilter) {
             groupFilter.addEventListener('change', applyFiltersAndSort);
         }
@@ -760,8 +776,9 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
             });
         }
         
-        // Appliquer le tri initial si un tri est sélectionné
-        if (sortFilter && sortFilter.value) {
+        // Appliquer les filtres et tris initiaux si des paramètres URL sont présents
+        if (urlGroup || urlDate || (sortFilter && sortFilter.value)) {
+            applyFilters();
             applySort();
         }
         

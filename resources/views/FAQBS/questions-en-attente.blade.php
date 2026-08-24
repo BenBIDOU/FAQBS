@@ -173,7 +173,7 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                                     @if($question->answered_by)
                                                         <span class="text-muted small">Réponse directe</span>
                                                     @else
-                                                        <a href="/agora" 
+                                                        <a href="/agora?group={{ urlencode($question->team ?? '') }}" 
                                                            class="btn btn-sm btn-outline-success" 
                                                            target="_blank" style="font-size: 0.8rem; padding: 4px 8px; border-radius: 6px;">
                                                             <i class="bi bi-eye me-1"></i> Voir le forum
