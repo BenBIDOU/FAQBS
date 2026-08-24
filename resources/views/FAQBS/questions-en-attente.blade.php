@@ -31,22 +31,22 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
         <div class="card" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
             <div class="card-body">
                 <div class="d-flex flex-wrap gap-2">
-                    <a href="{{ route('questions-en-attente') }}" class="btn btn-outline-primary text-primary" style="border: 1px solid #002D5D; color: #002D5D !important; border-radius: 8px; transition: all 0.2s ease; @if (!$team) background: rgba(0, 45, 93, 0.1); @endif">
+                    <a href="{{ route('questions-en-attente') }}" class="btn btn-outline-primary" style="border: 1px solid #002D5D; color: white !important; background: @if (!$team) #0056B3 @else #002D5D @endif; border-radius: 8px; transition: all 0.2s ease;">
                         <i class="bi bi-inbox me-1"></i> Toutes
                     </a>
-                    <a href="{{ route('questions-en-attente.team', ['team' => 'Président']) }}" class="btn btn-outline-primary text-primary" style="border: 1px solid #002D5D; color: #002D5D !important; border-radius: 8px; transition: all 0.2s ease; @if($team === 'Président') background: rgba(0, 45, 93, 0.1); @endif">
+                    <a href="{{ route('questions-en-attente.team', ['team' => 'Président']) }}" class="btn btn-outline-primary" style="border: 1px solid #002D5D; color: white !important; background: @if($team === 'Président') #0056B3 @else #002D5D @endif; border-radius: 8px; transition: all 0.2s ease;">
                         <i class="bi bi-person me-1"></i> Président
                     </a>
-                    <a href="{{ route('questions-en-attente.team', ['team' => 'Secrétariat']) }}" class="btn btn-outline-primary text-primary" style="border: 1px solid #002D5D; color: #002D5D !important; border-radius: 8px; transition: all 0.2s ease; @if($team === 'Secrétariat') background: rgba(0, 45, 93, 0.1); @endif">
+                    <a href="{{ route('questions-en-attente.team', ['team' => 'Secrétariat']) }}" class="btn btn-outline-primary" style="border: 1px solid #002D5D; color: white !important; background: @if($team === 'Secrétariat') #0056B3 @else #002D5D @endif; border-radius: 8px; transition: all 0.2s ease;">
                         <i class="bi bi-file-earmark-text me-1"></i> Secrétariat
                     </a>
-                    <a href="{{ route('questions-en-attente.team', ['team' => 'Trésorerie']) }}" class="btn btn-outline-primary text-primary" style="border: 1px solid #002D5D; color: #002D5D !important; border-radius: 8px; transition: all 0.2s ease; @if($team === 'Trésorerie') background: rgba(0, 45, 93, 0.1); @endif">
+                    <a href="{{ route('questions-en-attente.team', ['team' => 'Trésorerie']) }}" class="btn btn-outline-primary" style="border: 1px solid #002D5D; color: white !important; background: @if($team === 'Trésorerie') #0056B3 @else #002D5D @endif; border-radius: 8px; transition: all 0.2s ease;">
                         <i class="bi bi-cash-coin me-1"></i> Trésorerie
                     </a>
-                    <a href="{{ route('questions-en-attente.team', ['team' => 'Donneurs de Voix']) }}" class="btn btn-outline-primary text-primary" style="border: 1px solid #002D5D; color: #002D5D !important; border-radius: 8px; transition: all 0.2s ease; @if($team === 'Donneurs de Voix') background: rgba(0, 45, 93, 0.1); @endif">
+                    <a href="{{ route('questions-en-attente.team', ['team' => 'Donneurs de Voix']) }}" class="btn btn-outline-primary" style="border: 1px solid #002D5D; color: white !important; background: @if($team === 'Donneurs de Voix') #0056B3 @else #002D5D @endif; border-radius: 8px; transition: all 0.2s ease;">
                         <i class="bi bi-mic me-1"></i> Donneurs de Voix
                     </a>
-                    <a href="{{ route('questions-en-attente.team', ['team' => 'Donneurs de Temps']) }}" class="btn btn-outline-primary text-primary" style="border: 1px solid #002D5D; color: #002D5D !important; border-radius: 8px; transition: all 0.2s ease; @if($team === 'Donneurs de Temps') background: rgba(0, 45, 93, 0.1); @endif">
+                    <a href="{{ route('questions-en-attente.team', ['team' => 'Donneurs de Temps']) }}" class="btn btn-outline-primary" style="border: 1px solid #002D5D; color: white !important; background: @if($team === 'Donneurs de Temps') #0056B3 @else #002D5D @endif; border-radius: 8px; transition: all 0.2s ease;">
                         <i class="bi bi-clock me-1"></i> Donneurs de Temps
                     </a>
                 </div>
@@ -76,7 +76,7 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                         <th style="padding: 12px; white-space: nowrap;">Date</th>
                                         <th style="padding: 12px; white-space: nowrap;">Nom</th>
                                         <th style="padding: 12px; white-space: nowrap;">Email</th>
-                                        <th style="padding: 12px;">Message</th>
+                                        <th style="padding: 12px;">Question</th>
                                         <th style="padding: 12px; white-space: nowrap;">Actions</th>
                                     </tr>
                                 </thead>
@@ -88,8 +88,8 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                             <td style="padding: 12px; color: #495057;">{{ $question->email }}</td>
                                             <td style="padding: 12px; color: #495057;">{{ Str::limit($question->message, 50) }}</td>
                                             <td style="padding: 12px;">
-                                                <a href="{{ route('questions-details', ['question' => $question->id]) }}" class="btn btn-sm btn-main" style="font-size: 0.85rem; padding: 6px 12px; border-radius: 6px;">
-                                                    <i class="bi bi-eye me-1"></i> Voir
+                                                <a href="{{ route('questions-details', ['question' => $question->id]) }}" class="btn btn-sm btn-main text-white" style="font-size: 0.85rem; padding: 6px 12px; border-radius: 6px;">
+                                                    <i class="bi bi-eye me-1"></i> Détails de la question
                                                 </a>
                                             </td>
                                         </tr>

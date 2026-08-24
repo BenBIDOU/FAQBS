@@ -5,7 +5,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
 @endsection
 
 @section('content')
-<div class="container-fluid" style="background: linear-gradient(135deg, #fafafa 0%, #f0dfdf 100%); min-height: 100vh;">
+<div class="container-fluid" style="background: linear-gradient(135deg, #fafafa 0%, #f0dfdf 100%); min-height: 100vh; position: relative;">
     <!-- Header moderne -->
     <div class="page-header mb-4" style="background-color: #FFFFFF; border-bottom: 2px solid #002D5D; padding: 1.5rem 0; margin-bottom: 1.5rem !important;">
         <div class="row align-items-center">
@@ -32,7 +32,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
             <i class="bi bi-info-circle-fill me-2" style="color: #002D5D; font-size: 1.2rem;"></i>
             <div>
                 <h4 class="mb-1" style="color: #002D5D;">Bonjour, {{ Auth::user()->name }} !</h4>
-                <p class="mb-0" style="color: #495057;">Vous êtes connecté à l'espace d'échange des Bibliothèques sonores de la région Centre - Val de Loire. Posez vos questions, consultez les discussions et interagissez avec la communauté.</p>
+                <p class="mb-0" style="color: #495057;">Vous êtes connecté à l'espace d'échange des Bibliothèques sonores de la région Centre - Val de Loire. Posez vos questions, consultez les discussions et interagissez avec tous les bénévoles.</p>
             </div>
         </div>
     </div>
@@ -52,8 +52,37 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
         </div>
     </div>
 
+    <!-- Filtres -->
+    <div class="mb-4">
+        <div style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold mb-2" style="color: #002D5D;"><i class="bi bi-people me-2"></i>Filtrer par groupe :</label>
+                    <select class="form-select" id="groupFilter" style="border: 1px solid #E9ECEF; border-radius: 8px; padding: 10px; background: #FFFFFF;">
+                        <option value="">Tous les groupes</option>
+                        <option value="Président">Président</option>
+                        <option value="Secrétariat">Secrétariat</option>
+                        <option value="Trésorerie">Trésorerie</option>
+                        <option value="Donneurs de Voix">Donneurs de Voix</option>
+                        <option value="Donneurs de Temps">Donneurs de Temps</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold mb-2" style="color: #002D5D;"><i class="bi bi-calendar me-2"></i>Filtrer par date :</label>
+                    <select class="form-select" id="dateFilter" style="border: 1px solid #E9ECEF; border-radius: 8px; padding: 10px; background: #FFFFFF;">
+                        <option value="">Toutes les dates</option>
+                        <option value="today">Aujourd'hui</option>
+                        <option value="week">Cette semaine</option>
+                        <option value="month">Ce mois</option>
+                        <option value="older">Plus ancien</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Section Questions résolues et Questions en attente -->
-    <div class="row mb-4 align-items-start">
+    <div class="row mb-4 align-items-start position-relative">
         <!-- Questions résolues - 1/4 à gauche -->
         <div class="col-md-3 d-flex align-self-start">
             <div class="card flex-grow-1" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
@@ -198,41 +227,31 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                     <ul class="dropdown-menu dropdown-menu-start" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px; width: 100%; min-width: 280px;">
                                         <li class="px-3" style="color: #002D5D; font-weight: 500; margin-bottom: 8px; display: flex; align-items: flex-start;">
                                             <span style="font-size: 1.1rem; font-weight: 600; min-width: 24px;">1°</span>
-                                            <span>Recherchez si elle a déjà été posée</span>
+                                            <span>Recherchez avec un mot clé si elle a déjà été posée en cliquant sur "Rechercher".</span>
                                         </li>
                                         <li class="px-3" style="color: #002D5D; font-weight: 500; margin-bottom: 8px; display: flex; align-items: flex-start;">
                                             <span style="font-size: 1.1rem; font-weight: 600; min-width: 24px;">2°</span>
-                                            <span>Vous ne la trouvez pas ? Cherchez-la dans les menus de Questions résolues</span>
+                                            <span>Vous ne la trouvez pas encore ? Cherchez-la dans les menus de "Questions résolues".</span>
                                         </li>
                                         <li class="px-3" style="color: #002D5D; font-weight: 500; margin-bottom: 12px; display: flex; align-items: flex-start;">
                                             <span style="font-size: 1.1rem; font-weight: 600; min-width: 24px;">3°</span>
-                                            <span>Toujours sans réponse ? Posez votre question à la communauté en appuyant sur "Je pose ma question"</span>
+                                            <span>Toujours sans réponse ? Posez votre question à tous les bénévoles en appuyant sur "Je pose ma question".</span>
                                         </li>
                                         <li><hr class="dropdown-divider m-2" style="margin: 8px 0; opacity: 0.2;"></li>
-                                        <li>
-                                            <a class="dropdown-item d-flex align-items-center justify-content-center" href="/poser-question" style="padding: 12px 16px; color: #002D5D; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease; font-weight: 600; background: rgba(153, 0, 0, 0.1);">
-                                                <i class="bi bi-envelope me-2" style="color: #990000; font-size: 1.1rem;"></i> Je pose ma question
-                                            </a>
-                                        </li>
                                     </ul>
                                 </div>
                                 <div class="dropdown" style="flex: 0 1 50%;">
                                     <button class="btn dropdown-toggle d-flex align-items-center w-100 justify-content-center" type="button" data-bs-toggle="dropdown" style="background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); color: white; border: none; border-radius: 10px 10px 0 0; padding: 16px 24px; font-weight: 600; font-size: 1.1rem; transition: all 0.3s ease; white-space: nowrap; height: 56px;">
-                                        J'ai la réponse <i class="bi bi-arrow-right-circle-fill ms-2"></i>
+                                        Et si j'avais la réponse ? <i class="bi bi-arrow-right-circle-fill ms-2"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px; width: 100%; min-width: 280px;">
                                         <li class="px-3" style="color: #002D5D; font-weight: 500; margin-bottom: 12px; display: flex; align-items: flex-start;">
-                                            Vous avez un peu de temps et très envie de participer ? Certaines questions ont été posées à la communauté, appuyez sur la zone concernée par la bulle verte et éblouissez-nous.
+                                            En appuyant sur la bulle verte, vous prendrez connaissance des questions. 
                                         </li>
                                         <li class="px-3" style="color: #002D5D; font-weight: 500; margin-bottom: 12px; display: flex; align-items: flex-start;">
-                                            Vous aurez le choix : soit de répondre en privé à la personne, soit de partager tous ensemble sur le sujet.
+                                            Si vous avez la réponse, vous aurez le choix : soit de répondre directement à la personne, soit de partager vos connaisances sur le sujet dans un espace de discussion qui apparaitra dans "Questions résolues".
                                         </li>
                                         <li><hr class="dropdown-divider m-2" style="margin: 8px 0; opacity: 0.2;"></li>
-                                        <li>
-                                            <a class="dropdown-item d-flex align-items-center justify-content-center" href="/questions-en-attente/Président" style="padding: 12px 16px; color: #002D5D; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease; font-weight: 600; background: rgba(0, 45, 93, 0.1);">
-                                                <i class="bi bi-clock me-2" style="color: #002D5D; font-size: 1.1rem;"></i> Voir les questions en attente
-                                            </a>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -285,7 +304,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
             </div>
         </div>
         <!-- Bouton ancré au bas du centre -->
-        <div class="text-center" style="position: absolute; bottom: -130px; left: 32%; transform: translateX(-50%); z-index: 1000; width: 100%;">
+        <div class="text-center" style="position: absolute; bottom: 20px; left: 33%; transform: translateX(-50%); z-index: 1000;">
             <a href="/poser-question" class="btn btn-lg text-white px-5 py-4 shadow-lg ask-question-btn" style="font-size: 1.3rem; font-weight: 700; border: none; border-radius: 10px; background: linear-gradient(135deg, #990000 0%, #A00000 100%); box-shadow: 0 4px 15px rgba(153, 0, 0, 0.3); transition: all 0.3s ease;">
                 <i class="bi bi-envelope me-2"></i> Je pose ma question
             </a>

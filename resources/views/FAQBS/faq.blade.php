@@ -98,9 +98,9 @@ FAQ - Bibliothèques sonores de la région Centre - Val de Loire
                 </div>
                 <div class="carousel-text-overlay text-center px-4" style="position: absolute; bottom: 60px; left: 0; right: 0; background: rgba(0, 0, 0, 0.6); padding: 20px 0; z-index: 10;">
                     <h2 class="fs-4 text-white mb-0" style="text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); font-weight: 500;">
-                        L'Agora des Bibliothèques sonores de la région Centre - Val de Loire est un espace d'échange 
-                        et de partage dédié à la communauté des Bibliothèques sonores de la région Centre - Val de Loire. 
-                        Retrouvez ici les questions fréquentes et les informations utiles.
+                        L'Agora des Bibliothèques sonores de la région Centre - Val de Loire est un espace de discussion
+                        et de partage entre tous les bénévoles. 
+                        Retrouvez ici tous les échanges et les informations utiles, pour une plus grande efficacité, au bénéfice de nos audiolecteurs.
                     </h2>
                 </div>
             </div>
