@@ -132,10 +132,83 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                                 $questionTeam = $question->team ?? $question->destination ?? $question->group ?? 'Président';
                                                 $accordionId = $teamToAccordion[$questionTeam] ?? 'collapsePresidentResolues';
                                                 $questionTitle = $question->subject ?? $question->discussion_title ?? '';
+                                                
+                                                // Trouver la discussion associée
+                                                $discussionId = null;
+                                                $possibleFields = ['discussion_id', 'thread_id', 'forum_post_id', 'related_discussion_id', 'forum_id', 'post_id'];
+                                                foreach ($possibleFields as $field) {
+                                                    if (!empty($question->$field)) {
+                                                        $discussionId = $question->$field;
+                                                        break;
+                                                    }
+                                                }
+                                                
+                                                if (!$discussionId) {
+                                                    $possibleRelations = ['discussion', 'discussions', 'thread', 'threads', 'forumPost', 'forumPosts'];
+                                                    foreach ($possibleRelations as $relation) {
+                                                        if (isset($question->$relation) && $question->$relation) {
+                                                            if (is_iterable($question->$relation) && !is_array($question->$relation)) {
+                                                                $first = $question->$relation->first();
+                                                                if ($first) {
+                                                                    $discussionId = $first->id;
+                                                                    break;
+                                                                }
+                                                            } else {
+                                                                $discussionId = $question->$relation->id;
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                
+                                                if (!$discussionId && isset($discussions)) {
+                                                    foreach ($discussions as $discussion) {
+                                                        if (str_contains($discussion->title, '#'.$question->id) || 
+                                                            str_contains($discussion->title, 'Question '.$question->id) ||
+                                                            str_contains($discussion->content, '#'.$question->id) ||
+                                                            str_contains($discussion->content, 'Question '.$question->id)) {
+                                                            $discussionId = $discussion->id;
+                                                            break;
+                                                        }
+                                                        elseif (str_contains($discussion->content, $question->message) && 
+                                                               $discussion->team === $questionTeam) {
+                                                            $discussionId = $discussion->id;
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                                
+                                                if (!$discussionId) {
+                                                    if (!empty($question->meta) && is_array($question->meta)) {
+                                                        $discussionId = $question->meta['discussion_id'] ?? null;
+                                                    }
+                                                    if (!$discussionId && !empty($question->extra_data) && is_array($question->extra_data)) {
+                                                        $discussionId = $question->extra_data['discussion_id'] ?? null;
+                                                    }
+                                                    if (!$discussionId && !empty($question->meta) && is_string($question->meta)) {
+                                                        $meta = json_decode($question->meta, true);
+                                                        $discussionId = $meta['discussion_id'] ?? null;
+                                                    }
+                                                    if (!$discussionId && !empty($question->extra_data) && is_string($question->extra_data)) {
+                                                        $extra = json_decode($question->extra_data, true);
+                                                        $discussionId = $extra['discussion_id'] ?? null;
+                                                    }
+                                                }
                                                 @endphp
-                                                <a href="{{ route('questions-details', ['question' => $question->id]) }}" class="btn btn-sm btn-main text-white" style="font-size: 0.85rem; padding: 6px 12px; border-radius: 6px;">
-                                                    <i class="bi bi-eye me-1"></i> Détails
-                                                </a>
+                                                <div class="d-flex gap-2 flex-wrap">
+                                                    <a href="{{ route('questions-details', ['question' => $question->id]) }}" class="btn btn-sm btn-main text-white" style="font-size: 0.85rem; padding: 6px 12px; border-radius: 6px;">
+                                                        <i class="bi bi-eye me-1"></i> Détails
+                                                    </a>
+                                                    @if($discussionId)
+                                                    <a href="{{ route('discussions.show', ['discussion' => $discussionId]) }}" class="btn btn-sm btn-outline-success" target="_blank" style="font-size: 0.8rem; padding: 4px 8px; border-radius: 6px;">
+                                                        <i class="bi bi-eye me-1"></i> Voir le forum
+                                                    </a>
+                                                    @else
+                                                    <a href="/agora?group={{ urlencode($questionTeam) }}#{{ $accordionId }}" class="btn btn-sm btn-outline-success" target="_blank" style="font-size: 0.8rem; padding: 4px 8px; border-radius: 6px;">
+                                                        <i class="bi bi-eye me-1"></i> Voir le forum
+                                                    </a>
+                                                    @endif
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach

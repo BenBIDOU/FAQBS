@@ -74,7 +74,11 @@ class QuestionController extends Controller
     public function show(string $id)
     {
         $question = Question::findOrFail($id);
-        return view('FAQBS.question-detail', compact('question'));
+        
+        // Charger toutes les discussions pour vérifier les correspondances
+        $discussions = \App\Models\Discussion::orderBy('created_at', 'desc')->get();
+        
+        return view('FAQBS.question-detail', compact('question', 'discussions'));
     }
 
     /**
@@ -143,13 +147,19 @@ class QuestionController extends Controller
     /**
      * Marquer une question comme résolue
      */
-    public function markAsResolved(string $id)
+    public function markAsResolved(string $id, Request $request)
     {
         $question = Question::findOrFail($id);
         $question->resolved = true;
         $question->resolved_by = Auth::id();
         $question->resolved_at = now();
         $question->save();
+
+        // Rediriger vers une destination spécifique si fournie
+        $redirectTo = $request->input('redirect');
+        if ($redirectTo) {
+            return redirect($redirectTo)->with('success', 'Question marquée comme résolue avec succès !');
+        }
 
         return redirect()->back()->with('success', 'Question marquée comme résolue avec succès !');
     }
