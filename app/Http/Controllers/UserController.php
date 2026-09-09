@@ -9,6 +9,46 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     /**
+     * Affiche le formulaire pour créer un nouveau membre
+     */
+    public function create()
+    {
+        return view('FAQBS.ajouter-membre');
+    }
+
+    /**
+     * Stocke un nouveau membre
+     */
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email',
+            'telephone' => 'nullable|string|max:20',
+            'ville_bs' => 'nullable|string|max:255',
+            'password' => 'required|string|min:8|confirmed',
+            'is_master' => 'boolean',
+            'is_voice_donor' => 'boolean',
+            'is_president' => 'boolean',
+            'is_active' => 'boolean',
+        ]);
+
+        $user = new User();
+        $user->name = $validatedData['name'];
+        $user->email = $validatedData['email'];
+        $user->telephone = $validatedData['telephone'] ?? null;
+        $user->ville_bs = $validatedData['ville_bs'] ?? null;
+        $user->password = Hash::make($validatedData['password']);
+        $user->is_master = $validatedData['is_master'] ?? false;
+        $user->is_voice_donor = $validatedData['is_voice_donor'] ?? false;
+        $user->is_president = $validatedData['is_president'] ?? false;
+        $user->is_active = $validatedData['is_active'] ?? true;
+        $user->save();
+
+        return redirect()->route('membres.manage')->with('success', 'Membre ajouté avec succès !');
+    }
+
+    /**
      * Affiche le formulaire d'édition d'un membre
      */
     public function edit(User $user)

@@ -118,7 +118,11 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                                data-title="{{ $discussion->title }}"
                                                data-group="Président"
                                                data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp : 0 }}">
-                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>{{ Str::limit($discussion->title, 40) }}
+                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span>{{ Str::limit($discussion->title, 30) }}</span>
+                                                    <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $discussion->group }}</span>
+                                                </div>
                                             </a>
                                         @empty
                                             <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
@@ -143,7 +147,11 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                                data-title="{{ $discussion->title }}"
                                                data-group="Secrétariat"
                                                data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp : 0 }}">
-                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>{{ Str::limit($discussion->title, 40) }}
+                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span>{{ Str::limit($discussion->title, 30) }}</span>
+                                                    <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $discussion->group }}</span>
+                                                </div>
                                             </a>
                                         @empty
                                             <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
@@ -168,7 +176,11 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                                data-title="{{ $discussion->title }}"
                                                data-group="Trésorerie"
                                                data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp : 0 }}">
-                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>{{ Str::limit($discussion->title, 40) }}
+                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span>{{ Str::limit($discussion->title, 30) }}</span>
+                                                    <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $discussion->group }}</span>
+                                                </div>
                                             </a>
                                         @empty
                                             <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
@@ -193,7 +205,11 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                                data-title="{{ $discussion->title }}"
                                                data-group="Donneurs Voix"
                                                data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp : 0 }}">
-                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>{{ Str::limit($discussion->title, 40) }}
+                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span>{{ Str::limit($discussion->title, 30) }}</span>
+                                                    <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $discussion->group }}</span>
+                                                </div>
                                             </a>
                                         @empty
                                             <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
@@ -218,7 +234,11 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                                data-title="{{ $discussion->title }}"
                                                data-group="Donneurs Temps"
                                                data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp : 0 }}">
-                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>{{ Str::limit($discussion->title, 40) }}
+                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span>{{ Str::limit($discussion->title, 30) }}</span>
+                                                    <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $discussion->group }}</span>
+                                                </div>
                                             </a>
                                         @empty
                                             <p class="text-muted small mb-0 ps-4">Aucune discussion</p>

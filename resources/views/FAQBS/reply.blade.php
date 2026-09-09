@@ -60,12 +60,18 @@ Répondre à la question - Bibliothèques sonores de la région Centre - Val de 
                         @csrf
                         
                         <div class="mb-3">
+                            <label for="discussion_title" class="form-label" style="color: #002D5D; font-weight: 500;">Titre de la discussion</label>
+                            <input type="text" class="form-control" id="discussion_title" name="discussion_title" value="{{ old('discussion_title', $question->discussion_title ?? $question->subject) }}" style="border: 1px solid #E9ECEF; border-radius: 8px; padding: 0.75rem;">
+                            <small class="text-muted">Facultatif - titre sous lequel cette réponse sera référencée</small>
+                        </div>
+                        
+                        <div class="mb-3">
                             <label for="response" class="form-label" style="color: #002D5D; font-weight: 500;">Votre réponse</label>
                             <textarea class="form-control" id="response" name="response" rows="8" required style="border: 1px solid #E9ECEF; border-radius: 8px; padding: 0.75rem;"></textarea>
                         </div>
 
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
-                            <a href="{{ route('discussion.create') }}" 
+                            <a href="{{ route('discussion.create', ['group' => $question->team, 'title' => $question->subject ?? $question->discussion_title ?? '', 'content' => $question->message]) }}" 
                                class="btn btn-main" 
                                target="_blank" style="border-radius: 8px;">
                                 <i class="bi bi-chat-square-text me-1"></i> Créer une discussion

@@ -64,6 +64,23 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                     </h5>
                 </div>
                 <div class="card-body">
+                    @php
+                    $teamIcons = [
+                        'Président' => 'bi bi-person-circle',
+                        'Secrétariat' => 'bi bi-file-text',
+                        'Trésorerie' => 'bi bi-cash-coin',
+                        'Donneurs de Voix' => 'bi bi-mic',
+                        'Donneurs de Temps' => 'bi bi-clock',
+                    ];
+                    
+                    $teamToAccordion = [
+                        'Président' => 'collapsePresidentResolues',
+                        'Secrétariat' => 'collapseSecretariatResolues',
+                        'Trésorerie' => 'collapseTresorerieResolues',
+                        'Donneurs de Voix' => 'collapseDonneursVoixResolues',
+                        'Donneurs de Temps' => 'collapseDonneursTempsResolues',
+                    ];
+                    @endphp
                     @if($pendingQuestions->isEmpty())
                         <div class="alert alert-info mb-0" style="background: rgba(0, 123, 255, 0.1); border-left: 4px solid #0DC5FF; border-radius: 8px;">
                             Aucune question en attente.
@@ -82,6 +99,7 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                         <th class="sortable" data-sort="email" style="padding: 12px; white-space: nowrap; cursor: pointer; user-select: none;">
                                             Email <i class="bi bi-arrow-down-up ms-1"></i>
                                         </th>
+                                        <th style="padding: 12px; white-space: nowrap;">Forum concerné</th>
                                         <th class="sortable" data-sort="question" style="padding: 12px; cursor: pointer; user-select: none;">
                                             Question <i class="bi bi-arrow-down-up ms-1"></i>
                                         </th>
@@ -94,10 +112,29 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                             <td style="padding: 12px; color: #495057;">{{ $question->created_at->format('d/m/Y H:i') }}</td>
                                             <td style="padding: 12px; color: #495057;">{{ $question->name }}</td>
                                             <td style="padding: 12px; color: #495057;">{{ $question->email }}</td>
+                                            <td style="padding: 12px; color: #495057;">
+                                                @php
+                                                $questionTeam = $question->team ?? $question->destination ?? $question->group ?? 'Président';
+                                                $discussionTitle = $question->discussion_title ?? null;
+                                                
+                                                if (!$discussionTitle && isset($question->discussion) && $question->discussion) {
+                                                    $discussionTitle = $question->discussion->title ?? null;
+                                                }
+                                                
+                                                $forumLabel = $discussionTitle ? Str::limit($discussionTitle, 30) : $questionTeam;
+                                                @endphp
+                                                <i class="{{ $teamIcons[$questionTeam] ?? 'bi bi-question-circle' }} me-1"></i>
+                                                {{ $forumLabel }}
+                                            </td>
                                             <td style="padding: 12px; color: #495057;">{{ Str::limit($question->message, 50) }}</td>
                                             <td style="padding: 12px;">
+                                                @php
+                                                $questionTeam = $question->team ?? $question->destination ?? $question->group ?? 'Président';
+                                                $accordionId = $teamToAccordion[$questionTeam] ?? 'collapsePresidentResolues';
+                                                $questionTitle = $question->subject ?? $question->discussion_title ?? '';
+                                                @endphp
                                                 <a href="{{ route('questions-details', ['question' => $question->id]) }}" class="btn btn-sm btn-main text-white" style="font-size: 0.85rem; padding: 6px 12px; border-radius: 6px;">
-                                                    <i class="bi bi-eye me-1"></i> Détails de la question
+                                                    <i class="bi bi-eye me-1"></i> Détails
                                                 </a>
                                             </td>
                                         </tr>
@@ -145,6 +182,7 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                             <th class="sortable" data-sort="email" style="padding: 12px; white-space: nowrap; cursor: pointer; user-select: none;">
                                                 Email <i class="bi bi-arrow-down-up ms-1"></i>
                                             </th>
+                                            <th style="padding: 12px; white-space: nowrap;">Forum concerné</th>
                                             <th class="sortable" data-sort="message" style="padding: 12px; cursor: pointer; user-select: none;">
                                                 Message <i class="bi bi-arrow-down-up ms-1"></i>
                                             </th>
@@ -153,20 +191,25 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php
-                                        $teamToAccordion = [
-                                            'Président' => 'collapsePresidentResolues',
-                                            'Secrétariat' => 'collapseSecretariatResolues',
-                                            'Trésorerie' => 'collapseTresorerieResolues',
-                                            'Donneurs de Voix' => 'collapseDonneursVoixResolues',
-                                            'Donneurs de Temps' => 'collapseDonneursTempsResolues',
-                                        ];
-                                        @endphp
                                         @foreach($resolvedQuestions as $question)
                                             <tr class="table-success" style="border-bottom: 1px solid #E9ECEF;" data-date="{{ $question->created_at ? $question->created_at->timestamp : 0 }}" data-nom="{{ $question->name ? e($question->name) : '' }}" data-email="{{ $question->email ? e($question->email) : '' }}" data-question="{{ $question->message ? e($question->message) : '' }}">
                                                 <td style="padding: 12px; color: #495057;">{{ $question->created_at->format('d/m/Y H:i') }}</td>
                                                 <td style="padding: 12px; color: #495057;">{{ $question->name }}</td>
                                                 <td style="padding: 12px; color: #495057;">{{ $question->email }}</td>
+                                                <td style="padding: 12px; color: #495057;">
+                                                    @php
+                                                    $questionTeam = $question->team ?? $question->destination ?? $question->group ?? 'Président';
+                                                    $discussionTitle = $question->discussion_title ?? null;
+                                                    
+                                                    if (!$discussionTitle && isset($question->discussion) && $question->discussion) {
+                                                        $discussionTitle = $question->discussion->title ?? null;
+                                                    }
+                                                    
+                                                    $forumLabel = $discussionTitle ? Str::limit($discussionTitle, 30) : $questionTeam;
+                                                    @endphp
+                                                    <i class="{{ $teamIcons[$questionTeam] ?? 'bi bi-question-circle' }} me-1"></i>
+                                                    {{ $forumLabel }}
+                                                </td>
                                                 <td style="padding: 12px; color: #495057;">{{ Str::limit($question->message, 50) }}</td>
                                                 <td style="padding: 12px; color: #495057;">
                                                     @if($question->resolver)

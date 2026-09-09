@@ -94,6 +94,8 @@ Route::middleware(['auth.home', 'master'])->group(function () {
     })->name('membres.manage');
 
     // Actions sur les membres
+    Route::get('/membres/create', [UserController::class, 'create'])->name('membres.create');
+    Route::post('/membres', [UserController::class, 'store'])->name('membres.store');
     Route::get('/membres/{user}/edit', [UserController::class, 'edit'])->name('membres.edit');
     Route::put('/membres/{user}', [UserController::class, 'update'])->name('membres.update');
     Route::delete('/membres/{user}', [UserController::class, 'destroy'])->name('membres.destroy');

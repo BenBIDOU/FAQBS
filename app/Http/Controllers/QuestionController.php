@@ -6,6 +6,7 @@ use App\Models\Question;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class QuestionController extends Controller
 {
@@ -55,9 +56,12 @@ class QuestionController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'team' => 'required|string',
-            'subject' => 'required|string',
             'message' => 'required|string',
         ]);
+
+        // Générer automatiquement le sujet à partir du message
+        $subject = Str::limit($validated['message'], 50);
+        $validated['subject'] = $subject;
 
         Question::create($validated);
 
@@ -84,6 +88,7 @@ class QuestionController extends Controller
             // Enregistrer la réponse
             $request->validate([
                 'response' => 'required|string',
+                'discussion_title' => 'nullable|string|max:255',
             ]);
             
             $question->answer = $request->input('response');
@@ -92,6 +97,12 @@ class QuestionController extends Controller
             $question->resolved = true;
             $question->resolved_by = Auth::id();
             $question->resolved_at = now();
+            
+            // Conserver le titre de la discussion si fourni
+            if ($request->has('discussion_title')) {
+                $question->discussion_title = $request->input('discussion_title');
+            }
+            
             $question->save();
             
             return redirect()->route('questions-en-attente')->with('success', 'Réponse enregistrée avec succès !');

@@ -67,25 +67,32 @@ Gérer les discussions - Bibliothèques sonores de la région Centre - Val de Lo
                         </div>
                     @else
                         <div class="table-responsive">
-                            <table class="table table-hover" style="border-collapse: separate; border-spacing: 0; color: #000000;">
-                                <thead style="background: #343a40; color: #000000; border-radius: 8px 8px 0 0; overflow: hidden;">
+                            <table id="gestionDiscussionsTable" class="table table-hover" style="border-collapse: separate; border-spacing: 0;">
+                                <thead style="background: #6c757d; color: #000000; border-radius: 8px 8px 0 0; overflow: hidden;">
                                     <tr>
-                                        <th style="padding: 16px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600;">Titre</th>
-                                        <th style="padding: 16px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600;">Groupe</th>
-                                        <th style="padding: 16px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600;">Auteur</th>
-                                        <th style="padding: 16px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600;">Date de création</th>
+                                        <th class="sortable" data-sort="titre" style="padding: 16px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; cursor: pointer; user-select: none;">Titre <i class="bi bi-arrow-down-up ms-1"></i></th>
+                                        <th class="sortable" data-sort="groupe" style="padding: 16px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; cursor: pointer; user-select: none;">Groupe <i class="bi bi-arrow-down-up ms-1"></i></th>
+                                        <th class="sortable" data-sort="auteur" style="padding: 16px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; cursor: pointer; user-select: none;">Auteur <i class="bi bi-arrow-down-up ms-1"></i></th>
+                                        <th class="sortable" data-sort="date" style="padding: 16px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; cursor: pointer; user-select: none;">Date de création <i class="bi bi-arrow-down-up ms-1"></i></th>
                                         <th style="padding: 16px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600;">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($discussions as $discussion)
-                                        <tr style="background: #3d3d3d; border: 1px solid #495057; border-radius: 8px; margin-bottom: 8px;">
+                                        @php
+                                        $auteurNom = $discussion->user ? $discussion->user->name : 'Inconnu';
+                                        @endphp
+                                        <tr style="background: #ffffff; border: 1px solid #495057; border-radius: 8px; margin-bottom: 8px;" 
+                                            data-titre="{{ e($discussion->title) }}" 
+                                            data-groupe="{{ e($discussion->group) }}" 
+                                            data-auteur="{{ e($auteurNom) }}" 
+                                            data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp : 0 }}">
                                             <td style="padding: 16px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #000000;">
                                                 <strong>{{ $discussion->title }}</strong>
                                                 @if($discussion->link)
-                                                    <div class="small" style="color: #000000 !important; margin-top: 4px;">
+                                                    <div class="small" style="color: #000000; margin-top: 4px;">
                                                         <i class="bi bi-link-45deg"></i> 
-                                                        <a href="{{ $discussion->link }}" target="_blank" class="text-decoration-none" style="color: #000000 !important;">Lien</a>
+                                                        <a href="{{ $discussion->link }}" target="_blank" class="text-decoration-none" style="color: #000000;">Lien</a>
                                                     </div>
                                                 @endif
                                             </td>
@@ -101,10 +108,10 @@ Gérer les discussions - Bibliothèques sonores de la région Centre - Val de Lo
                                                         <small>{{ $discussion->user->name }}</small>
                                                     </div>
                                                 @else
-                                                    <small style="color: #000000 !important;">Inconnu</small>
+                                                    <small style="color: #000000;">Inconnu</small>
                                                 @endif
                                             </td>
-                                            <td style="padding: 16px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #000000 !important;">{{ $discussion->created_at->format('d/m/Y H:i') }}</td>
+                                            <td style="padding: 16px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #000000;">{{ $discussion->created_at->format('d/m/Y H:i') }}</td>
                                             <td style="padding: 16px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057;">
                                                 <div class="d-flex gap-2">
                                                     <a href="{{ route('discussions.show', $discussion->id) }}" 
@@ -139,4 +146,65 @@ Gérer les discussions - Bibliothèques sonores de la région Centre - Val de Lo
         </div>
     </div>
 </div>
+
+<style>
+    .sortable:hover {
+        background: rgba(255, 255, 255, 0.1) !important;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function setupTableSorting(tableId) {
+            const table = document.getElementById(tableId);
+            if (!table) return;
+            
+            const sortableHeaders = table.querySelectorAll('th.sortable');
+            
+            sortableHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const sortKey = this.getAttribute('data-sort');
+                    const tbody = table.querySelector('tbody');
+                    const rows = Array.from(tbody.querySelectorAll('tr'));
+                    
+                    const currentDir = this.getAttribute('data-dir') || 'asc';
+                    const newDir = currentDir === 'asc' ? 'desc' : 'asc';
+                    this.setAttribute('data-dir', newDir);
+                    
+                    sortableHeaders.forEach(h => {
+                        const icon = h.querySelector('.bi-arrow-down-up, .bi-arrow-up, .bi-arrow-down');
+                        if (icon) {
+                            if (h === this) {
+                                icon.className = newDir === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down';
+                            } else {
+                                icon.className = 'bi bi-arrow-down-up';
+                            }
+                        }
+                    });
+                    
+                    rows.sort((a, b) => {
+                        let aValue = a.getAttribute(`data-${sortKey}`);
+                        let bValue = b.getAttribute(`data-${sortKey}`);
+                        
+                        if (sortKey === 'date') {
+                            return newDir === 'asc' ? parseInt(aValue) - parseInt(bValue) : parseInt(bValue) - parseInt(aValue);
+                        }
+                        
+                        aValue = aValue ? aValue.toLowerCase() : '';
+                        bValue = bValue ? bValue.toLowerCase() : '';
+                        
+                        if (aValue < bValue) return newDir === 'asc' ? -1 : 1;
+                        if (aValue > bValue) return newDir === 'asc' ? 1 : -1;
+                        return 0;
+                    });
+                    
+                    rows.forEach(row => tbody.appendChild(row));
+                });
+            });
+        }
+        
+        setupTableSorting('gestionDiscussionsTable');
+    });
+</script>
+
 @endsection

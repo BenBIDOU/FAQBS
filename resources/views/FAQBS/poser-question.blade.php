@@ -68,12 +68,6 @@ Je pose ma question - Bibliothèques sonores de la région Centre - Val de Loire
                             </select>
                         </div>
                         
-                        <!-- Sujet -->
-                        <div class="mb-3">
-                            <label for="subject" class="form-label" style="color: #002D5D; font-weight: 500;">Sujet de la question</label>
-                            <input type="text" class="form-control" id="subject" name="subject" required style="border: 1px solid #E9ECEF; border-radius: 8px; padding: 0.75rem;">
-                        </div>
-                        
                         <!-- Message -->
                         <div class="mb-3">
                             <label for="message" class="form-label" style="color: #002D5D; font-weight: 500;">Ma question</label>

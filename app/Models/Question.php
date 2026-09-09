@@ -20,7 +20,8 @@ class Question extends Model
         'resolved_at',
         'answer',
         'answered_by',
-        'answered_at'
+        'answered_at',
+        'discussion_title'
     ];
     
     protected $casts = [
