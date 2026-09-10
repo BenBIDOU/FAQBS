@@ -14,7 +14,7 @@
 <body>
     @include('layouts.navbar')
 
-    <div class="mt-4 mx-100 container-fluid" style="background: linear-gradient(135deg, #fafafa 0%, #f0dfdf 100%); min-height: calc(100vh - 100px);">
+    <div class="mt-4 mx-100 container-fluid pb-5" style="background: linear-gradient(135deg, #fafafa 0%, #f0dfdf 100%); min-height: calc(100vh - 100px);">
         @yield('content')
     </div>
 
