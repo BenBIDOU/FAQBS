@@ -199,15 +199,6 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                                     <a href="{{ route('questions-details', ['question' => $question->id]) }}" class="btn btn-sm btn-main text-white" style="font-size: 0.85rem; padding: 6px 12px; border-radius: 6px;">
                                                         <i class="bi bi-eye me-1"></i> Détails
                                                     </a>
-                                                    @if($discussionId)
-                                                    <a href="{{ route('discussions.show', ['discussion' => $discussionId]) }}" class="btn btn-sm btn-outline-success" target="_blank" style="font-size: 0.8rem; padding: 4px 8px; border-radius: 6px;">
-                                                        <i class="bi bi-eye me-1"></i> Voir le forum
-                                                    </a>
-                                                    @else
-                                                    <a href="/agora?group={{ urlencode($questionTeam) }}#{{ $accordionId }}" class="btn btn-sm btn-outline-success" target="_blank" style="font-size: 0.8rem; padding: 4px 8px; border-radius: 6px;">
-                                                        <i class="bi bi-eye me-1"></i> Voir le forum
-                                                    </a>
-                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>
