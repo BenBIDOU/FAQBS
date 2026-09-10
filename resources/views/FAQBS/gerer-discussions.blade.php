@@ -48,15 +48,14 @@ Gérer les discussions - Bibliothèques sonores de la région Centre - Val de Lo
 
                     <div class="mb-4 d-flex justify-content-between align-items-center">
                         <p class="mb-0" style="color: #adadad;">Liste de toutes les discussions</p>
-                        <a href="/agora" class="btn btn-outline-light text-light" style="border: 1px solid #6c757d;">
-                            <i class="bi bi-arrow-left me-1"></i> Retour
-                        </a>
-                    </div>
-                    
-                    <div class="mb-3 d-flex justify-content-end">
-                        <a href="{{ route('discussion.create') }}" class="btn text-white" style="background: linear-gradient(135deg, #6c757d 0%, #495057 100%); border: none; border-radius: 8px; padding: 12px 24px; transition: all 0.3s ease; font-weight: 600;">
-                            <i class="bi bi-plus-circle me-2"></i> Ajouter une discussion
-                        </a>
+                        <div class="d-flex gap-3 align-items-center">
+                            <a href="{{ route('discussion.create') }}" class="btn text-white" style="background: linear-gradient(135deg, #6c757d 0%, #495057 100%); border: none; border-radius: 8px; padding: 12px 24px; transition: all 0.3s ease; font-weight: 600; height: 48px;">
+                                <i class="bi bi-plus-circle me-2"></i> Ajouter une discussion
+                            </a>
+                            <a href="/agora" class="btn btn-outline-light text-light" style="border: 1px solid #6c757d; border-radius: 8px; padding: 12px 24px; transition: all 0.3s ease; font-weight: 600; height: 48px;">
+                                <i class="bi bi-arrow-left me-1"></i> Retour
+                            </a>
+                        </div>
                     </div>
 
                     @if($discussions->isEmpty())

@@ -28,6 +28,9 @@ Ajouter une discussion - Bibliothèques sonores de la région Centre - Val de Lo
                 <div class="card-body">
                     <form id="discussionForm" method="POST" action="{{ route('discussions.store') }}" enctype="multipart/form-data">
                         @csrf
+                        @if(isset($question_id))
+                            <input type="hidden" name="question_id" value="{{ $question_id }}">
+                        @endif
 
                         <!-- Nom, Prénom, Fonction (pré-remplis) -->
                         <div class="row mb-3">

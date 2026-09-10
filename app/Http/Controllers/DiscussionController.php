@@ -19,7 +19,8 @@ class DiscussionController extends Controller
         $title = $request->input('title', $subject); // Alias pour compatibilité
         $group = $request->input('group', '');
         $content = $request->input('content', '');
-        return view('FAQBS/ajouter-discu', compact('subject', 'title', 'group', 'content'));
+        $question_id = $request->input('question_id', null);
+        return view('FAQBS/ajouter-discu', compact('subject', 'title', 'group', 'content', 'question_id'));
     }
 
     /**
@@ -27,6 +28,9 @@ class DiscussionController extends Controller
      */
     public function store(Request $request)
     {
+        // Debug: afficher les données reçues
+        // dd($request->all());
+        
         try {
             $validatedData = $request->validate([
                 'title' => 'required|string|max:255',
@@ -34,6 +38,7 @@ class DiscussionController extends Controller
                 'link' => 'nullable|url|max:255',
                 'content' => 'required|string',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'question_id' => 'nullable|integer',
             ]);
 
             $discussion = new Discussion();
@@ -43,6 +48,11 @@ class DiscussionController extends Controller
             $discussion->content = $validatedData['content'];
             $discussion->user_id = Auth::id();
 
+            // Debug: vérifier l'authentification
+            if (!Auth::check()) {
+                return redirect('/')->with('error', 'Non connecté dans store');
+            }
+
             // Gestion de l'image
             if ($request->hasFile('image')) {
                 $path = $request->file('image')->store('discussion_images', 'public');
@@ -51,12 +61,21 @@ class DiscussionController extends Controller
 
             $discussion->save();
 
-            return redirect()->route('agora')->with('success', 'Discussion ajoutée avec succès !');
+            // Associer la discussion à la question si question_id est fourni
+            if ($request->has('question_id') && $request->question_id) {
+                $question = \App\Models\Question::find($request->question_id);
+                if ($question) {
+                    $question->discussion_id = $discussion->id;
+                    $question->save();
+                }
+            }
+
+            return redirect('/agora')->with('success', 'Discussion ajoutée avec succès !');
 
         } catch (\Exception $e) {
             Log::error('Erreur lors de l\'ajout d\'une discussion: ' . $e->getMessage());
 
-            return back()->withInput()->with('error', 'Une erreur est survenue lors de l\'ajout de la discussion. Veuillez réessayer.');
+            return back()->withInput()->with('error', 'Erreur: ' . $e->getMessage());
         }
     }
 

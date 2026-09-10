@@ -71,9 +71,9 @@ Répondre à la question - Bibliothèques sonores de la région Centre - Val de 
                         </div>
 
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
-                            <a href="{{ route('discussion.create', ['group' => $question->team, 'title' => $question->subject ?? $question->discussion_title ?? '', 'content' => $question->message]) }}" 
+                            <a href="{{ route('discussion.create', ['group' => $question->team, 'title' => $question->subject ?? $question->discussion_title ?? '', 'content' => $question->message, 'question_id' => $question->id]) }}" 
                                class="btn btn-main" 
-                               target="_blank" style="border-radius: 8px;">
+                               style="border-radius: 8px;">
                                 <i class="bi bi-chat-square-text me-1"></i> Créer une discussion
                             </a>
                             <button type="reset" class="btn btn-outline-secondary" style="border-radius: 8px;">

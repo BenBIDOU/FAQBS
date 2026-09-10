@@ -66,79 +66,81 @@ Gestion des questions - Bibliothèques sonores de la région Centre - Val de Loi
                         </div>
                     @else
                         <div class="table-responsive">
-                            <table id="gestionQuestionsTable" class="table table-hover" style="border-collapse: separate; border-spacing: 0;">
-                                <thead style="background: #6c757d; color: #000000; border-radius: 8px 8px 0 0; overflow: hidden;">
-                                    <tr>
-                                        <th class="sortable" data-sort="nom" style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none;">Nom <i class="bi bi-arrow-down-up ms-1"></i></th>
-                                        <th class="sortable" data-sort="email" style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none;">Email <i class="bi bi-arrow-down-up ms-1"></i></th>
-                                        <th class="sortable" data-sort="forum" style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none;">Forum concerné <i class="bi bi-arrow-down-up ms-1"></i></th>
-                                        <th class="sortable" data-sort="message" style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none;">Message <i class="bi bi-arrow-down-up ms-1"></i></th>
-                                        <th class="sortable" data-sort="date" style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none;">Date <i class="bi bi-arrow-down-up ms-1"></i></th>
-                                        <th class="sortable" data-sort="statut" style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none;">Statut <i class="bi bi-arrow-down-up ms-1"></i></th>
-                                        <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap;">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="questionsTableBody">
-                                    @foreach($questions as $question)
-                                        @php
-                                        $statutLabel = $question->resolved ? 'Résolue' : 'En attente';
-                                        @endphp
-                                        <tr style="background: #ffffff; border: 1px solid #495057; border-radius: 8px; margin-bottom: 8px;" 
-                                            data-nom="{{ $question->name ? e($question->name) : '' }}" 
-                                            data-email="{{ $question->email ? e($question->email) : '' }}" 
-                                            data-forum="{{ $question->team ? e($question->team) : '' }}" 
-                                            data-message="{{ $question->message ? e($question->message) : '' }}" 
-                                            data-date="{{ $question->created_at ? $question->created_at->timestamp : 0 }}" 
-                                            data-statut="{{ $statutLabel }}">
-                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #000000;">
-                                                <strong>{{ $question->name }}</strong>
-                                            </td>
-                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #000000;">{{ $question->email }}</td>
-                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057;">
-                                                <span class="badge" style="background: rgba(108, 117, 125, 0.3); color: #000000; border: 1px solid #6c757d; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 500;">
-                                                    {{ $question->team }}
-                                                </span>
-                                            </td>
-                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #000000;">
-                                                {{ Str::limit($question->message, 50) }}
-                                            </td>
-                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #000000;">
-                                                {{ $question->created_at->setTimezone('Europe/Paris')->format('d/m/Y H:i') }}
-                                            </td>
-                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057;">
-                                                @if($question->resolved)
-                                                    <span class="badge" style="background: rgba(40, 167, 69, 0.3); color: #000000; border: 1px solid #28a745; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 500;">Résolue</span>
-                                                @else
-                                                    <span class="badge" style="background: rgba(255, 193, 7, 0.3); color: #000000; border: 1px solid #ffc107; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 500;">En attente</span>
-                                                @endif
-                                            </td>
-                                            <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057;">
-                                                <div class="d-flex gap-2 flex-wrap">
-                                                    <a href="{{ route('questions-details', $question->id) }}" 
-                                                       class="btn btn-sm" 
-                                                       title="Voir" style="background: rgba(0, 135, 189, 0.2); border: 1px solid #0087BC; color: #87ceeb; border-radius: 6px; padding: 6px 10px; transition: all 0.2s ease;">
-                                                        <i class="bi bi-eye"></i>
-                                                    </a>
-                                                    <a href="{{ route('questions.edit', $question->id) }}" 
-                                                       class="btn btn-sm" 
-                                                       title="Modifier" style="background: rgba(255, 193, 7, 0.2); border: 1px solid #FFC107; color: #ffd700; border-radius: 6px; padding: 6px 10px; transition: all 0.2s ease;">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </a>
-                                                    <form action="{{ route('questions.destroy', $question->id) }}" method="POST"
-                                                          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette question ?')">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm"
-                                                                title="Supprimer" style="background: rgba(220, 53, 69, 0.2); border: 1px solid #dc3545; color: #ff6b6b; border-radius: 6px; padding: 6px 10px; transition: all 0.2s ease;">
-                                                            <i class="bi bi-trash"></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </td>
+                            <div class="table-responsive">
+                                <table id="gestionQuestionsTable" class="table table-hover" style="border-collapse: separate; border-spacing: 0; min-width: 800px;">
+                                    <thead style="background: #6c757d; color: #000000; border-radius: 8px 8px 0 0; overflow: hidden;">
+                                        <tr>
+                                            <th class="sortable" data-sort="nom" style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none;">Nom <i class="bi bi-arrow-down-up ms-1"></i></th>
+                                            <th class="sortable d-none d-lg-table-cell" data-sort="email" style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none;">Email <i class="bi bi-arrow-down-up ms-1"></i></th>
+                                            <th class="sortable" data-sort="forum" style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none;">Forum <i class="bi bi-arrow-down-up ms-1"></i></th>
+                                            <th class="sortable" data-sort="message" style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none;">Message <i class="bi bi-arrow-down-up ms-1"></i></th>
+                                            <th class="sortable d-none d-md-table-cell" data-sort="date" style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none;">Date <i class="bi bi-arrow-down-up ms-1"></i></th>
+                                            <th class="sortable" data-sort="statut" style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none;">Statut <i class="bi bi-arrow-down-up ms-1"></i></th>
+                                            <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap;">Actions</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody id="questionsTableBody">
+                                        @foreach($questions as $question)
+                                            @php
+                                            $statutLabel = $question->resolved ? 'Résolue' : 'En attente';
+                                            @endphp
+                                            <tr style="background: #ffffff; border: 1px solid #495057; border-radius: 8px; margin-bottom: 8px;" 
+                                                data-nom="{{ $question->name ? e($question->name) : '' }}" 
+                                                data-email="{{ $question->email ? e($question->email) : '' }}" 
+                                                data-forum="{{ $question->team ? e($question->team) : '' }}" 
+                                                data-message="{{ $question->message ? e($question->message) : '' }}" 
+                                                data-date="{{ $question->created_at ? $question->created_at->timestamp : 0 }}" 
+                                                data-statut="{{ $statutLabel }}">
+                                                <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #000000;">
+                                                    <strong>{{ $question->name }}</strong>
+                                                </td>
+                                                <td class="d-none d-lg-table-cell" style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #000000;">{{ $question->email }}</td>
+                                                <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057;">
+                                                    <span class="badge" style="background: rgba(108, 117, 125, 0.3); color: #000000; border: 1px solid #6c757d; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 500;">
+                                                        {{ $question->team }}
+                                                    </span>
+                                                </td>
+                                                <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #000000;">
+                                                    {{ Str::limit($question->message, 30) }}
+                                                </td>
+                                                <td class="d-none d-md-table-cell" style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #000000;">
+                                                    {{ $question->created_at->setTimezone('Europe/Paris')->format('d/m/Y') }}
+                                                </td>
+                                                <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057;">
+                                                    @if($question->resolved)
+                                                        <span class="badge" style="background: rgba(40, 167, 69, 0.3); color: #000000; border: 1px solid #28a745; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 500;">Résolue</span>
+                                                    @else
+                                                        <span class="badge" style="background: rgba(255, 193, 7, 0.3); color: #000000; border: 1px solid #ffc107; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 500;">En attente</span>
+                                                    @endif
+                                                </td>
+                                                <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; white-space: nowrap;">
+                                                    <div class="d-flex gap-2 flex-column flex-md-row">
+                                                        <a href="{{ route('questions-details', $question->id) }}" 
+                                                           class="btn btn-sm" 
+                                                           title="Voir" style="background: rgba(0, 135, 189, 0.2); border: 1px solid #0087BC; color: #87ceeb; border-radius: 6px; padding: 6px 10px; transition: all 0.2s ease;">
+                                                            <i class="bi bi-eye"></i>
+                                                        </a>
+                                                        <a href="{{ route('questions.edit', $question->id) }}" 
+                                                           class="btn btn-sm" 
+                                                           title="Modifier" style="background: rgba(255, 193, 7, 0.2); border: 1px solid #FFC107; color: #ffd700; border-radius: 6px; padding: 6px 10px; transition: all 0.2s ease;">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </a>
+                                                        <form action="{{ route('questions.destroy', $question->id) }}" method="POST"
+                                                              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette question ?')">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm"
+                                                                    title="Supprimer" style="background: rgba(220, 53, 69, 0.2); border: 1px solid #dc3545; color: #ff6b6b; border-radius: 6px; padding: 6px 10px; transition: all 0.2s ease;">
+                                                                <i class="bi bi-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     @endif
                 </div>
@@ -165,6 +167,7 @@ Gestion des questions - Bibliothèques sonores de la région Centre - Val de Loi
     
     .table-responsive {
         overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
     
     /* Style des badges pour le thème sombre */
@@ -178,6 +181,7 @@ Gestion des questions - Bibliothèques sonores de la région Centre - Val de Loi
     /* Boutons avec transitions */
     .btn-sm {
         transition: all 0.2s ease;
+        min-width: 36px;
     }
     
     .btn-sm:hover {
@@ -187,6 +191,79 @@ Gestion des questions - Bibliothèques sonores de la région Centre - Val de Loi
     /* Style des en-têtes triables */
     .sortable:hover {
         background: rgba(255, 255, 255, 0.1) !important;
+    }
+    
+    /* Responsive - Mobile */
+    @media (max-width: 767.98px) {
+        .card-body {
+            padding: 1rem;
+        }
+        
+        .table thead th {
+            font-size: 0.85rem;
+            padding: 8px 6px;
+        }
+        
+        .table tbody td {
+            font-size: 0.85rem;
+            padding: 8px 6px;
+        }
+        
+        .d-flex.justify-content-between.align-items-center {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .d-flex.justify-content-between.align-items-center .btn {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        /* Réduire la largeur des colonnes masquées */
+        .d-none.d-lg-table-cell {
+            display: none !important;
+        }
+        
+        .d-none.d-md-table-cell {
+            display: none !important;
+        }
+    }
+    
+    /* Responsive - Tablette */
+    @media (min-width: 768px) and (max-width: 991.98px) {
+        .d-none.d-lg-table-cell {
+            display: none !important;
+        }
+        
+        .d-none.d-md-table-cell {
+            display: table-cell;
+        }
+    }
+    
+    /* Responsive - Desktop */
+    @media (min-width: 992px) {
+        .d-none.d-lg-table-cell {
+            display: table-cell;
+        }
+        
+        .d-none.d-md-table-cell {
+            display: table-cell;
+        }
+    }
+    
+    /* Fix pour le scroll horizontal fluide sur mobile */
+    .table-responsive::-webkit-scrollbar {
+        height: 8px;
+    }
+    
+    .table-responsive::-webkit-scrollbar-thumb {
+        background: #6c757d;
+        border-radius: 4px;
+    }
+    
+    .table-responsive::-webkit-scrollbar-track {
+        background: #2d2d2d;
     }
 </style>
 

@@ -32,7 +32,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
             <i class="bi bi-info-circle-fill me-2" style="color: #002D5D; font-size: 1.2rem;"></i>
             <div>
                 <h4 class="mb-1" style="color: #002D5D;">Bonjour, {{ Auth::user()->name }} !</h4>
-                <p class="mb-0" style="color: #495057;">Vous êtes connecté à l'espace d'échange des Bibliothèques sonores de la région Centre - Val de Loire. Posez vos questions, consultez les discussions et interagissez avec tous les bénévoles.</p>
+                <p class="mb-0" style="color: #495057;">Vous êtes connecté à l'espace d'échange des Bibliothèques sonores de la région Centre - Val de Loire. </p> <p>Posez vos questions, consultez les discussions et interagissez avec tous les bénévoles.</p>
             </div>
         </div>
     </div>
@@ -88,6 +88,14 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                     </select>
                 </div>
             </div>
+        </div>
+        <!-- Résultats de recherche -->
+        <div id="searchResults" class="mt-3" style="display: none; background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+            <div class="d-flex align-items-center mb-3">
+                <i class="bi bi-search me-2" style="color: #002D5D; font-size: 1.2rem;"></i>
+                <h5 class="mb-0" style="color: #002D5D;">Résultats de recherche <span id="resultsCount" class="badge bg-primary ms-2">0</span></h5>
+            </div>
+            <div id="resultsList" class="row g-2"></div>
         </div>
     </div>
 
@@ -565,6 +573,9 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                 el.classList.toggle('d-none', hasResults);
             });
             
+            // Afficher les résultats sous les filtres
+            displaySearchResults();
+            
             // Réinitialiser si vide
             if (searchTerm === '') {
                 discussionLinks.forEach(link => link.classList.remove('d-none'));
@@ -574,6 +585,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                     b.classList.add('collapsed');
                     b.setAttribute('aria-expanded', 'false');
                 });
+                if (searchResults) searchResults.style.display = 'none';
                 return;
             }
             
@@ -604,6 +616,66 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
             });
         }
         
+        function displaySearchResults() {
+            if (!searchResults || !resultsList || !resultsCount) return;
+            
+            // Collecter toutes les discussions actuellement visibles (après filtrage)
+            const visibleDiscussions = [];
+            document.querySelectorAll('.discussion-link:not(.d-none)').forEach(link => {
+                visibleDiscussions.push({
+                    title: link.getAttribute('data-title') || link.textContent,
+                    url: link.href,
+                    group: link.getAttribute('data-group') || '',
+                    date: link.getAttribute('data-date') || 0
+                });
+            });
+            
+            // Mettre à jour le compteur
+            resultsCount.textContent = visibleDiscussions.length;
+            
+            // Afficher ou masquer selon les résultats
+            if (visibleDiscussions.length > 0) {
+                // Créer les cartes de résultats
+                resultsList.innerHTML = visibleDiscussions.map(disc => `
+                    <div class="col-md-6 col-lg-4">
+                        <a href="${disc.url}" class="card text-decoration-none" style="background: #f8f9fa; border: 1px solid #E9ECEF; border-radius: 8px; transition: all 0.2s ease;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h6 class="mb-0" style="color: #002D5D; font-weight: 600;">${disc.title.length > 40 ? disc.title.substring(0, 40) + '...' : disc.title}</h6>
+                                    <span class="badge" style="background: #6c757d; color: white; font-size: 0.75em; padding: 4px 8px; border-radius: 4px;">${disc.group}</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">${formatDate(parseInt(disc.date))}</small>
+                                    <i class="bi bi-arrow-right-circle" style="color: #002D5D;"></i>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                `).join('');
+                
+                searchResults.style.display = 'block';
+            } else {
+                // Vérifier s'il y a une recherche active
+                const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+                const selectedGroup = groupFilter ? groupFilter.value : '';
+                const selectedDate = dateFilter ? dateFilter.value : '';
+                
+                if (searchTerm || selectedGroup || selectedDate) {
+                    resultsList.innerHTML = '<div class="col-12 text-center py-4"><p class="mb-0 text-muted">Aucune discussion trouvée correspondant à vos critères de recherche.</p></div>';
+                    resultsCount.textContent = '0';
+                    searchResults.style.display = 'block';
+                } else {
+                    searchResults.style.display = 'none';
+                }
+            }
+        }
+        
+        function formatDate(timestamp) {
+            if (!timestamp || timestamp === 0) return 'Inconnu';
+            const date = new Date(timestamp);
+            return date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+        
         // Écouteurs
         searchInput.addEventListener('input', filterDiscussions);
         searchButton.addEventListener('click', filterDiscussions);
@@ -618,6 +690,11 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
         const groupFilter = document.getElementById('groupFilter');
         const dateFilter = document.getElementById('dateFilter');
         const sortFilter = document.getElementById('sortFilter');
+        
+        // Conteneurs pour les résultats de recherche
+        const searchResults = document.getElementById('searchResults');
+        const resultsList = document.getElementById('resultsList');
+        const resultsCount = document.getElementById('resultsCount');
         
         // Lire les paramètres de l'URL et pré-sélectionner les filtres
         const urlParams = new URLSearchParams(window.location.search);
@@ -663,6 +740,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
         function applyFiltersAndSort() {
             applyFilters();
             applySort();
+            displaySearchResults();
         }
         
         function applySort() {
@@ -703,6 +781,8 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                     body.appendChild(noDiscussionMsg);
                 }
             });
+            
+            displaySearchResults();
         }
         
         function applyFilters() {

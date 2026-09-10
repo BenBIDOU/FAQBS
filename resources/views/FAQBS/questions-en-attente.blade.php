@@ -286,95 +286,95 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                                     @endif
                                                 </td>
                                                 <td style="padding: 12px;">
-                                                    @if($question->answered_by)
-                                                        <span class="text-muted small">Réponse directe</span>
-                                                    @else
-                                                        @php
-                                                        // Essayer de trouver la discussion associée
-                                                        $discussionId = null;
-                                                        $questionTeam = $question->destination ?? $question->team ?? $question->group ?? $team ?? '';
-                                                        
-                                                        // Vérifier les champs directs de la question
-                                                        $possibleFields = ['discussion_id', 'thread_id', 'forum_post_id', 'related_discussion_id', 'forum_id', 'post_id'];
-                                                        foreach ($possibleFields as $field) {
-                                                            if (!empty($question->$field)) {
-                                                                $discussionId = $question->$field;
+                                                    @php
+                                                    // Essayer de trouver la discussion associée
+                                                    $discussionId = null;
+                                                    $questionTeam = $question->destination ?? $question->team ?? $question->group ?? $team ?? '';
+                                                    
+                                                    // Vérifier les champs directs de la question
+                                                    $possibleFields = ['discussion_id', 'thread_id', 'forum_post_id', 'related_discussion_id', 'forum_id', 'post_id'];
+                                                    foreach ($possibleFields as $field) {
+                                                        if (!empty($question->$field)) {
+                                                            $discussionId = $question->$field;
+                                                            break;
+                                                        }
+                                                    }
+                                                    
+                                                    // Vérifier les relations de la question
+                                                    $possibleRelations = ['discussion', 'discussions', 'thread', 'threads', 'forumPost', 'forumPosts'];
+                                                    foreach ($possibleRelations as $relation) {
+                                                        if (isset($question->$relation) && $question->$relation) {
+                                                            if (is_iterable($question->$relation) && !is_array($question->$relation)) {
+                                                                $first = $question->$relation->first();
+                                                                if ($first) {
+                                                                    $discussionId = $first->id;
+                                                                    break;
+                                                                }
+                                                            } else {
+                                                                $discussionId = $question->$relation->id;
                                                                 break;
                                                             }
                                                         }
-                                                        
-                                                        // Vérifier les relations de la question
-                                                        $possibleRelations = ['discussion', 'discussions', 'thread', 'threads', 'forumPost', 'forumPosts'];
-                                                        foreach ($possibleRelations as $relation) {
-                                                            if (isset($question->$relation) && $question->$relation) {
-                                                                if (is_iterable($question->$relation) && !is_array($question->$relation)) {
-                                                                    $first = $question->$relation->first();
-                                                                    if ($first) {
-                                                                        $discussionId = $first->id;
-                                                                        break;
-                                                                    }
-                                                                } else {
-                                                                    $discussionId = $question->$relation->id;
-                                                                    break;
-                                                                }
+                                                    }
+                                                    
+                                                    // Si pas trouvé, chercher dans la liste des discussions passées par le contrôleur
+                                                    if (!$discussionId && isset($discussions)) {
+                                                        foreach ($discussions as $discussion) {
+                                                            // Chercher l'ID de la question dans le titre ou le contenu de la discussion
+                                                            if (str_contains($discussion->title, '#'.$question->id) || 
+                                                                str_contains($discussion->title, 'Question '.$question->id) ||
+                                                                str_contains($discussion->content, '#'.$question->id) ||
+                                                                str_contains($discussion->content, 'Question '.$question->id)) {
+                                                                $discussionId = $discussion->id;
+                                                                break;
+                                                            }
+                                                            // Vérifier si le message de la question est dans la discussion
+                                                            elseif (str_contains($discussion->content, $question->message) && 
+                                                                   $discussion->team === $questionTeam) {
+                                                                $discussionId = $discussion->id;
+                                                                break;
                                                             }
                                                         }
-                                                        
-                                                        // Si pas trouvé, chercher dans la liste des discussions passées par le contrôleur
-                                                        if (!$discussionId && isset($discussions)) {
-                                                            foreach ($discussions as $discussion) {
-                                                                // Chercher l'ID de la question dans le titre ou le contenu de la discussion
-                                                                if (str_contains($discussion->title, '#'.$question->id) || 
-                                                                    str_contains($discussion->title, 'Question '.$question->id) ||
-                                                                    str_contains($discussion->content, '#'.$question->id) ||
-                                                                    str_contains($discussion->content, 'Question '.$question->id)) {
-                                                                    $discussionId = $discussion->id;
-                                                                    break;
-                                                                }
-                                                                // Vérifier si le message de la question est dans la discussion
-                                                                elseif (str_contains($discussion->content, $question->message) && 
-                                                       $discussion->team === $questionTeam) {
-                                                                    $discussionId = $discussion->id;
-                                                                    break;
-                                                                }
-                                                            }
+                                                    }
+                                                    
+                                                    // Vérifier dans les données JSON
+                                                    if (!$discussionId) {
+                                                        if (!empty($question->meta) && is_array($question->meta)) {
+                                                            $discussionId = $question->meta['discussion_id'] ?? null;
                                                         }
-                                                        
-                                                        // Vérifier dans les données JSON
-                                                        if (!$discussionId) {
-                                                            if (!empty($question->meta) && is_array($question->meta)) {
-                                                                $discussionId = $question->meta['discussion_id'] ?? null;
-                                                            }
-                                                            if (!$discussionId && !empty($question->extra_data) && is_array($question->extra_data)) {
-                                                                $discussionId = $question->extra_data['discussion_id'] ?? null;
-                                                            }
-                                                            if (!$discussionId && !empty($question->meta) && is_string($question->meta)) {
-                                                                $meta = json_decode($question->meta, true);
-                                                                $discussionId = $meta['discussion_id'] ?? null;
-                                                            }
-                                                            if (!$discussionId && !empty($question->extra_data) && is_string($question->extra_data)) {
-                                                                $extra = json_decode($question->extra_data, true);
-                                                                $discussionId = $extra['discussion_id'] ?? null;
-                                                            }
+                                                        if (!$discussionId && !empty($question->extra_data) && is_array($question->extra_data)) {
+                                                            $discussionId = $question->extra_data['discussion_id'] ?? null;
                                                         }
-                                                        
-                                                        $accordionId = $teamToAccordion[$questionTeam] ?? $teamToAccordion['Président'];
-                                                        @endphp
-                                                        @if($discussionId)
-                                                        <a href="{{ route('discussions.show', ['discussion' => $discussionId]) }}" 
-                                                           class="btn btn-sm btn-outline-success" 
-                                                           target="_blank" style="font-size: 0.8rem; padding: 4px 8px; border-radius: 6px;">
-                                                            <i class="bi bi-eye me-1"></i> Voir le forum
-                                                        </a>
+                                                        if (!$discussionId && !empty($question->meta) && is_string($question->meta)) {
+                                                            $meta = json_decode($question->meta, true);
+                                                            $discussionId = $meta['discussion_id'] ?? null;
+                                                        }
+                                                        if (!$discussionId && !empty($question->extra_data) && is_string($question->extra_data)) {
+                                                            $extra = json_decode($question->extra_data, true);
+                                                            $discussionId = $extra['discussion_id'] ?? null;
+                                                        }
+                                                    }
+                                                    
+                                                    $accordionId = $teamToAccordion[$questionTeam] ?? $teamToAccordion['Président'];
+                                                    @endphp
+                                                    <div class="d-flex gap-2 flex-wrap">
+                                                        @if($question->answered_by)
+                                                            <span class="text-muted small d-flex align-items-center">Réponse directe</span>
                                                         @else
-                                                        <!-- Si pas de discussion trouvée, pointer vers le groupe avec filtre -->
-                                                        <a href="/agora?group={{ urlencode($questionTeam) }}#{{ $accordionId }}" 
-                                                           class="btn btn-sm btn-outline-success" 
-                                                           target="_blank" style="font-size: 0.8rem; padding: 4px 8px; border-radius: 6px;">
-                                                            <i class="bi bi-eye me-1"></i> Voir le forum
-                                                        </a>
+                                                            <a href="/agora?group={{ urlencode($questionTeam) }}" 
+                                                               class="btn btn-sm btn-outline-info" 
+                                                               style="font-size: 0.8rem; padding: 4px 8px; border-radius: 6px;">
+                                                                <i class="bi bi-search me-1"></i> Chercher discussion
+                                                            </a>
                                                         @endif
-                                                    @endif
+                                                        @if($discussionId)
+                                                            <a href="{{ route('discussions.show', ['discussion' => $discussionId]) }}" 
+                                                               class="btn btn-sm btn-outline-success" 
+                                                               style="font-size: 0.8rem; padding: 4px 8px; border-radius: 6px;">
+                                                                <i class="bi bi-eye me-1"></i> Voir la discussion
+                                                            </a>
+                                                        @endif
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @endforeach
