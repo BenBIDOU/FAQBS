@@ -50,8 +50,10 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                 </button>
             </div>
         </div>
+    </div>
 
     <!-- Filtres et Tris -->
+    <div class="mb-4">
         <div style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
             <div class="row g-3">
                 <div class="col-md-4">
@@ -265,12 +267,12 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                 <div class="col-md-8 d-flex">
                     <div class="card flex-grow-1" style="background: transparent; border: none; border-radius: 10px; overflow: hidden; box-shadow: none;">
                         <div class="card-header" style="background: transparent; border: none; padding: 0; border-radius: 10px 10px 0 0; height: 56px; display: flex; align-items: center;">
-                            <div class="d-flex gap-4 w-100 justify-content-center align-items-center" style="padding: 0 40px; height: 100%; position: relative; z-index: 10000;">
-                                <div class="dropdown" style="flex: 0 1 50%; position: relative;">
+                            <div class="d-flex gap-4 w-100 justify-content-center align-items-center" style="padding: 0 40px; height: 100%;">
+                                <div class="dropdown" style="flex: 0 1 50%;">
                                     <button class="btn dropdown-toggle d-flex align-items-center w-100 justify-content-center" type="button" data-bs-toggle="dropdown" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); color: white; border: none; border-radius: 10px 10px 0 0; padding: 16px 24px; font-weight: 600; font-size: 1.1rem; transition: all 0.3s ease; white-space: nowrap; height: 56px;">
                                         <i class="bi bi-arrow-left-circle-fill me-2"></i> J'ai une question
                                     </button>
-                                    <ul class="dropdown-menu dropdown-menu-start" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px; width: 100%; min-width: 280px; z-index: 9999;">
+                                    <ul class="dropdown-menu dropdown-menu-start" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px; width: 100%; min-width: 280px;">
                                         <li class="px-3" style="color: #002D5D; font-weight: 500; margin-bottom: 8px; display: flex; align-items: flex-start;">
                                             <span style="font-size: 1.1rem; font-weight: 600; min-width: 24px;">1°</span>
                                             <span>Recherchez avec un mot clé si elle a déjà été posée en cliquant sur "Rechercher".</span>
@@ -286,11 +288,11 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                         <li><hr class="dropdown-divider m-2" style="margin: 8px 0; opacity: 0.2;"></li>
                                     </ul>
                                 </div>
-                                <div class="dropdown" style="flex: 0 1 50%; position: relative;">
+                                <div class="dropdown" style="flex: 0 1 50%;">
                                     <button class="btn dropdown-toggle d-flex align-items-center w-100 justify-content-center" type="button" data-bs-toggle="dropdown" style="background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); color: white; border: none; border-radius: 10px 10px 0 0; padding: 16px 24px; font-weight: 600; font-size: 1.1rem; transition: all 0.3s ease; white-space: nowrap; height: 56px;">
                                         Et si j'avais la réponse ? <i class="bi bi-arrow-right-circle-fill ms-2"></i>
                                     </button>
-                                    <ul class="dropdown-menu dropdown-menu-end" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px; width: 100%; min-width: 280px; z-index: 9999;">
+                                    <ul class="dropdown-menu dropdown-menu-end" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px; width: 100%; min-width: 280px;">
                                         <li class="px-3" style="color: #002D5D; font-weight: 500; margin-bottom: 12px; display: flex; align-items: flex-start;">
                                             En appuyant sur la bulle verte, vous prendrez connaissance des questions. 
                                         </li>
@@ -350,14 +352,12 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
             </div>
         </div>
         <!-- Bouton ancré au bas du centre -->
-        <div class="d-flex flex-column align-items-center" style="position: absolute; bottom: 20px; left: 0; right: 0; margin: 0 auto; z-index: 1000; gap: 10px; width: fit-content;">
-            <a href="/poser-question" class="btn btn-lg text-white px-5 py-4 shadow-lg ask-question-btn" style="font-size: 1.3rem; font-weight: 700; border: none; border-radius: 10px; background: linear-gradient(135deg, #990000 0%, #A00000 100%); box-shadow: 0 4px 15px rgba(153, 0, 0, 0.3); transition: all 0.3s ease; width: 100%;">
+        <div class="text-center" style="position: absolute; bottom: 20px; left: 33%; transform: translateX(-50%); z-index: 1000;">
+            <a href="/poser-question" class="btn btn-lg text-white px-5 py-4 shadow-lg ask-question-btn" style="font-size: 1.3rem; font-weight: 700; border: none; border-radius: 10px; background: linear-gradient(135deg, #990000 0%, #A00000 100%); box-shadow: 0 4px 15px rgba(153, 0, 0, 0.3); transition: all 0.3s ease;">
                 <i class="bi bi-envelope me-2"></i> Je pose ma question
             </a>
-            <a href="{{ route('discussion.create') }}" class="btn btn-lg text-white px-5 py-4 shadow-lg ask-question-btn" style="font-size: 1.3rem; font-weight: 700; border: none; border-radius: 10px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3); transition: all 0.3s ease; width: 100%;">
-                <i class="bi bi-plus-circle me-2"></i> Ajouter une discussion
-            </a>
         </div>
+    </div>
 </div>
 
 <!-- JavaScript pour gérer l'envoi de messages -->
