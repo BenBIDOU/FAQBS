@@ -225,7 +225,6 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                     }
                                     $allGroups[$normalizedName][] = $discussion;
                                 }
-                            }
                             
                             // Filtrer pour ne garder que les 5 groupes principaux (supprimer les doublons)
                             $filteredGroups = [];
