@@ -202,16 +202,16 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDonneursVoixResolues" aria-expanded="false" aria-controls="collapseDonneursVoixResolues" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
-                                        <i class="bi bi-mic me-2"></i> Donneurs Voix
+                                        <i class="bi bi-mic me-2"></i> Donneurs de Voix
                                     </button>
                                 </h2>
                                 <div id="collapseDonneursVoixResolues" class="accordion-collapse collapse" data-bs-parent="#donneursVoixAccordionResolues">
                                     <div class="accordion-body">
-                                        @forelse($discussionsByGroup['Donneurs Voix'] ?? [] as $discussion)
+                                        @forelse($discussionsByGroup['Donneurs de Voix'] ?? [] as $discussion)
                                             <a href="{{ route('discussions.show', $discussion->id) }}" 
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
                                                data-title="{{ $discussion->title }}"
-                                               data-group="Donneurs Voix"
+                                               data-group="Donneurs de Voix"
                                                data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp * 1000 : 0 }}">
                                                 <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
                                                 <div class="d-flex justify-content-between align-items-center">
@@ -231,16 +231,16 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                             <div class="accordion-item border-0">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDonneursTempsResolues" aria-expanded="false" aria-controls="collapseDonneursTempsResolues" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
-                                        <i class="bi bi-clock me-2"></i> Donneurs Temps
+                                        <i class="bi bi-clock me-2"></i> Donneurs de Temps
                                     </button>
                                 </h2>
                                 <div id="collapseDonneursTempsResolues" class="accordion-collapse collapse" data-bs-parent="#donneursTempsAccordionResolues">
                                     <div class="accordion-body">
-                                        @forelse($discussionsByGroup['Donneurs Temps'] ?? [] as $discussion)
+                                        @forelse($discussionsByGroup['Donneurs de Temps'] ?? [] as $discussion)
                                             <a href="{{ route('discussions.show', $discussion->id) }}" 
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
                                                data-title="{{ $discussion->title }}"
-                                               data-group="Donneurs Temps"
+                                               data-group="Donneurs de Temps"
                                                data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp * 1000 : 0 }}">
                                                 <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
                                                 <div class="d-flex justify-content-between align-items-center">
@@ -336,13 +336,13 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                             @endif
                         </a>
                         <a href="/questions-en-attente/Donneurs de Voix" class="btn btn-outline-primary text-primary w-100 text-start d-flex justify-content-between align-items-center py-2" style="border-radius: 8px; border: 1px solid #002D5D; background: #FFFFFF; transition: all 0.2s ease; color: #002D5D !important;">
-                            <span><i class="bi bi-mic me-1"></i> Donneurs Voix</span>
+                            <span><i class="bi bi-mic me-1"></i> Donneurs de Voix</span>
                             @if(($countsByTeam['Donneurs de Voix'] ?? 0) > 0)
                                 <span class="badge bg-success badge-2x">{{ $countsByTeam['Donneurs de Voix'] }}</span>
                             @endif
                         </a>
                         <a href="/questions-en-attente/Donneurs de Temps" class="btn btn-outline-primary text-primary w-100 text-start d-flex justify-content-between align-items-center py-2" style="border-radius: 8px; border: 1px solid #002D5D; background: #FFFFFF; transition: all 0.2s ease; color: #002D5D !important;">
-                            <span><i class="bi bi-clock me-1"></i> Donneurs Temps</span>
+                            <span><i class="bi bi-clock me-1"></i> Donneurs de Temps</span>
                             @if(($countsByTeam['Donneurs de Temps'] ?? 0) > 0)
                                 <span class="badge bg-success badge-2x">{{ $countsByTeam['Donneurs de Temps'] }}</span>
                             @endif
