@@ -265,12 +265,12 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                                     @endphp
                                                     @if($discussionId)
                                                     <a href="{{ route('discussions.show', $discussionId) }}" 
-                                                       class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
+                                                       class="list-group-item list-group-item-action border-0 ps-4 discussion-link d-flex align-items-start"
                                                        data-title="{{ $title }}"
                                                        data-group="{{ $group }}"
                                                        data-date="{{ $date }}">
-                                                        <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
-                                                        <div class="d-flex flex-column" style="gap: 4px;">
+                                                        <i class="bi bi-record-circle me-2" style="font-size: 0.7rem; margin-top: 2px;"></i>
+                                                        <div class="d-flex flex-column" style="gap: 4px; flex: 1;">
                                                             <div class="d-flex justify-content-between align-items-center">
                                                                 <span>{{ Str::limit($title, 30) }}</span>
                                                                 <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $group }}</span>
