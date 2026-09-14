@@ -18,11 +18,9 @@ use Illuminate\Support\Facades\Auth;
         <!-- Éléments à droite -->
         <ul class="navbar-nav ms-auto">
             @auth
-                @if(!Auth::user()->is_master)
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('discussion.create') }}">Ajouter discussion</a>
-                    </li>
-                @endif
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('discussion.create') }}">Ajouter discussion</a>
+                </li>
                 @if(Auth::user()->is_master)
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('discussions.manage') }}" style="color: #0dcaf0;">Gérer discussions</a>

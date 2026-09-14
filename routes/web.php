@@ -20,10 +20,10 @@ Route::middleware(['auth.home', 'voice_donor_restrict'])->group(function () {
 
     // Routes accessibles à tous les utilisateurs connectés
     Route::get('/discussion/ajouter', [DiscussionController::class, 'create'])->name('discussion.create');
+    Route::post('/discussions', [DiscussionController::class, 'store'])->name('discussions.store');
 });
 
-// Route pour soumettre une discussion (sans middleware pour test)
-Route::post('/discussions', [DiscussionController::class, 'store'])->name('discussions.store');
+
 
 // ===== Route statique avant la route paramétrée =====
 Route::get('/discussions/gerer', [DiscussionController::class, 'manage'])->name('discussions.manage')->middleware(['auth.home', 'master']);

@@ -34,7 +34,7 @@ class DiscussionController extends Controller
         try {
             $validatedData = $request->validate([
                 'title' => 'required|string|max:255',
-                'group' => 'required|string|in:Secrétariat,Président,Trésorerie,Donneurs Temps,Donneurs Voix',
+                'group' => 'required|string|in:Secrétariat,Président,Trésorerie,Donneurs de Voix,Donneurs de Temps',
                 'link' => 'nullable|url|max:255',
                 'content' => 'required|string',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -120,7 +120,7 @@ class DiscussionController extends Controller
     {
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
-            'group' => 'required|string|in:Secrétariat,Président,Donneurs Temps,Donneurs Voix',
+            'group' => 'required|string|in:Secrétariat,Président,Trésorerie,Donneurs de Voix,Donneurs de Temps',
             'link' => 'nullable|url|max:255',
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',

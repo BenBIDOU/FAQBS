@@ -73,8 +73,8 @@ Ajouter une discussion - Bibliothèques sonores de la région Centre - Val de Lo
                                 <option value="Président" @if(($group ?? '') === 'Président') selected @endif>Président</option>
                                 <option value="Secrétariat" @if(($group ?? '') === 'Secrétariat') selected @endif>Secrétariat</option>
                                 <option value="Trésorerie" @if(($group ?? '') === 'Trésorerie') selected @endif>Trésorerie</option>
-                                <option value="Donneurs Voix" @if(($group ?? '') === 'Donneurs Voix') selected @endif>Donneurs Voix</option>
-                                <option value="Donneurs Temps" @if(($group ?? '') === 'Donneurs Temps') selected @endif>Donneurs Temps</option>
+                                <option value="Donneurs de Voix" @if(($group ?? '') === 'Donneurs de Voix') selected @endif>Donneurs de Voix</option>
+                                <option value="Donneurs de Temps" @if(($group ?? '') === 'Donneurs de Temps') selected @endif>Donneurs de Temps</option>
                             </select>
                         </div>
 

@@ -75,8 +75,8 @@ Gestion des questions - Bibliothèques sonores de la région Centre - Val de Loi
                                             <th class="sortable" data-sort="forum" style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none;">Forum <i class="bi bi-arrow-down-up ms-1"></i></th>
                                             <th class="sortable" data-sort="message" style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none;">Message <i class="bi bi-arrow-down-up ms-1"></i></th>
                                             <th class="sortable d-none d-md-table-cell" data-sort="date" style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none;">Date <i class="bi bi-arrow-down-up ms-1"></i></th>
-                                            <th class="sortable" data-sort="statut" style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none;">Statut <i class="bi bi-arrow-down-up ms-1"></i></th>
-                                            <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap;">Actions</th>
+                                            <th class="sortable d-none d-sm-table-cell" data-sort="statut" style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none;">Statut <i class="bi bi-arrow-down-up ms-1"></i></th>
+                                            <th style="padding: 12px; border-top: none; border-bottom: 1px solid #495057; color: #000000; font-weight: 600; white-space: nowrap; min-width: 100px;">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="questionsTableBody">
@@ -106,7 +106,7 @@ Gestion des questions - Bibliothèques sonores de la région Centre - Val de Loi
                                                 <td class="d-none d-md-table-cell" style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; color: #000000;">
                                                     {{ $question->created_at->setTimezone('Europe/Paris')->format('d/m/Y') }}
                                                 </td>
-                                                <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057;">
+                                                <td class="d-none d-sm-table-cell" style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057;">
                                                     @if($question->resolved)
                                                         <span class="badge" style="background: rgba(40, 167, 69, 0.3); color: #000000; border: 1px solid #28a745; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 500;">Résolue</span>
                                                     @else
@@ -114,7 +114,7 @@ Gestion des questions - Bibliothèques sonores de la région Centre - Val de Loi
                                                     @endif
                                                 </td>
                                                 <td style="padding: 12px; vertical-align: middle; border-top: none; border-bottom: 1px solid #495057; white-space: nowrap;">
-                                                    <div class="d-flex gap-2 flex-column flex-md-row">
+                                                    <div class="d-flex gap-2 flex-column flex-sm-row flex-wrap">
                                                         <a href="{{ route('questions-details', $question->id) }}" 
                                                            class="btn btn-sm" 
                                                            title="Voir" style="background: rgba(0, 135, 189, 0.2); border: 1px solid #0087BC; color: #87ceeb; border-radius: 6px; padding: 6px 10px; transition: all 0.2s ease;">

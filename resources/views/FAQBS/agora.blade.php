@@ -57,7 +57,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
         <div style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
             <div class="row g-3">
                 <div class="col-md-4">
-                    <label class="form-label fw-bold mb-2" style="color: #002D5D;"><i class="bi bi-people me-2"></i>Filtrer par groupe :</label>
+                    <label class="form-label fw-bold mb-2" style="color: #002D5D;"><i class="bi bi-people me-2"></i>A qui s'adresser ? </label>
                     <select class="form-select" id="groupFilter" style="border: 1px solid #E9ECEF; border-radius: 8px; padding: 10px; background: #FFFFFF;">
                         <option value="">Tous les groupes</option>
                         <option value="Président">Président</option>
@@ -125,7 +125,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
                                                data-title="{{ $discussion->title }}"
                                                data-group="Président"
-                                               data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp : 0 }}">
+                                               data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp * 1000 : 0 }}">
                                                 <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <span>{{ Str::limit($discussion->title, 30) }}</span>
@@ -154,7 +154,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
                                                data-title="{{ $discussion->title }}"
                                                data-group="Secrétariat"
-                                               data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp : 0 }}">
+                                               data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp * 1000 : 0 }}">
                                                 <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <span>{{ Str::limit($discussion->title, 30) }}</span>
@@ -183,7 +183,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
                                                data-title="{{ $discussion->title }}"
                                                data-group="Trésorerie"
-                                               data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp : 0 }}">
+                                               data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp * 1000 : 0 }}">
                                                 <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <span>{{ Str::limit($discussion->title, 30) }}</span>
@@ -212,7 +212,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
                                                data-title="{{ $discussion->title }}"
                                                data-group="Donneurs Voix"
-                                               data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp : 0 }}">
+                                               data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp * 1000 : 0 }}">
                                                 <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <span>{{ Str::limit($discussion->title, 30) }}</span>
@@ -241,7 +241,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
                                                data-title="{{ $discussion->title }}"
                                                data-group="Donneurs Temps"
-                                               data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp : 0 }}">
+                                               data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp * 1000 : 0 }}">
                                                 <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <span>{{ Str::limit($discussion->title, 30) }}</span>
@@ -294,7 +294,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px; width: 100%; min-width: 280px; z-index: 9999;">
                                         <li class="px-3" style="color: #002D5D; font-weight: 500; margin-bottom: 12px; display: flex; align-items: flex-start;">
-                                            En appuyant sur la bulle verte, vous prendrez connaissance des questions. 
+                                            En appuyant sur "questions en attente", vous prendrez connaissance des questions déjà posées. 
                                         </li>
                                         <li class="px-3" style="color: #002D5D; font-weight: 500; margin-bottom: 12px; display: flex; align-items: flex-start;">
                                             Si vous avez la réponse, vous aurez le choix : soit de répondre directement à la personne, soit de partager vos connaisances sur le sujet dans un espace de discussion qui apparaitra dans "Questions résolues".
@@ -357,9 +357,6 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
 
 <!-- Boutons centrés horizontalement en bas de la page -->
 <div class="d-flex flex-column align-items-center" style="position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 1000; gap: 10px; width: fit-content;">
-    <a href="{{ route('discussion.create') }}" class="btn btn-lg text-white px-5 py-4 shadow-lg ask-question-btn" style="font-size: 1.3rem; font-weight: 700; border: none; border-radius: 10px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3); transition: all 0.3s ease; width: 100%;" onmouseover="this.style.background='linear-gradient(135deg, #4cd964 0%, #5ac85a 100%)'" onmouseout="this.style.background='linear-gradient(135deg, #28a745 0%, #20c997 100%)'">
-        <i class="bi bi-plus-circle me-2"></i> Ajouter une discussion
-    </a>
     <a href="/poser-question" class="btn btn-lg text-white px-5 py-4 shadow-lg ask-question-btn" style="font-size: 1.3rem; font-weight: 700; border: none; border-radius: 10px; background: linear-gradient(135deg, #990000 0%, #A00000 100%); box-shadow: 0 4px 15px rgba(153, 0, 0, 0.3); transition: all 0.3s ease; width: 100%;">
         <i class="bi bi-envelope me-2"></i> Je pose ma question
     </a>

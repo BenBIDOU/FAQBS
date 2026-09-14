@@ -10,7 +10,8 @@ class VoiceDonorRestrictionMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        // Tous les utilisateurs connectés peuvent accéder aux pages internes
+        // Autoriser tous les utilisateurs connectés à ajouter des discussions
+        // (Les Masters, Donneurs de Voix, Présidents, et autres peuvent tous créer des discussions)
         if (!Auth::check()) {
             return redirect('/')->with('error', 'Vous devez être connecté pour accéder à cette page.');
         }
