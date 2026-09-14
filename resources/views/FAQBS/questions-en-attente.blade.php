@@ -250,13 +250,16 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                             <th class="sortable" data-sort="message" style="padding: 12px; cursor: pointer; user-select: none;">
                                                 Message <i class="bi bi-arrow-down-up ms-1"></i>
                                             </th>
+                                            <th class="sortable" data-sort="resolved_at" style="padding: 12px; white-space: nowrap; cursor: pointer; user-select: none;">
+                                                Date résolution <i class="bi bi-arrow-down-up ms-1"></i>
+                                            </th>
                                             <th style="padding: 12px; white-space: nowrap;">Résolue par</th>
                                             <th style="padding: 12px; white-space: nowrap;">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($resolvedQuestions as $question)
-                                            <tr class="table-success" style="border-bottom: 1px solid #E9ECEF;" data-date="{{ $question->created_at ? $question->created_at->timestamp : 0 }}" data-nom="{{ $question->name ? e($question->name) : '' }}" data-email="{{ $question->email ? e($question->email) : '' }}" data-question="{{ $question->message ? e($question->message) : '' }}">
+                                            <tr class="table-success" style="border-bottom: 1px solid #E9ECEF;" data-date="{{ $question->created_at ? $question->created_at->timestamp : 0 }}" data-nom="{{ $question->name ? e($question->name) : '' }}" data-email="{{ $question->email ? e($question->email) : '' }}" data-question="{{ $question->message ? e($question->message) : '' }}" data-resolved-at="{{ $question->resolved_at ? $question->resolved_at->timestamp : 0 }}">
                                                 <td style="padding: 12px; color: #495057;">{{ $question->created_at->format('d/m/Y H:i') }}</td>
                                                 <td style="padding: 12px; color: #495057;">{{ $question->name }}</td>
                                                 <td style="padding: 12px; color: #495057;">{{ $question->email }}</td>
@@ -275,6 +278,9 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                                     {{ $forumLabel }}
                                                 </td>
                                                 <td style="padding: 12px; color: #495057;">{{ Str::limit($question->message, 50) }}</td>
+                                                <td style="padding: 12px; color: #495057;">
+                                                    {{ $question->resolved_at ? $question->resolved_at->format('d/m/Y H:i') : 'Non résolue' }}
+                                                </td>
                                                 <td style="padding: 12px; color: #495057;">
                                                     @if($question->resolver)
                                                         <div class="d-flex align-items-center">
@@ -478,8 +484,8 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                         let aValue = a.getAttribute(`data-${sortKey}`);
                         let bValue = b.getAttribute(`data-${sortKey}`);
                         
-                        // Gestion des valeurs numériques (pour la date)
-                        if (sortKey === 'date') {
+                        // Gestion des valeurs numériques (pour la date et date de résolution)
+                        if (sortKey === 'date' || sortKey === 'resolved_at') {
                             return newDir === 'asc' ? parseInt(aValue) - parseInt(bValue) : parseInt(bValue) - parseInt(aValue);
                         }
                         
