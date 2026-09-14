@@ -27,15 +27,47 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
     @endif
 
     <!-- Message de bienvenue -->
-    <div class="alert mb-4" style="background: #FFFFFF; border-left: 4px solid #002D5D; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-        <div class="d-flex align-items-center">
-            <i class="bi bi-info-circle-fill me-2" style="color: #002D5D; font-size: 1.2rem;"></i>
-            <div>
-                <h4 class="mb-1" style="color: #002D5D;">Bonjour, {{ Auth::user()->name }} !</h4>
-                <p class="mb-0" style="color: #495057;">Vous êtes connecté à l'espace d'échange des Bibliothèques sonores de la région Centre - Val de Loire. </p> <p>Posez vos questions, consultez les discussions et interagissez avec tous les bénévoles.</p>
+    <div id="welcomeAlert" class="alert mb-4" style="background: #FFFFFF; border-left: 4px solid #002D5D; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center flex-grow-1">
+                <i class="bi bi-info-circle-fill me-2" style="color: #002D5D; font-size: 1.2rem;"></i>
+                <div>
+                    <h4 class="mb-1" style="color: #002D5D;">Bonjour, {{ Auth::user()->name }} !</h4>
+                    <p class="mb-0" style="color: #495057;">Vous êtes connecté à l'espace d'échange des Bibliothèques sonores de la région Centre - Val de Loire. </p> <p>Posez vos questions, consultez les discussions et interagissez avec tous les bénévoles.</p>
+                </div>
             </div>
+            <button type="button" id="closeWelcome" class="btn btn-sm p-0 ms-2" style="background: transparent; border: none; color: #6c757d; cursor: pointer;"
+                    title="Masquer pour 24h">
+                <i class="bi bi-x-circle-fill" style="font-size: 1.2rem;"></i>
+            </button>
         </div>
     </div>
+
+    <!-- Script dédié pour la bulle d'accueil -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const welcomeAlert = document.getElementById('welcomeAlert');
+            const closeWelcomeBtn = document.getElementById('closeWelcome');
+            const welcomeStorageKey = 'agora-welcome-hidden-until';
+            
+            if (welcomeAlert && closeWelcomeBtn) {
+                // Vérifier si la bulle doit être cachée
+                const hiddenUntil = localStorage.getItem(welcomeStorageKey);
+                if (hiddenUntil && new Date(parseInt(hiddenUntil)) > new Date()) {
+                    welcomeAlert.style.display = 'none';
+                }
+                
+                // Écouteur pour fermer la bulle
+                closeWelcomeBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const hideUntil = new Date();
+                    hideUntil.setHours(hideUntil.getHours() + 24);
+                    localStorage.setItem(welcomeStorageKey, hideUntil.getTime().toString());
+                    welcomeAlert.style.display = 'none';
+                });
+            }
+        });
+    </script>
 
     <!-- Zone de recherche -->
     <div class="mb-4">
@@ -50,42 +82,52 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                 </button>
             </div>
         </div>
-    </div>
 
     <!-- Filtres et Tris -->
     <div class="mb-4">
-        <div style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <label class="form-label fw-bold mb-2" style="color: #002D5D;"><i class="bi bi-people me-2"></i>A qui s'adresser ? </label>
-                    <select class="form-select" id="groupFilter" style="border: 1px solid #E9ECEF; border-radius: 8px; padding: 10px; background: #FFFFFF;">
-                        <option value="">Tous les groupes</option>
-                        <option value="Président">Président</option>
-                        <option value="Secrétariat">Secrétariat</option>
-                        <option value="Trésorerie">Trésorerie</option>
-                        <option value="Donneurs de Voix">Donneurs de Voix</option>
-                        <option value="Donneurs de Temps">Donneurs de Temps</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label fw-bold mb-2" style="color: #002D5D;"><i class="bi bi-calendar me-2"></i>Filtrer par date :</label>
-                    <select class="form-select" id="dateFilter" style="border: 1px solid #E9ECEF; border-radius: 8px; padding: 10px; background: #FFFFFF;">
-                        <option value="">Toutes les dates</option>
-                        <option value="today">Aujourd'hui</option>
-                        <option value="week">Cette semaine</option>
-                        <option value="month">Ce mois</option>
-                        <option value="older">Plus ancien</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label fw-bold mb-2" style="color: #002D5D;"><i class="bi bi-sort-alpha-down me-2"></i>Trier par :</label>
-                    <select class="form-select" id="sortFilter" style="border: 1px solid #E9ECEF; border-radius: 8px; padding: 10px; background: #FFFFFF;">
-                        <option value="">Par défaut</option>
-                        <option value="date-desc">Date (récent → ancien)</option>
-                        <option value="date-asc">Date (ancien → récent)</option>
-                        <option value="title-asc">Titre (A → Z)</option>
-                        <option value="title-desc">Titre (Z → A)</option>
-                    </select>
+        <div class="accordion" id="filtersAccordion">
+            <div class="accordion-item border-0">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed bg-transparent border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters" style="color: #002D5D; font-weight: 600; padding: 12px 16px; border-radius: 10px; background: #FFFFFF; border: 1px solid #E9ECEF; width: 100%; text-align: left; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                        <i class="bi bi-funnel-fill me-2"></i> Filtres et Tris
+                    </button>
+                </h2>
+                <div id="collapseFilters" class="accordion-collapse collapse" aria-labelledby="headingFilters" data-bs-parent="#filtersAccordion">
+                    <div style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold mb-2" style="color: #002D5D;"><i class="bi bi-people me-2"></i>A qui s'adresser ? </label>
+                                <select class="form-select" id="groupFilter" style="border: 1px solid #E9ECEF; border-radius: 8px; padding: 10px; background: #FFFFFF;">
+                                    <option value="">Tous les groupes</option>
+                                    <option value="Président">Président</option>
+                                    <option value="Secrétariat">Secrétariat</option>
+                                    <option value="Trésorerie">Trésorerie</option>
+                                    <option value="Donneurs de Voix">Donneurs de Voix</option>
+                                    <option value="Donneurs de Temps">Donneurs de Temps</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold mb-2" style="color: #002D5D;"><i class="bi bi-calendar me-2"></i>Filtrer par date :</label>
+                                <select class="form-select" id="dateFilter" style="border: 1px solid #E9ECEF; border-radius: 8px; padding: 10px; background: #FFFFFF;">
+                                    <option value="">Toutes les dates</option>
+                                    <option value="today">Aujourd'hui</option>
+                                    <option value="week">Cette semaine</option>
+                                    <option value="month">Ce mois</option>
+                                    <option value="older">Plus ancien</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold mb-2" style="color: #002D5D;"><i class="bi bi-sort-alpha-down me-2"></i>Trier par :</label>
+                                <select class="form-select" id="sortFilter" style="border: 1px solid #E9ECEF; border-radius: 8px; padding: 10px; background: #FFFFFF;">
+                                    <option value="">Par défaut</option>
+                                    <option value="date-desc">Date (récent → ancien)</option>
+                                    <option value="date-asc">Date (ancien → récent)</option>
+                                    <option value="title-asc">Titre (A → Z)</option>
+                                    <option value="title-desc">Titre (Z → A)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -100,7 +142,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
     </div>
 
     <!-- Section Questions résolues et Questions en attente -->
-    <div class="row mb-4 align-items-start position-relative">
+    <div class="row mb-6 align-items-start position-relative">
         <!-- Questions résolues - 1/4 à gauche -->
         <div class="col-md-3 d-flex align-self-start">
             <div class="card flex-grow-1" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
@@ -111,175 +153,148 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                 </div>
                 <div class="card-body d-flex flex-column flex-grow-1" style="padding: 0;">
                     <div class="list-group list-group-flush d-flex flex-column" style="height: 100%;">
-                        <div class="accordion flex-grow-1 accordion-bottom" id="presidentAccordionResolues" data-group="Président">
-                            <div class="accordion-item border-0">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePresidentResolues" aria-expanded="false" aria-controls="collapsePresidentResolues" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
-                                        <i class="bi bi-person-circle me-2"></i> Président
-                                    </button>
-                                </h2>
-                                <div id="collapsePresidentResolues" class="accordion-collapse collapse" data-bs-parent="#presidentAccordionResolues">
-                                    <div class="accordion-body">
-                                        @forelse($resolvedQuestionsByGroup['Président'] ?? [] as $question)
-                                            <a href="{{ route('questions-en-attente.team', ['team' => 'Président']) }}" 
-                                               class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
-                                               data-title="{{ $question->subject ?? $question->message }}"
-                                               data-group="{{ $question->team }}"
-                                               data-date="{{ $question->resolved_at ? $question->resolved_at->timestamp * 1000 : 0 }}">
-                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
-                                                <div class="d-flex flex-column" style="gap: 4px;">
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <span>{{ Str::limit($question->subject ?? $question->message, 30) }}</span>
-                                                        <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $question->team }}</span>
-                                                    </div>
-                                                    @if($question->resolved_at)
-                                                        <small class="text-muted ps-3">Résolue le {{ $question->resolved_at->format('d/m/Y') }}</small>
+                        @php
+                            $groupIcons = [
+                                'Président' => 'bi-person-circle',
+                                'Secrétariat' => 'bi-file-text',
+                                'Trésorerie' => 'bi-cash-coin',
+                                'Donneurs de Voix' => 'bi-mic',
+                                'Donneurs de Temps' => 'bi-clock',
+                            ];
+                            
+                            // Ordre souhaité pour les groupes
+                            $desiredOrder = ['Président', 'Secrétariat', 'Trésorerie', 'Donneurs de Voix', 'Donneurs de Temps'];
+                            
+                            $allGroups = [];
+                            
+                            // Charger depuis discussions (toutes les discussions) pour regrouper manuellement
+                            if (isset($discussions) && $discussions) {
+                                $discussionsArray = [];
+                                if ($discussions instanceof \Illuminate\Support\Collection) {
+                                    $discussionsArray = $discussions->all();
+                                } elseif (is_array($discussions)) {
+                                    $discussionsArray = $discussions;
+                                }
+                                
+                                // Regrouper manuellement avec normalisation du champ 'group'
+                                foreach ($discussionsArray as $discussion) {
+                                    $groupName = $discussion->group ?? '';
+                                    
+                                    // Normaliser le nom du groupe
+                                    $normalizedName = trim($groupName);
+                                    $lowerName = strtolower($normalizedName);
+                                    
+                                    // Mapper tous les noms de groupe à leur forme standard
+                                    // Triés par longueur décroissante pour matcher les plus longs d'abord
+                                    $groupMapping = [
+                                        'donneurs de voix' => 'Donneurs de Voix',
+                                        'donneur de voix' => 'Donneurs de Voix',
+                                        'donneurs voix' => 'Donneurs de Voix',
+                                        'donneurs de temps' => 'Donneurs de Temps',
+                                        'donneur de temps' => 'Donneurs de Temps',
+                                        'donneurs temps' => 'Donneurs de Temps',
+                                        'trésorerie' => 'Trésorerie',
+                                        'trésoreri' => 'Trésorerie',
+                                        'tresorerie' => 'Trésorerie',
+                                        'sécrétariat' => 'Secrétariat',
+                                        'secrétariat' => 'Secrétariat',
+                                        'secretariat' => 'Secrétariat',
+                                        'président' => 'Président',
+                                        'president' => 'Président',
+                                    ];
+                                    
+                                    // Trouver la correspondance par partie, en commençant par les clés les plus longues
+                                    $found = false;
+                                    foreach ($groupMapping as $key => $standardName) {
+                                        if (str_contains($lowerName, $key)) {
+                                            $normalizedName = $standardName;
+                                            $found = true;
+                                            break;
+                                        }
+                                    }
+                                    
+                                    // Si pas de correspondance, garder le nom normalisé
+                                    if (!$found && empty($normalizedName)) {
+                                        $normalizedName = 'Autres';
+                                    }
+                                    
+                                    // Ajouter la discussion au groupe normalisé
+                                    if (!isset($allGroups[$normalizedName])) {
+                                        $allGroups[$normalizedName] = [];
+                                    }
+                                    $allGroups[$normalizedName][] = $discussion;
+                                }
+                            }
+                            
+                            // Filtrer pour ne garder que les 5 groupes principaux (supprimer les doublons)
+                            $filteredGroups = [];
+                            foreach ($desiredOrder as $group) {
+                                if (isset($allGroups[$group])) {
+                                    $filteredGroups[$group] = $allGroups[$group];
+                                } else {
+                                    $filteredGroups[$group] = [];
+                                }
+                            }
+                            $allGroups = $filteredGroups;
+                        @endphp
+                        
+                        @forelse($allGroups as $groupName => $discussions)
+                            @php
+                                $icon = $groupIcons[$groupName] ?? 'bi-people';
+                                $safeGroupName = preg_replace('/[^a-zA-Z0-9]/', '', $groupName);
+                                $accordionId = "{$safeGroupName}AccordionResolues";
+                                $collapseId = "collapse{$groupName}Resolues";
+                            @endphp
+                            
+                            <div class="accordion flex-grow-1 accordion-bottom" id="{{ $accordionId }}" data-group="{{ $groupName }}">
+                                <div class="accordion-item border-0">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="false" aria-controls="{{ $collapseId }}" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
+                                            <i class="bi {{ $icon }} me-2"></i> {{ $groupName }}
+                                        </button>
+                                    </h2>
+                                    <div id="{{ $collapseId }}" class="accordion-collapse collapse" data-bs-parent="#{{ $accordionId }}">
+                                        <div class="accordion-body">
+                                            @if(!empty($discussions) && is_array($discussions))
+                                                @foreach($discussions as $discussion)
+                                                    @php
+                                                        $title = $discussion->title ?? $discussion->message ?? 'Discussion sans titre';
+                                                        $group = $groupName;
+                                                        $date = $discussion->created_at ? $discussion->created_at->timestamp * 1000 : 0;
+                                                        $discussionId = $discussion->id ?? null;
+                                                    @endphp
+                                                    @if($discussionId)
+                                                    <a href="{{ route('discussions.show', $discussionId) }}" 
+                                                       class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
+                                                       data-title="{{ $title }}"
+                                                       data-group="{{ $group }}"
+                                                       data-date="{{ $date }}">
+                                                        <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
+                                                        <div class="d-flex flex-column" style="gap: 4px;">
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <span>{{ Str::limit($title, 30) }}</span>
+                                                                <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $group }}</span>
+                                                            </div>
+                                                            @if($discussion->created_at)
+                                                                <small class="text-muted ps-3">Créée le {{ $discussion->created_at->format('d/m/Y') }}</small>
+                                                            @endif
+                                                        </div>
+                                                    </a>
                                                     @endif
-                                                </div>
-                                            </a>
-                                        @empty
-                                            <p class="text-muted small mb-0 ps-4">Aucune question résolue</p>
-                                        @endforelse
+                                                @endforeach
+                                            @else
+                                                <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="w-100" style="border-bottom: 1px solid #E9ECEF; margin: 4px 0;"></div>
-                        <div class="accordion flex-grow-1 accordion-bottom" id="secretariatAccordionResolues" data-group="Secrétariat">
-                            <div class="accordion-item border-0">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSecretariatResolues" aria-expanded="false" aria-controls="collapseSecretariatResolues" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
-                                        <i class="bi bi-file-text me-2"></i> Secrétariat
-                                    </button>
-                                </h2>
-                                <div id="collapseSecretariatResolues" class="accordion-collapse collapse" data-bs-parent="#secretariatAccordionResolues">
-                                    <div class="accordion-body">
-                                        @forelse($resolvedQuestionsByGroup['Secrétariat'] ?? [] as $question)
-                                            <a href="{{ route('questions-en-attente.team', ['team' => 'Secrétariat']) }}" 
-                                               class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
-                                               data-title="{{ $question->subject ?? $question->message }}"
-                                               data-group="{{ $question->team }}"
-                                               data-date="{{ $question->resolved_at ? $question->resolved_at->timestamp * 1000 : 0 }}">
-                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
-                                                <div class="d-flex flex-column" style="gap: 4px;">
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <span>{{ Str::limit($question->subject ?? $question->message, 30) }}</span>
-                                                        <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $question->team }}</span>
-                                                    </div>
-                                                    @if($question->resolved_at)
-                                                        <small class="text-muted ps-3">Résolue le {{ $question->resolved_at->format('d/m/Y') }}</small>
-                                                    @endif
-                                                </div>
-                                            </a>
-                                        @empty
-                                            <p class="text-muted small mb-0 ps-4">Aucune question résolue</p>
-                                        @endforelse
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="w-100" style="border-bottom: 1px solid #E9ECEF; margin: 4px 0;"></div>
-                        <div class="accordion flex-grow-1 accordion-bottom" id="tresorerieAccordionResolues" data-group="Trésorerie">
-                            <div class="accordion-item border-0">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTresorerieResolues" aria-expanded="false" aria-controls="collapseTresorerieResolues" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
-                                        <i class="bi bi-cash-coin me-2"></i> Trésorerie
-                                    </button>
-                                </h2>
-                                <div id="collapseTresorerieResolues" class="accordion-collapse collapse" data-bs-parent="#tresorerieAccordionResolues">
-                                    <div class="accordion-body">
-                                        @forelse($resolvedQuestionsByGroup['Trésorerie'] ?? [] as $question)
-                                            <a href="{{ route('questions-en-attente.team', ['team' => 'Trésorerie']) }}" 
-                                               class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
-                                               data-title="{{ $question->subject ?? $question->message }}"
-                                               data-group="{{ $question->team }}"
-                                               data-date="{{ $question->resolved_at ? $question->resolved_at->timestamp * 1000 : 0 }}">
-                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
-                                                <div class="d-flex flex-column" style="gap: 4px;">
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <span>{{ Str::limit($question->subject ?? $question->message, 30) }}</span>
-                                                        <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $question->team }}</span>
-                                                    </div>
-                                                    @if($question->resolved_at)
-                                                        <small class="text-muted ps-3">Résolue le {{ $question->resolved_at->format('d/m/Y') }}</small>
-                                                    @endif
-                                                </div>
-                                            </a>
-                                        @empty
-                                            <p class="text-muted small mb-0 ps-4">Aucune question résolue</p>
-                                        @endforelse
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="w-100" style="border-bottom: 1px solid #E9ECEF; margin: 4px 0;"></div>
-                        <div class="accordion flex-grow-1 accordion-bottom" id="donneursVoixAccordionResolues" data-group="Donneurs de Voix">
-                            <div class="accordion-item border-0">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDonneursVoixResolues" aria-expanded="false" aria-controls="collapseDonneursVoixResolues" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
-                                        <i class="bi bi-mic me-2"></i> Donneurs de Voix
-                                    </button>
-                                </h2>
-                                <div id="collapseDonneursVoixResolues" class="accordion-collapse collapse" data-bs-parent="#donneursVoixAccordionResolues">
-                                    <div class="accordion-body">
-                                        @forelse($resolvedQuestionsByGroup['Donneurs de Voix'] ?? [] as $question)
-                                            <a href="{{ route('questions-en-attente.team', ['team' => 'Donneurs de Voix']) }}" 
-                                               class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
-                                               data-title="{{ $question->subject ?? $question->message }}"
-                                               data-group="{{ $question->team }}"
-                                               data-date="{{ $question->resolved_at ? $question->resolved_at->timestamp * 1000 : 0 }}">
-                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
-                                                <div class="d-flex flex-column" style="gap: 4px;">
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <span>{{ Str::limit($question->subject ?? $question->message, 30) }}</span>
-                                                        <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $question->team }}</span>
-                                                    </div>
-                                                    @if($question->resolved_at)
-                                                        <small class="text-muted ps-3">Résolue le {{ $question->resolved_at->format('d/m/Y') }}</small>
-                                                    @endif
-                                                </div>
-                                            </a>
-                                        @empty
-                                            <p class="text-muted small mb-0 ps-4">Aucune question résolue</p>
-                                        @endforelse
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="w-100" style="border-bottom: 1px solid #E9ECEF; margin: 4px 0;"></div>
-                        <div class="accordion flex-grow-1 accordion-bottom" id="donneursTempsAccordionResolues" data-group="Donneurs de Temps">
-                            <div class="accordion-item border-0">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDonneursTempsResolues" aria-expanded="false" aria-controls="collapseDonneursTempsResolues" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
-                                        <i class="bi bi-clock me-2"></i> Donneurs de Temps
-                                    </button>
-                                </h2>
-                                <div id="collapseDonneursTempsResolues" class="accordion-collapse collapse" data-bs-parent="#donneursTempsAccordionResolues">
-                                    <div class="accordion-body">
-                                        @forelse($resolvedQuestionsByGroup['Donneurs de Temps'] ?? [] as $question)
-                                            <a href="{{ route('questions-en-attente.team', ['team' => 'Donneurs de Temps']) }}" 
-                                               class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
-                                               data-title="{{ $question->subject ?? $question->message }}"
-                                               data-group="{{ $question->team }}"
-                                               data-date="{{ $question->resolved_at ? $question->resolved_at->timestamp * 1000 : 0 }}">
-                                                <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
-                                                <div class="d-flex flex-column" style="gap: 4px;">
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <span>{{ Str::limit($question->subject ?? $question->message, 30) }}</span>
-                                                        <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $question->team }}</span>
-                                                    </div>
-                                                    @if($question->resolved_at)
-                                                        <small class="text-muted ps-3">Résolue le {{ $question->resolved_at->format('d/m/Y') }}</small>
-                                                    @endif
-                                                </div>
-                                            </a>
-                                        @empty
-                                            <p class="text-muted small mb-0 ps-4">Aucune question résolue</p>
-                                        @endforelse
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            @unless($loop->last)
+                                <div class="w-100" style="border-bottom: 1px solid #E9ECEF; margin: 4px 0;"></div>
+                            @endunless
+                        @empty
+                            <p class="text-muted small mb-0 ps-4">Aucune discussion dans aucun groupe</p>
+                        @endforelse
                     </div>
                 </div>
             </div>
@@ -381,7 +396,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
 </div>
 
 <!-- Boutons centrés horizontalement en bas de la page -->
-<div class="d-flex flex-column align-items-center" style="position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 1000; gap: 10px; width: fit-content;">
+<div class="d-flex flex-column align-items-center" style="position: absolute; bottom: 400px; left: 50%; transform: translateX(-50%); z-index: 1000; gap: 10px; width: fit-content;">
     <a href="/poser-question" class="btn btn-lg text-white px-5 py-4 shadow-lg ask-question-btn" style="font-size: 1.3rem; font-weight: 700; border: none; border-radius: 10px; background: linear-gradient(135deg, #990000 0%, #A00000 100%); box-shadow: 0 4px 15px rgba(153, 0, 0, 0.3); transition: all 0.3s ease; width: 100%;">
         <i class="bi bi-envelope me-2"></i> Je pose ma question
     </a>
@@ -402,7 +417,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
         const chatInput = document.getElementById('chatInput');
         const chatSend = document.getElementById('chatSend');
         const chatBody = document.querySelector('.chat-body');
-        const storageKey = chatBody.getAttribute('data-chat-storage-key') || 'faqbs-chat-messages';
+        const storageKey = chatBody ? (chatBody.getAttribute('data-chat-storage-key') || 'faqbs-chat-messages') : 'faqbs-chat-messages';
         let messages = loadMessages();
 
         function sendMessage(customMessage) {
@@ -422,22 +437,28 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
             }
         }
 
-        chatSend.addEventListener('click', function() {
-            sendMessage();
-        });
-
-        chatInput.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
+        if (chatSend) {
+            chatSend.addEventListener('click', function() {
                 sendMessage();
-            }
-        });
-
-        document.querySelectorAll('[data-quick-message]').forEach(button => {
-            button.addEventListener('click', function() {
-                sendMessage(this.getAttribute('data-quick-message'));
             });
-        });
+        }
+
+        if (chatInput) {
+            chatInput.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    sendMessage();
+                }
+            });
+        }
+
+        if (typeof document !== 'undefined') {
+            document.querySelectorAll('[data-quick-message]').forEach(button => {
+                button.addEventListener('click', function() {
+                    sendMessage(this.getAttribute('data-quick-message'));
+                });
+            });
+        }
 
         function addUserMessage(message, userName, userRole, persist = false) {
             const messageDiv = document.createElement('div');
@@ -558,6 +579,27 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                 } else {
                     addBotMessage(item.text, false);
                 }
+            });
+        }
+        
+        // Gestion de la bulle d'accueil (masquage 24h)
+        const welcomeAlert = document.getElementById('welcomeAlert');
+        const closeWelcomeBtn = document.getElementById('closeWelcome');
+        const welcomeStorageKey = 'agora-welcome-hidden-until';
+        
+        if (welcomeAlert && closeWelcomeBtn) {
+            // Vérifier si la bulle doit être cachée
+            const hiddenUntil = localStorage.getItem(welcomeStorageKey);
+            if (hiddenUntil && new Date(parseInt(hiddenUntil)) > new Date()) {
+                welcomeAlert.style.display = 'none';
+            }
+            
+            // Écouteur pour fermer la bulle
+            closeWelcomeBtn.addEventListener('click', function() {
+                const hideUntil = new Date();
+                hideUntil.setHours(hideUntil.getHours() + 24);
+                localStorage.setItem(welcomeStorageKey, hideUntil.getTime().toString());
+                welcomeAlert.style.display = 'none';
             });
         }
         
