@@ -79,7 +79,7 @@ Répondre à la question - Bibliothèques sonores de la région Centre - Val de 
                             <button type="reset" class="btn btn-outline-secondary" style="border-radius: 8px;">
                                 <i class="bi bi-x-circle me-1"></i> Réinitialiser
                             </button>
-                            <button type="submit" class="btn btn-main text-white" style="border-radius: 8px;">
+                            <button type="submit" class="btn btn-main text-white" style="border-radius: 8px; background: linear-gradient(135deg, #990000 0%, #A00000 100%); border: none; box-shadow: 0 4px 15px rgba(153, 0, 0, 0.3); transition: all 0.3s ease;">
                                 <i class="bi bi-send me-1"></i> Envoyer la réponse
                             </button>
                         </div>
