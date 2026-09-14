@@ -238,7 +238,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                             $allGroups = $filteredGroups;
                         @endphp
                         
-                        @forelse($allGroups as $groupName => $discussions)
+                        @forelse($allGroups as $groupName => $groupDiscussions)
                             @php
                                 $icon = $groupIcons[$groupName] ?? 'bi-people';
                                 $safeGroupName = preg_replace('/[^a-zA-Z0-9]/', '', $groupName);
@@ -255,8 +255,8 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                     </h2>
                                     <div id="{{ $collapseId }}" class="accordion-collapse collapse" data-bs-parent="#{{ $accordionId }}">
                                         <div class="accordion-body">
-                                            @if(!empty($discussions) && is_array($discussions))
-                                                @foreach($discussions as $discussion)
+                                            @if(!empty($groupDiscussions) && is_array($groupDiscussions))
+                                                @foreach($groupDiscussions as $discussion)
                                                     @php
                                                         $title = $discussion->title ?? $discussion->message ?? 'Discussion sans titre';
                                                         $group = $groupName;
