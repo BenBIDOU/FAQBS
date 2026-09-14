@@ -32,13 +32,13 @@
                         <div class="row">
                             <!-- Photo de profil à gauche -->
                             <div class="col-md-4 mb-4 mb-md-0">
-                                <div id="photo-container" class="text-center">
+                                <div id="photo-container" class="text-center p-3" style="border: 2px dashed #ccc; border-radius: 10px; min-height: 240px;">
                                     @if($user->photo)
                                         <img src="{{ asset('storage/' . $user->photo) }}" alt="Photo de profil" 
                                              id="photo-preview" class="img-fluid rounded-circle mb-3" 
                                              style="max-width: 200px; max-height: 200px; object-fit: cover;">
                                     @else
-                                        <div id="photo-placeholder" class="d-flex flex-column align-items-center justify-content-center border border-2 border-dashed rounded-circle bg-light" 
+                                        <div id="photo-placeholder" class="d-flex flex-column align-items-center justify-content-center rounded-circle bg-light" 
                                              style="width: 200px; height: 200px; margin: 0 auto;">
                                             <i class="bi bi-person text-muted" style="font-size: 4rem;"></i>
                                             <span class="text-muted small mt-2">Glisser-déposer une photo</span>
@@ -142,10 +142,30 @@
     #photo-placeholder {
         cursor: pointer;
         transition: all 0.3s;
+        border: 2px dashed #ccc;
     }
     #photo-placeholder:hover {
         background-color: #f8f9fa;
         border-color: #6D071A !important;
+    }
+    
+    #photo-container {
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    #photo-container.drag-over {
+        border-color: #6D071A !important;
+        background-color: #f8f9fa;
+        border-style: solid !important;
+    }
+    
+    #photo-preview {
+        cursor: pointer;
+    }
+    
+    #choose-photo-btn, #remove-photo-btn {
+        cursor: pointer;
     }
 </style>
 @endsection
@@ -162,14 +182,26 @@
 
         // Ouvrir le sélecteur de fichier quand on clique sur le bouton ou la zone placeholder
         if (choosePhotoBtn) {
-            choosePhotoBtn.addEventListener('click', function() {
+            choosePhotoBtn.addEventListener('click', function(e) {
+                e.preventDefault();
                 photoInput.click();
             });
         }
 
         if (photoPlaceholder) {
-            photoPlaceholder.addEventListener('click', function() {
+            photoPlaceholder.addEventListener('click', function(e) {
+                e.preventDefault();
                 photoInput.click();
+            });
+        }
+
+        if (photoContainer) {
+            photoContainer.addEventListener('click', function(e) {
+                // Ne pas interférer si on clique sur le bouton ou l'image
+                if (!e.target.closest('#choose-photo-btn') && !e.target.closest('#remove-photo-btn') && !e.target.closest('#photo-preview')) {
+                    e.preventDefault();
+                    photoInput.click();
+                }
             });
         }
 
@@ -178,6 +210,22 @@
             photoInput.addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (file) {
+                    // Vérifier la taille du fichier (max 2MB)
+                    const maxSize = 2 * 1024 * 1024;
+                    if (file.size > maxSize) {
+                        alert('La photo doit faire moins de 2 Mo.');
+                        photoInput.value = '';
+                        return;
+                    }
+                    
+                    // Vérifier le type du fichier
+                    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
+                    if (!validTypes.includes(file.type)) {
+                        alert('Veuillez sélectionner une image valide (JPEG, PNG, JPG, GIF).');
+                        photoInput.value = '';
+                        return;
+                    }
+                    
                     // Afficher l'aperçu
                     const reader = new FileReader();
                     reader.onload = function(event) {
@@ -198,7 +246,8 @@
 
         // Gérer le bouton de suppression
         if (removePhotoBtn) {
-            removePhotoBtn.addEventListener('click', function() {
+            removePhotoBtn.addEventListener('click', function(e) {
+                e.preventDefault();
                 if (confirm('Voulez-vous vraiment supprimer votre photo de profil ?')) {
                     // Créer un input caché pour la suppression
                     const form = document.getElementById('photo-upload-form');
@@ -214,26 +263,48 @@
 
         // Drag and Drop
         if (photoContainer) {
+            // Empêcher le comportement par défaut
             photoContainer.addEventListener('dragover', function(e) {
                 e.preventDefault();
+                e.stopPropagation();
                 photoContainer.style.borderColor = '#6D071A';
                 photoContainer.style.backgroundColor = '#f8f9fa';
+                photoContainer.style.borderStyle = 'solid';
             });
 
             photoContainer.addEventListener('dragleave', function(e) {
                 e.preventDefault();
-                photoContainer.style.borderColor = '';
+                e.stopPropagation();
+                photoContainer.style.borderColor = '#ccc';
                 photoContainer.style.backgroundColor = '';
+                photoContainer.style.borderStyle = 'dashed';
             });
 
             photoContainer.addEventListener('drop', function(e) {
                 e.preventDefault();
-                photoContainer.style.borderColor = '';
+                e.stopPropagation();
+                photoContainer.style.borderColor = '#ccc';
                 photoContainer.style.backgroundColor = '';
+                photoContainer.style.borderStyle = 'dashed';
                 
                 if (e.dataTransfer.files.length > 0) {
+                    const file = e.dataTransfer.files[0];
+                    // Vérifier le type et la taille
+                    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
+                    const maxSize = 2 * 1024 * 1024;
+                    
+                    if (!validTypes.includes(file.type)) {
+                        alert('Veuillez glisser une image valide (JPEG, PNG, JPG, GIF).');
+                        return;
+                    }
+                    
+                    if (file.size > maxSize) {
+                        alert('La photo doit faire moins de 2 Mo.');
+                        return;
+                    }
+                    
+                    // Assigner le fichier à l'input et déclencher le changement
                     photoInput.files = e.dataTransfer.files;
-                    // Déclencher le changement
                     const event = new Event('change');
                     photoInput.dispatchEvent(event);
                 }
