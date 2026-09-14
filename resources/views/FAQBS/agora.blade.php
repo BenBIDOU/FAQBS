@@ -168,16 +168,17 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                             $allGroups = [];
                             
                             // Charger depuis discussions (toutes les discussions) pour regrouper manuellement
-                            if (isset($discussions) && $discussions) {
-                                $discussionsArray = [];
+                            $discussionsArray = [];
+                            if (isset($discussions)) {
                                 if ($discussions instanceof \Illuminate\Support\Collection) {
                                     $discussionsArray = $discussions->all();
                                 } elseif (is_array($discussions)) {
                                     $discussionsArray = $discussions;
                                 }
-                                
-                                // Regrouper manuellement avec normalisation du champ 'group'
-                                foreach ($discussionsArray as $discussion) {
+                            }
+                            
+                            // Regrouper manuellement avec normalisation du champ 'group'
+                            foreach ($discussionsArray as $discussion) {
                                     $groupName = $discussion->group ?? '';
                                     
                                     // Normaliser le nom du groupe
