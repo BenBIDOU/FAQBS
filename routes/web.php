@@ -45,7 +45,13 @@ Route::middleware(['auth.home'])->get('/agora', function () {
         ->get()
         ->groupBy('group');
     
-    return view('FAQBS.agora', compact('questionsCount', 'countsByTeam', 'discussions', 'discussionsByGroup'));
+    // Charger les questions résolues groupées par team pour la section "Questions résolues"
+    $resolvedQuestionsByGroup = App\Models\Question::where('resolved', true)
+        ->orderBy('resolved_at', 'desc')
+        ->get()
+        ->groupBy('team');
+    
+    return view('FAQBS.agora', compact('questionsCount', 'countsByTeam', 'discussions', 'discussionsByGroup', 'resolvedQuestionsByGroup'));
 })->name('agora');
 
 // Page poser question

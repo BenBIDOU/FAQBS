@@ -120,20 +120,25 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                 </h2>
                                 <div id="collapsePresidentResolues" class="accordion-collapse collapse" data-bs-parent="#presidentAccordionResolues">
                                     <div class="accordion-body">
-                                        @forelse($discussionsByGroup['Président'] ?? [] as $discussion)
-                                            <a href="{{ route('discussions.show', $discussion->id) }}" 
+                                        @forelse($resolvedQuestionsByGroup['Président'] ?? [] as $question)
+                                            <a href="{{ route('questions-en-attente.team', ['team' => 'Président']) }}" 
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
-                                               data-title="{{ $discussion->title }}"
-                                               data-group="Président"
-                                               data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp * 1000 : 0 }}">
+                                               data-title="{{ $question->subject ?? $question->message }}"
+                                               data-group="{{ $question->team }}"
+                                               data-date="{{ $question->resolved_at ? $question->resolved_at->timestamp * 1000 : 0 }}">
                                                 <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <span>{{ Str::limit($discussion->title, 30) }}</span>
-                                                    <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $discussion->group }}</span>
+                                                <div class="d-flex flex-column" style="gap: 4px;">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <span>{{ Str::limit($question->subject ?? $question->message, 30) }}</span>
+                                                        <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $question->team }}</span>
+                                                    </div>
+                                                    @if($question->resolved_at)
+                                                        <small class="text-muted ps-3">Résolue le {{ $question->resolved_at->format('d/m/Y') }}</small>
+                                                    @endif
                                                 </div>
                                             </a>
                                         @empty
-                                            <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
+                                            <p class="text-muted small mb-0 ps-4">Aucune question résolue</p>
                                         @endforelse
                                     </div>
                                 </div>
@@ -149,20 +154,25 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                 </h2>
                                 <div id="collapseSecretariatResolues" class="accordion-collapse collapse" data-bs-parent="#secretariatAccordionResolues">
                                     <div class="accordion-body">
-                                        @forelse($discussionsByGroup['Secrétariat'] ?? [] as $discussion)
-                                            <a href="{{ route('discussions.show', $discussion->id) }}" 
+                                        @forelse($resolvedQuestionsByGroup['Secrétariat'] ?? [] as $question)
+                                            <a href="{{ route('questions-en-attente.team', ['team' => 'Secrétariat']) }}" 
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
-                                               data-title="{{ $discussion->title }}"
-                                               data-group="Secrétariat"
-                                               data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp * 1000 : 0 }}">
+                                               data-title="{{ $question->subject ?? $question->message }}"
+                                               data-group="{{ $question->team }}"
+                                               data-date="{{ $question->resolved_at ? $question->resolved_at->timestamp * 1000 : 0 }}">
                                                 <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <span>{{ Str::limit($discussion->title, 30) }}</span>
-                                                    <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $discussion->group }}</span>
+                                                <div class="d-flex flex-column" style="gap: 4px;">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <span>{{ Str::limit($question->subject ?? $question->message, 30) }}</span>
+                                                        <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $question->team }}</span>
+                                                    </div>
+                                                    @if($question->resolved_at)
+                                                        <small class="text-muted ps-3">Résolue le {{ $question->resolved_at->format('d/m/Y') }}</small>
+                                                    @endif
                                                 </div>
                                             </a>
                                         @empty
-                                            <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
+                                            <p class="text-muted small mb-0 ps-4">Aucune question résolue</p>
                                         @endforelse
                                     </div>
                                 </div>
@@ -178,20 +188,25 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                 </h2>
                                 <div id="collapseTresorerieResolues" class="accordion-collapse collapse" data-bs-parent="#tresorerieAccordionResolues">
                                     <div class="accordion-body">
-                                        @forelse($discussionsByGroup['Trésorerie'] ?? [] as $discussion)
-                                            <a href="{{ route('discussions.show', $discussion->id) }}" 
+                                        @forelse($resolvedQuestionsByGroup['Trésorerie'] ?? [] as $question)
+                                            <a href="{{ route('questions-en-attente.team', ['team' => 'Trésorerie']) }}" 
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
-                                               data-title="{{ $discussion->title }}"
-                                               data-group="Trésorerie"
-                                               data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp * 1000 : 0 }}">
+                                               data-title="{{ $question->subject ?? $question->message }}"
+                                               data-group="{{ $question->team }}"
+                                               data-date="{{ $question->resolved_at ? $question->resolved_at->timestamp * 1000 : 0 }}">
                                                 <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <span>{{ Str::limit($discussion->title, 30) }}</span>
-                                                    <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $discussion->group }}</span>
+                                                <div class="d-flex flex-column" style="gap: 4px;">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <span>{{ Str::limit($question->subject ?? $question->message, 30) }}</span>
+                                                        <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $question->team }}</span>
+                                                    </div>
+                                                    @if($question->resolved_at)
+                                                        <small class="text-muted ps-3">Résolue le {{ $question->resolved_at->format('d/m/Y') }}</small>
+                                                    @endif
                                                 </div>
                                             </a>
                                         @empty
-                                            <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
+                                            <p class="text-muted small mb-0 ps-4">Aucune question résolue</p>
                                         @endforelse
                                     </div>
                                 </div>
@@ -207,20 +222,25 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                 </h2>
                                 <div id="collapseDonneursVoixResolues" class="accordion-collapse collapse" data-bs-parent="#donneursVoixAccordionResolues">
                                     <div class="accordion-body">
-                                        @forelse($discussionsByGroup['Donneurs de Voix'] ?? [] as $discussion)
-                                            <a href="{{ route('discussions.show', $discussion->id) }}" 
+                                        @forelse($resolvedQuestionsByGroup['Donneurs de Voix'] ?? [] as $question)
+                                            <a href="{{ route('questions-en-attente.team', ['team' => 'Donneurs de Voix']) }}" 
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
-                                               data-title="{{ $discussion->title }}"
-                                               data-group="Donneurs de Voix"
-                                               data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp * 1000 : 0 }}">
+                                               data-title="{{ $question->subject ?? $question->message }}"
+                                               data-group="{{ $question->team }}"
+                                               data-date="{{ $question->resolved_at ? $question->resolved_at->timestamp * 1000 : 0 }}">
                                                 <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <span>{{ Str::limit($discussion->title, 30) }}</span>
-                                                    <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $discussion->group }}</span>
+                                                <div class="d-flex flex-column" style="gap: 4px;">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <span>{{ Str::limit($question->subject ?? $question->message, 30) }}</span>
+                                                        <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $question->team }}</span>
+                                                    </div>
+                                                    @if($question->resolved_at)
+                                                        <small class="text-muted ps-3">Résolue le {{ $question->resolved_at->format('d/m/Y') }}</small>
+                                                    @endif
                                                 </div>
                                             </a>
                                         @empty
-                                            <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
+                                            <p class="text-muted small mb-0 ps-4">Aucune question résolue</p>
                                         @endforelse
                                     </div>
                                 </div>
@@ -236,20 +256,25 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                 </h2>
                                 <div id="collapseDonneursTempsResolues" class="accordion-collapse collapse" data-bs-parent="#donneursTempsAccordionResolues">
                                     <div class="accordion-body">
-                                        @forelse($discussionsByGroup['Donneurs de Temps'] ?? [] as $discussion)
-                                            <a href="{{ route('discussions.show', $discussion->id) }}" 
+                                        @forelse($resolvedQuestionsByGroup['Donneurs de Temps'] ?? [] as $question)
+                                            <a href="{{ route('questions-en-attente.team', ['team' => 'Donneurs de Temps']) }}" 
                                                class="list-group-item list-group-item-action border-0 ps-4 discussion-link"
-                                               data-title="{{ $discussion->title }}"
-                                               data-group="Donneurs de Temps"
-                                               data-date="{{ $discussion->created_at ? $discussion->created_at->timestamp * 1000 : 0 }}">
+                                               data-title="{{ $question->subject ?? $question->message }}"
+                                               data-group="{{ $question->team }}"
+                                               data-date="{{ $question->resolved_at ? $question->resolved_at->timestamp * 1000 : 0 }}">
                                                 <i class="bi bi-record-circle me-2" style="font-size: 0.7rem;"></i>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <span>{{ Str::limit($discussion->title, 30) }}</span>
-                                                    <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $discussion->group }}</span>
+                                                <div class="d-flex flex-column" style="gap: 4px;">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <span>{{ Str::limit($question->subject ?? $question->message, 30) }}</span>
+                                                        <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $question->team }}</span>
+                                                    </div>
+                                                    @if($question->resolved_at)
+                                                        <small class="text-muted ps-3">Résolue le {{ $question->resolved_at->format('d/m/Y') }}</small>
+                                                    @endif
                                                 </div>
                                             </a>
                                         @empty
-                                            <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
+                                            <p class="text-muted small mb-0 ps-4">Aucune question résolue</p>
                                         @endforelse
                                     </div>
                                 </div>
