@@ -360,31 +360,31 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                         <a href="/questions-en-attente/Président" class="btn btn-outline-primary text-primary w-100 text-start d-flex justify-content-between align-items-center py-2" style="border-radius: 8px; border: 1px solid #002D5D; background: #FFFFFF; transition: all 0.2s ease; color: #002D5D !important;">
                             <span><i class="bi bi-person me-1"></i> Président</span>
                             @if(($countsByTeam['Président'] ?? 0) > 0)
-                                <span class="badge bg-success badge-2x">{{ $countsByTeam['Président'] }}</span>
+                                <span class="badge bg-success" style="font-size: 1.4rem !important; padding: 6px 12px !important;">{{ $countsByTeam['Président'] }}</span>
                             @endif
                         </a>
                         <a href="/questions-en-attente/Secrétariat" class="btn btn-outline-primary text-primary w-100 text-start d-flex justify-content-between align-items-center py-2" style="border-radius: 8px; border: 1px solid #002D5D; background: #FFFFFF; transition: all 0.2s ease; color: #002D5D !important;">
                             <span><i class="bi bi-file-earmark-text me-1"></i> Secrétariat</span>
                             @if(($countsByTeam['Secrétariat'] ?? 0) > 0)
-                                <span class="badge bg-success badge-2x">{{ $countsByTeam['Secrétariat'] }}</span>
+                                <span class="badge bg-success" style="font-size: 1.4rem !important; padding: 6px 12px !important;">{{ $countsByTeam['Secrétariat'] }}</span>
                             @endif
                         </a>
                         <a href="/questions-en-attente/Trésorerie" class="btn btn-outline-primary text-primary w-100 text-start d-flex justify-content-between align-items-center py-2" style="border-radius: 8px; border: 1px solid #002D5D; background: #FFFFFF; transition: all 0.2s ease; color: #002D5D !important;">
                             <span><i class="bi bi-cash-coin me-1"></i> Trésorerie</span>
                             @if(($countsByTeam['Trésorerie'] ?? 0) > 0)
-                                <span class="badge bg-success badge-2x">{{ $countsByTeam['Trésorerie'] }}</span>
+                                <span class="badge bg-success" style="font-size: 1.4rem !important; padding: 6px 12px !important;">{{ $countsByTeam['Trésorerie'] }}</span>
                             @endif
                         </a>
                         <a href="/questions-en-attente/Donneurs de Voix" class="btn btn-outline-primary text-primary w-100 text-start d-flex justify-content-between align-items-center py-2" style="border-radius: 8px; border: 1px solid #002D5D; background: #FFFFFF; transition: all 0.2s ease; color: #002D5D !important;">
                             <span><i class="bi bi-mic me-1"></i> Donneurs de Voix</span>
                             @if(($countsByTeam['Donneurs de Voix'] ?? 0) > 0)
-                                <span class="badge bg-success badge-2x">{{ $countsByTeam['Donneurs de Voix'] }}</span>
+                                <span class="badge bg-success" style="font-size: 1.4rem !important; padding: 6px 12px !important;">{{ $countsByTeam['Donneurs de Voix'] }}</span>
                             @endif
                         </a>
                         <a href="/questions-en-attente/Donneurs de Temps" class="btn btn-outline-primary text-primary w-100 text-start d-flex justify-content-between align-items-center py-2" style="border-radius: 8px; border: 1px solid #002D5D; background: #FFFFFF; transition: all 0.2s ease; color: #002D5D !important;">
                             <span><i class="bi bi-clock me-1"></i> Donneurs de Temps</span>
                             @if(($countsByTeam['Donneurs de Temps'] ?? 0) > 0)
-                                <span class="badge bg-success badge-2x">{{ $countsByTeam['Donneurs de Temps'] }}</span>
+                                <span class="badge bg-success" style="font-size: 1.4rem !important; padding: 6px 12px !important;">{{ $countsByTeam['Donneurs de Temps'] }}</span>
                             @endif
                         </a>
                     </div>

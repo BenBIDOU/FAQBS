@@ -196,7 +196,7 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                                 }
                                                 @endphp
                                                 <div class="d-flex gap-2 flex-wrap">
-                                                    <a href="{{ route('questions-details', ['question' => $question->id]) }}" class="btn btn-sm btn-main text-white" style="font-size: 0.85rem; padding: 6px 12px; border-radius: 6px;">
+                                                    <a href="{{ route('questions-details', ['question' => $question->id]) }}" class="btn btn-sm text-white" style="font-size: 0.85rem; padding: 6px 12px; border-radius: 6px; background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); border: none;">
                                                         <i class="bi bi-eye me-1"></i> Détails
                                                     </a>
                                                 </div>
@@ -426,6 +426,7 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
     /* Style des cellules du tableau */
     .table th, .table td {
         vertical-align: middle;
+        padding: 8px 6px !important;
     }
     
     .table tbody tr:hover {
