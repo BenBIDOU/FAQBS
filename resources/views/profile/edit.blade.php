@@ -6,6 +6,22 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-10">
+            <!-- Messages de succès/erreur -->
+            @if(session('status'))
+                <div class="alert alert-success mb-3">
+                    {{ session('status') }}
+                </div>
+            @endif
+            @if($errors->any())
+                <div class="alert alert-danger mb-3">
+                    <ul class="mb-0">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            
             <!-- Bouton Retour -->
             <div class="d-flex justify-content-end mb-3">
                 <a href="/agora" class="btn btn-outline-bordeaux">
