@@ -7,7 +7,7 @@
 
 <div class="row">
     @forelse($answeredQuestions as $question)
-        <div class="col-12 mb-3">
+        <div class="col-12 mb-3" id="question-{{ $question->id }}">
             <div class="card border-start border-3 border-bordeaux h-100">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start mb-2">
@@ -24,15 +24,12 @@
                             <span class="badge bg-bordeaux">
                                 {{ $question->team }}
                             </span>
-                            <form action="{{ route('questions.destroy', $question->id) }}" method="POST" 
-                                  onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette question ?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-outline-danger p-1" 
-                                        title="Supprimer la question">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
+                            <button type="button" class="btn btn-sm btn-outline-danger p-1 delete-question-btn" 
+                                    title="Supprimer la question"
+                                    data-question-id="{{ $question->id }}"
+                                    data-route="{{ route('questions.destroy', $question->id) }}">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </div>
                     </div>
                     

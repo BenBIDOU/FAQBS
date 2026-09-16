@@ -344,6 +344,44 @@
                 }
             });
         }
+        
+        // Suppression AJAX des questions
+        document.querySelectorAll('.delete-question-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const questionId = this.getAttribute('data-question-id');
+                const route = this.getAttribute('data-route');
+                const questionElement = document.getElementById('question-' + questionId);
+                
+                if (confirm('Êtes-vous sûr de vouloir supprimer cette question ?')) {
+                    fetch(route, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // Supprimer l'élément de la DOM
+                            if (questionElement) {
+                                questionElement.remove();
+                            }
+                            // Afficher un message de succès
+                            alert('Question supprimée avec succès !');
+                        } else {
+                            return response.json().then(data => {
+                                throw new Error(data.error || 'Erreur lors de la suppression');
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        alert('Erreur : ' + error.message);
+                    });
+                }
+            });
+        });
     });
 </script>
 @endsection

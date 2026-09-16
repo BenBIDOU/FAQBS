@@ -182,10 +182,18 @@ class QuestionController extends Controller
         
         // Vérifier que l'utilisateur est le propriétaire de la question ou un master
         if ($question->email !== Auth::user()->email && !Auth::user()->is_master) {
+            if (request()->wantsJson()) {
+                return response()->json(['error' => 'Vous ne pouvez supprimer que vos propres questions !'], 403);
+            }
             return redirect()->back()->with('error', 'Vous ne pouvez supprimer que vos propres questions !');
         }
         
         $question->delete();
+        
+        if (request()->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Question supprimée avec succès !']);
+        }
+        
         return redirect()->back()->with('success', 'Question supprimée avec succès !');
     }
 }
