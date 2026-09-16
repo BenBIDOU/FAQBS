@@ -37,7 +37,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                 </div>
             </div>
             <button type="button" id="closeWelcome" class="btn btn-sm p-0 ms-2" style="background: transparent; border: none; color: #6c757d; cursor: pointer;"
-                    title="Masquer pour 24h">
+                    title="Masquer pour 12h">
                 <i class="bi bi-x-circle-fill" style="font-size: 1.2rem;"></i>
             </button>
         </div>
@@ -61,7 +61,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                 closeWelcomeBtn.addEventListener('click', function(e) {
                     e.preventDefault();
                     const hideUntil = new Date();
-                    hideUntil.setHours(hideUntil.getHours() + 24);
+                    hideUntil.setHours(hideUntil.getHours() + 12);
                     localStorage.setItem(welcomeStorageKey, hideUntil.getTime().toString());
                     welcomeAlert.style.display = 'none';
                 });
@@ -179,7 +179,8 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                             
                             // Regrouper manuellement avec normalisation du champ 'group'
                             foreach ($discussionsArray as $discussion) {
-                                    $groupName = $discussion->group ?? '';
+                                    // Essayer plusieurs champs pour déterminer le groupe
+                                    $groupName = $discussion->group ?? $discussion->team ?? $discussion->destination ?? '';
                                     
                                     // Normaliser le nom du groupe
                                     $normalizedName = trim($groupName);
@@ -238,63 +239,82 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                             $allGroups = $filteredGroups;
                         @endphp
                         
-                        @forelse($allGroups as $groupName => $groupDiscussions)
-                            @php
-                                $icon = $groupIcons[$groupName] ?? 'bi-people';
-                                $safeGroupName = preg_replace('/[^a-zA-Z0-9]/', '', $groupName);
-                                $accordionId = "{$safeGroupName}AccordionResolues";
-                                $collapseId = "collapse{$groupName}Resolues";
-                            @endphp
+                        @php
+                        $allAccordionItems = [];
+                        foreach ($allGroups as $groupName => $groupDiscussions) {
+                            $icon = $groupIcons[$groupName] ?? 'bi-people';
+                            $safeGroupName = preg_replace('/[^a-zA-Z0-9]/', '', $groupName);
+                            $collapseId = "collapse{$safeGroupName}Resolues";
                             
-                            <div class="accordion flex-grow-1 accordion-bottom" id="{{ $accordionId }}" data-group="{{ $groupName }}">
+                            $discussionItems = [];
+                            if (!empty($groupDiscussions) && is_array($groupDiscussions)) {
+                                foreach ($groupDiscussions as $discussion) {
+                                    $title = $discussion->title ?? $discussion->message ?? 'Discussion sans titre';
+                                    $group = $groupName;
+                                    $date = $discussion->created_at ? $discussion->created_at->timestamp * 1000 : 0;
+                                    $discussionId = $discussion->id ?? null;
+                                    
+                                    if ($discussionId) {
+                                        $discussionItems[] = [
+                                            'html' => '<div class="list-group-item border-0 discussion-container discussion-link d-flex align-items-start"
+                                                             data-title="' . e($title) . '"
+                                                             data-group="' . e($group) . '"
+                                                             data-date="' . $date . '"
+                                                             data-discussion-id="' . $discussionId . '">
+                                                            <a href="' . route('discussions.show', $discussionId) . '" class="flex-grow-1 text-decoration-none" style="color: inherit;">
+                                                                <div class="d-flex flex-column" style="gap: 4px; flex: 1;">
+                                                                    <div class="d-flex justify-content-between align-items-center">
+                                                                        <span>' . Str::limit($title, 30) . '</span>
+                                                                        <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">' . e($group) . '</span>
+                                                                    </div>
+                                                                    ' . ($discussion->created_at ? '<small class="text-muted ps-3">Créée le ' . $discussion->created_at->format('d/m/Y') . '</small>' : '') . '
+                                                                </div>
+                                                            </a>
+                                                        </div>',
+                                            'groupName' => $groupName,
+                                            'icon' => $icon,
+                                            'collapseId' => $collapseId
+                                        ];
+                                    }
+                                }
+                            }
+                            
+                            if (!empty($discussionItems)) {
+                                $allAccordionItems[] = [
+                                    'groupName' => $groupName,
+                                    'icon' => $icon,
+                                    'collapseId' => $collapseId,
+                                    'items' => $discussionItems
+                                ];
+                            }
+                        }
+                        
+                        if (!empty($allAccordionItems)):
+                        @endphp
+                        <div class="accordion" id="questionsResoluesAccordion">
+                            @foreach($allAccordionItems as $index => $accordionData)
                                 <div class="accordion-item border-0">
                                     <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="false" aria-controls="{{ $collapseId }}" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
-                                            <i class="bi {{ $icon }} me-2"></i> {{ $groupName }}
+                                        <button class="accordion-button collapsed bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $accordionData['collapseId'] }}" aria-expanded="false" aria-controls="{{ $accordionData['collapseId'] }}" style="color: #002D5D; font-weight: 500; padding: 12px 16px; border-radius: 6px; margin: 4px 8px; transition: all 0.2s ease;">
+                                            <i class="bi {{ $accordionData['icon'] }} me-2"></i> {{ $accordionData['groupName'] }}
                                         </button>
                                     </h2>
-                                    <div id="{{ $collapseId }}" class="accordion-collapse collapse" data-bs-parent="#{{ $accordionId }}">
+                                    <div id="{{ $accordionData['collapseId'] }}" class="accordion-collapse collapse" data-bs-parent="#questionsResoluesAccordion">
                                         <div class="accordion-body">
-                                            @if(!empty($groupDiscussions) && is_array($groupDiscussions))
-                                                @foreach($groupDiscussions as $discussion)
-                                                    @php
-                                                        $title = $discussion->title ?? $discussion->message ?? 'Discussion sans titre';
-                                                        $group = $groupName;
-                                                        $date = $discussion->created_at ? $discussion->created_at->timestamp * 1000 : 0;
-                                                        $discussionId = $discussion->id ?? null;
-                                                    @endphp
-                                                    @if($discussionId)
-                                                    <a href="{{ route('discussions.show', $discussionId) }}" 
-                                                       class="list-group-item list-group-item-action border-0 ps-4 discussion-link d-flex align-items-start"
-                                                       data-title="{{ $title }}"
-                                                       data-group="{{ $group }}"
-                                                       data-date="{{ $date }}">
-                                                        <i class="bi bi-record-circle me-2" style="font-size: 0.7rem; margin-top: 2px;"></i>
-                                                        <div class="d-flex flex-column" style="gap: 4px; flex: 1;">
-                                                            <div class="d-flex justify-content-between align-items-center">
-                                                                <span>{{ Str::limit($title, 30) }}</span>
-                                                                <span class="badge" style="background: #6c757d; color: white; font-size: 0.8em; padding: 5px 10px; border-radius: 5px; font-weight: 500;">{{ $group }}</span>
-                                                            </div>
-                                                            @if($discussion->created_at)
-                                                                <small class="text-muted ps-3">Créée le {{ $discussion->created_at->format('d/m/Y') }}</small>
-                                                            @endif
-                                                        </div>
-                                                    </a>
-                                                    @endif
-                                                @endforeach
-                                            @else
-                                                <p class="text-muted small mb-0 ps-4">Aucune discussion</p>
-                                            @endif
+                                            @foreach($accordionData['items'] as $item)
+                                                {!! $item['html'] !!}
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            @unless($loop->last)
-                                <div class="w-100" style="border-bottom: 1px solid #E9ECEF; margin: 4px 0;"></div>
-                            @endunless
-                        @empty
+                                @unless($loop->last)
+                                    <div class="w-100" style="border-bottom: 1px solid #E9ECEF; margin: 4px 0;"></div>
+                                @endunless
+                            @endforeach
+                        </div>
+                        @php else: @endphp
                             <p class="text-muted small mb-0 ps-4">Aucune discussion dans aucun groupe</p>
-                        @endforelse
+                        @php endif; @endphp
                     </div>
                 </div>
             </div>
@@ -393,14 +413,15 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
         </div>
         </div>
     </div>
-</div>
-
-<!-- Boutons centrés horizontalement en bas de la page -->
-<div class="d-flex flex-column align-items-center" style="position: absolute; bottom: 400px; left: 50%; transform: translateX(-50%); z-index: 1000; gap: 10px; width: fit-content;">
+    <!-- Boutons centrés horizontalement en bas de la page -->
+<div class="d-flex flex-column align-items-center" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; gap: 10px; width: fit-content;">
     <a href="/poser-question" class="btn btn-lg text-white px-5 py-4 shadow-lg ask-question-btn" style="font-size: 1.3rem; font-weight: 700; border: none; border-radius: 10px; background: linear-gradient(135deg, #990000 0%, #A00000 100%); box-shadow: 0 4px 15px rgba(153, 0, 0, 0.3); transition: all 0.3s ease; width: 100%;">
         <i class="bi bi-envelope me-2"></i> Je pose ma question
     </a>
 </div>
+</div>
+
+
 
 <!-- JavaScript pour gérer l'envoi de messages -->
 <script>
@@ -582,27 +603,6 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
             });
         }
         
-        // Gestion de la bulle d'accueil (masquage 24h)
-        const welcomeAlert = document.getElementById('welcomeAlert');
-        const closeWelcomeBtn = document.getElementById('closeWelcome');
-        const welcomeStorageKey = 'agora-welcome-hidden-until';
-        
-        if (welcomeAlert && closeWelcomeBtn) {
-            // Vérifier si la bulle doit être cachée
-            const hiddenUntil = localStorage.getItem(welcomeStorageKey);
-            if (hiddenUntil && new Date(parseInt(hiddenUntil)) > new Date()) {
-                welcomeAlert.style.display = 'none';
-            }
-            
-            // Écouteur pour fermer la bulle
-            closeWelcomeBtn.addEventListener('click', function() {
-                const hideUntil = new Date();
-                hideUntil.setHours(hideUntil.getHours() + 24);
-                localStorage.setItem(welcomeStorageKey, hideUntil.getTime().toString());
-                welcomeAlert.style.display = 'none';
-            });
-        }
-        
     });
 </script>
 
@@ -618,71 +618,23 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
         }
         
         function filterDiscussions() {
-            const searchTerm = searchInput.value.toLowerCase().trim();
-            let hasResults = false;
-            
-            // Sélectionner les liens de discussion dans les accordéons
-            const discussionLinks = document.querySelectorAll('.accordion-body a.list-group-item-action');
-            const noDiscussionMessages = document.querySelectorAll('.text-muted.small.mb-0.ps-4');
-            const accordionCollapses = document.querySelectorAll('.accordion-collapse');
-            const accordionButtons = document.querySelectorAll('.accordion-button');
-            
-            console.log('Recherche:', searchTerm, '-> Nombre de liens trouvés:', discussionLinks.length);
-            
-            // Filtrer les discussions
-            discussionLinks.forEach(link => {
-                const fullTitle = (link.getAttribute('data-title') || link.textContent).toLowerCase();
-                const isVisible = fullTitle.includes(searchTerm);
-                link.classList.toggle('d-none', !isVisible);
-                if (isVisible) hasResults = true;
-            });
-            
-            // Gérer les messages "Aucune discussion"
-            noDiscussionMessages.forEach(el => {
-                el.classList.toggle('d-none', hasResults);
-            });
-            
-            // Afficher les résultats sous les filtres
+            // Appliquer tous les filtres (y compris la recherche textuelle sur le titre)
+            applyFilters();
+            applySort();
             displaySearchResults();
             
-            // Réinitialiser si vide
+            // Gérer l'affichage des résultats de recherche
+            const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
             if (searchTerm === '') {
-                discussionLinks.forEach(link => link.classList.remove('d-none'));
-                noDiscussionMessages.forEach(el => el.classList.add('d-none'));
+                const accordionCollapses = document.querySelectorAll('.accordion-collapse');
+                const accordionButtons = document.querySelectorAll('.accordion-button');
                 accordionCollapses.forEach(c => c.classList.remove('show'));
                 accordionButtons.forEach(b => {
                     b.classList.add('collapsed');
                     b.setAttribute('aria-expanded', 'false');
                 });
                 if (searchResults) searchResults.style.display = 'none';
-                return;
             }
-            
-            // Ouvrir les accordéons avec résultats
-            accordionCollapses.forEach(collapse => {
-                const body = collapse.querySelector('.accordion-body');
-                if (!body) return;
-                
-                const visibleLinks = Array.from(body.querySelectorAll('a.list-group-item-action'))
-                    .some(link => !link.classList.contains('d-none'));
-                
-                const buttonId = collapse.getAttribute('id');
-                const button = buttonId ? document.querySelector(`[data-bs-target="#${buttonId}"]`) : null;
-                
-                if (visibleLinks) {
-                    collapse.classList.add('show');
-                    if (button) {
-                        button.classList.remove('collapsed');
-                        button.setAttribute('aria-expanded', 'true');
-                    }
-                } else {
-                    collapse.classList.remove('show');
-                    if (button) {
-                        button.classList.add('collapsed');
-                        button.setAttribute('aria-expanded', 'false');
-                    }
-                }
-            });
         }
         
         function displaySearchResults() {
@@ -690,12 +642,13 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
             
             // Collecter toutes les discussions actuellement visibles (après filtrage)
             const visibleDiscussions = [];
-            document.querySelectorAll('.discussion-link:not(.d-none)').forEach(link => {
+            document.querySelectorAll('.discussion-link:not(.d-none)').forEach(container => {
+                const anchor = container.querySelector('a');
                 visibleDiscussions.push({
-                    title: link.getAttribute('data-title') || link.textContent,
-                    url: link.href,
-                    group: link.getAttribute('data-group') || '',
-                    date: link.getAttribute('data-date') || 0
+                    title: container.getAttribute('data-title') || 'Discussion sans titre',
+                    url: anchor ? anchor.href : '',
+                    group: container.getAttribute('data-group') || '',
+                    date: container.getAttribute('data-date') || 0
                 });
             });
             
@@ -829,8 +782,8 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                         const dateB = parseInt(b.getAttribute('data-date')) || 0;
                         return order === 'desc' ? dateB - dateA : dateA - dateB;
                     } else if (criteria === 'title') {
-                        const titleA = (a.getAttribute('data-title') || a.textContent).toLowerCase();
-                        const titleB = (b.getAttribute('data-title') || b.textContent).toLowerCase();
+                        const titleA = (a.getAttribute('data-title') || '').toLowerCase();
+                        const titleB = (b.getAttribute('data-title') || '').toLowerCase();
                         if (order === 'desc') {
                             return titleB.localeCompare(titleA);
                         } else {
@@ -911,7 +864,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                 
                 // Filtre par recherche textuelle
                 if (isVisible && searchTerm) {
-                    const fullTitle = (link.getAttribute('data-title') || link.textContent).toLowerCase();
+                    const fullTitle = (link.getAttribute('data-title') || '').toLowerCase();
                     isVisible = fullTitle.includes(searchTerm);
                 }
                 
@@ -965,6 +918,44 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
             applyFilters();
             applySort();
         }
+        
+        // Suppression AJAX des discussions
+        document.querySelectorAll('.delete-discussion-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const discussionId = this.getAttribute('data-discussion-id');
+                const route = this.getAttribute('data-route');
+                const container = this.closest('.discussion-container');
+                
+                if (confirm('Êtes-vous sûr de vouloir supprimer cette discussion ?')) {
+                    fetch(route, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // Supprimer le conteneur de la discussion sans recharger la page
+                            if (container) {
+                                container.remove();
+                            }
+                            alert('Discussion supprimée avec succès !');
+                        } else {
+                            return response.json().then(data => {
+                                throw new Error(data.error || 'Erreur lors de la suppression');
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        alert('Erreur : ' + error.message);
+                    });
+                }
+            });
+        });
         
         console.log('Recherche, filtres et tris initialisés - OK');
     });
