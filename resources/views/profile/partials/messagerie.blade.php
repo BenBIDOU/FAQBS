@@ -1,5 +1,5 @@
 <div class="mb-4">
-    <h3 class="mb-2">Messagerie</h3>
+    <h3 class="mb-2">Questions que j'ai posées</h3>
     <p class="text-muted">
         Ici s'affichent les réponses à vos questions.
     </p>

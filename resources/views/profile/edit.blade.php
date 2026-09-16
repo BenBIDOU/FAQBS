@@ -85,15 +85,15 @@
                 </div>
             </div>
 
-            <!-- Messagerie -->
+            <!-- Questions que j'ai posées -->
             <div class="card shadow-lg border-0 mb-4">
                 <div class="card-header bg-bordeaux text-white">
                     <button class="accordion-button collapsed w-100 text-start p-0" type="button" 
-                            data-bs-toggle="collapse" data-bs-target="#messagerieCollapse" 
-                            aria-expanded="false" aria-controls="messagerieCollapse">
+                            data-bs-toggle="collapse" data-bs-target="#questionsPoseesCollapse" 
+                            aria-expanded="false" aria-controls="questionsPoseesCollapse">
                         <span class="d-flex justify-content-between align-items-center w-100 p-3">
                             <span class="d-flex align-items-center">
-                                <i class="bi bi-envelope me-2"></i> Messagerie
+                                <i class="bi bi-envelope me-2"></i> Questions que j'ai posées
                                 @php
                                     $unreadCount = \App\Models\Question::where('email', auth()->user()->email)
                                         ->whereNotNull('answer')
@@ -108,7 +108,7 @@
                         </span>
                     </button>
                 </div>
-                <div id="messagerieCollapse" class="collapse" data-bs-parent="#profileAccordion">
+                <div id="questionsPoseesCollapse" class="collapse" data-bs-parent="#profileAccordion">
                     <div class="card-body p-4">
                         @include('profile.partials.messagerie')
                     </div>
