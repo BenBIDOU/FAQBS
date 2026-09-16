@@ -109,7 +109,7 @@ Détails de la question - Bibliothèques sonores de la région Centre - Val de L
                         </form>
                         <form action="{{ route('questions.resolve', ['question' => $question->id]) }}" method="POST" class="w-50">
                             @csrf
-                            <input type="hidden" name="redirect" value="{{ route('discussion.create', ['group' => $question->team, 'title' => $question->subject ?? $question->discussion_title ?? '', 'content' => $question->message, 'question_id' => $question->id]) }}">
+                            <input type="hidden" name="redirect" value="{{ route('discussion.create', ['question_id' => $question->id]) }}">
                             <button type="submit" class="btn btn-lg text-white px-4 py-3 shadow-lg w-100" style="font-size: 1.1rem; font-weight: 700; border: none; border-radius: 10px; background: linear-gradient(135deg, #28A745 0%, #20C997 100%); box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3); transition: all 0.3s ease;">
                                 <i class="bi bi-chat-square-text me-1"></i> Ouvrir la discussion
                             </button>

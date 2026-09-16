@@ -109,7 +109,19 @@ class QuestionController extends Controller
             
             $question->save();
             
-            return redirect()->route('questions-en-attente')->with('success', 'Réponse enregistrée avec succès !');
+            // Créer automatiquement une discussion avec cette réponse
+            $discussion = new \App\Models\Discussion();
+            $discussion->title = $request->input('discussion_title') ?? $question->subject ?? $question->discussion_title ?? 'Réponse à la question #'.$question->id;
+            $discussion->group = $question->team;
+            $discussion->content = $request->input('response');
+            $discussion->user_id = Auth::id();
+            $discussion->save();
+            
+            // Lier la discussion à la question
+            $question->discussion_id = $discussion->id;
+            $question->save();
+            
+            return redirect('/agora')->with('success', 'Réponse enregistrée et discussion créée avec succès !');
         }
         
         // Afficher le formulaire de réponse
@@ -181,7 +193,7 @@ class QuestionController extends Controller
         $question = Question::findOrFail($id);
         
         // Vérifier que l'utilisateur est le propriétaire de la question ou un master
-        if ($question->email !== Auth::user()->email && !Auth::user()->is_master) {
+        if (strtolower(trim($question->email ?? '')) !== strtolower(trim(Auth::user()->email)) && !Auth::user()->is_master) {
             if (request()->wantsJson()) {
                 return response()->json(['error' => 'Vous ne pouvez supprimer que vos propres questions !'], 403);
             }

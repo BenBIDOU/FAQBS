@@ -155,6 +155,10 @@ class DiscussionController extends Controller
 
         $discussion->delete();
 
+        if (request()->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Discussion supprimée avec succès !']);
+        }
+
         return redirect()->route('discussions.manage')->with('success', 'Discussion supprimée avec succès !');
     }
 }

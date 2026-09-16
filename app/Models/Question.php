@@ -21,8 +21,14 @@ class Question extends Model
         'answer',
         'answered_by',
         'answered_at',
-        'discussion_title'
+        'discussion_title',
+        'discussion_id'
     ];
+    
+    public function discussion()
+    {
+        return $this->belongsTo(Discussion::class);
+    }
     
     protected $casts = [
         'resolved' => 'boolean',
