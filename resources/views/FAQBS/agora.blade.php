@@ -51,18 +51,18 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
             const welcomeStorageKey = 'agora-welcome-hidden-until';
             
             if (welcomeAlert && closeWelcomeBtn) {
-                // Vérifier si la bulle doit être cachée
-                const hiddenUntil = localStorage.getItem(welcomeStorageKey);
+                // Utiliser sessionStorage au lieu de localStorage pour que le message réapparaisse à chaque nouvelle session/onglet
+                const hiddenUntil = sessionStorage.getItem(welcomeStorageKey);
                 if (hiddenUntil && new Date(parseInt(hiddenUntil)) > new Date()) {
                     welcomeAlert.style.display = 'none';
                 }
                 
-                // Écouteur pour fermer la bulle
+                // Écouteur pour fermer la bulle (masquage pour 12h dans la session actuelle)
                 closeWelcomeBtn.addEventListener('click', function(e) {
                     e.preventDefault();
                     const hideUntil = new Date();
                     hideUntil.setHours(hideUntil.getHours() + 12);
-                    localStorage.setItem(welcomeStorageKey, hideUntil.getTime().toString());
+                    sessionStorage.setItem(welcomeStorageKey, hideUntil.getTime().toString());
                     welcomeAlert.style.display = 'none';
                 });
             }
