@@ -110,7 +110,7 @@
                 </div>
                 <div id="questionsPoseesCollapse" class="collapse" data-bs-parent="#profileAccordion">
                     <div class="card-body p-4">
-                        @include('profile.partials.messagerie')
+                        @include('profile.partials.messagerie', ['discussions' => $discussions])
                     </div>
                 </div>
             </div>
@@ -191,6 +191,15 @@
     .btn-outline-danger {
         color: #dc3545;
         border-color: #dc3545;
+    }
+    .btn-outline-primary:hover {
+        background-color: #0056B3;
+        color: white;
+        border-color: #0056B3;
+    }
+    .btn-outline-primary {
+        color: #002D5D;
+        border-color: #002D5D;
     }
 </style>
 @endsection

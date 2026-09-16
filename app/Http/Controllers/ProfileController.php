@@ -19,16 +19,20 @@ class ProfileController extends Controller
     {
         $user = $request->user();
         
-        // Récupérer les questions de l'utilisateur qui ont une réponse
+        // Récupérer les questions de l'utilisateur qui ont une réponse ou sont résolues
         $answeredQuestions = Question::where('email', $user->email)
             ->whereNotNull('answer')
             ->orWhere('resolved', true)
             ->orderBy('created_at', 'desc')
             ->get();
         
+        // Charger toutes les discussions pour les associer aux questions
+        $discussions = \App\Models\Discussion::orderBy('created_at', 'desc')->get();
+        
         return view('profile.edit', [
             'user' => $user,
             'answeredQuestions' => $answeredQuestions,
+            'discussions' => $discussions,
         ]);
     }
 

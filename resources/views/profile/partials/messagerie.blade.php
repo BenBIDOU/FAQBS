@@ -60,6 +60,40 @@
                             En attente de réponse...
                         </div>
                     @endif
+                    
+                    <!-- Discussions associées -->
+                    @php
+                        $relatedDiscussions = [];
+                        if (isset($discussions)) {
+                            foreach ($discussions as $discussion) {
+                                // Vérifier si la discussion est liée à cette question
+                                if (($discussion->title && str_contains($discussion->title, '#'.$question->id)) ||
+                                    ($discussion->title && str_contains($discussion->title, 'Question '.$question->id)) ||
+                                    ($discussion->content && str_contains($discussion->content, '#'.$question->id)) ||
+                                    ($discussion->content && str_contains($discussion->content, 'Question '.$question->id)) ||
+                                    ($discussion->question_id == $question->id) ||
+                                    ($discussion->id == $question->discussion_id)) {
+                                    $relatedDiscussions[] = $discussion;
+                                }
+                            }
+                        }
+                    @endphp
+                    
+                    @if(!empty($relatedDiscussions))
+                        <div class="mt-3">
+                            <strong><i class="bi bi-chat-left-text me-1"></i> Discussions associées :</strong>
+                            <div class="mt-2">
+                                @foreach($relatedDiscussions as $discussion)
+                                    <a href="{{ route('discussions.show', $discussion->id) }}" 
+                                       class="btn btn-sm btn-outline-primary mb-2" 
+                                       style="border-radius: 6px; padding: 6px 12px;">
+                                        <i class="bi bi-arrow-right-circle me-1"></i> 
+                                        {{ Str::limit($discussion->title ?? 'Discussion sans titre', 40) }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
