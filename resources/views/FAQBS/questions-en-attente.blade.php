@@ -19,57 +19,53 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
         </div>
     </div>
 
+    <!-- Menu déroulant Equipes en haut de page -->
+    <div class="mb-3">
+        <div class="d-flex flex-wrap gap-2 justify-content-center">
+            <a href="{{ route('questions-en-attente') }}" class="btn btn-outline-primary" style="border: 1px solid #002D5D; color: white !important; background: @if (!$team) #0056B3 @else #002D5D @endif; border-radius: 8px; transition: all 0.2s ease;">
+                <i class="bi bi-inbox me-1"></i> Toutes
+            </a>
+            <div class="dropdown">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: 1px solid #002D5D; color: white !important; background: #002D5D; border-radius: 8px; transition: all 0.2s ease;">
+                    <i class="bi bi-people me-1"></i> Equipes
+                </button>
+                <ul class="dropdown-menu" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 8px; min-width: 200px;">
+                    <li>
+                        <a href="{{ route('questions-en-attente.team', ['team' => 'Président']) }}" class="dropdown-item d-flex align-items-center" style="color: #002D5D; padding: 8px 12px; border-radius: 6px; @if($team === 'Président') background: #0056B3; color: white !important; @endif">
+                            <i class="bi bi-person me-2"></i> Président
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('questions-en-attente.team', ['team' => 'Secrétariat']) }}" class="dropdown-item d-flex align-items-center" style="color: #002D5D; padding: 8px 12px; border-radius: 6px; @if($team === 'Secrétariat') background: #0056B3; color: white !important; @endif">
+                            <i class="bi bi-file-earmark-text me-2"></i> Secrétariat
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('questions-en-attente.team', ['team' => 'Trésorerie']) }}" class="dropdown-item d-flex align-items-center" style="color: #002D5D; padding: 8px 12px; border-radius: 6px; @if($team === 'Trésorerie') background: #0056B3; color: white !important; @endif">
+                            <i class="bi bi-cash-coin me-2"></i> Trésorerie
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('questions-en-attente.team', ['team' => 'Donneurs de Voix']) }}" class="dropdown-item d-flex align-items-center" style="color: #002D5D; padding: 8px 12px; border-radius: 6px; @if($team === 'Donneurs de Voix') background: #0056B3; color: white !important; @endif">
+                            <i class="bi bi-mic me-2"></i> Donneurs de Voix
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('questions-en-attente.team', ['team' => 'Donneurs de Temps']) }}" class="dropdown-item d-flex align-items-center" style="color: #002D5D; padding: 8px 12px; border-radius: 6px; @if($team === 'Donneurs de Temps') background: #0056B3; color: white !important; @endif">
+                            <i class="bi bi-clock me-2"></i> Donneurs de Temps
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <!-- Message de retour -->
     @if(session('success'))
         <div class="alert alert-success mb-4" style="background: rgba(40, 167, 69, 0.1); border-left: 4px solid #28A745; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
             {{ session('success') }}
         </div>
     @endif
-
-    <!-- Filtres par équipe -->
-    <div class="mb-4">
-        <div class="card" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-            <div class="card-body">
-                <div class="d-flex flex-wrap gap-2">
-                    <a href="{{ route('questions-en-attente') }}" class="btn btn-outline-primary" style="border: 1px solid #002D5D; color: white !important; background: @if (!$team) #0056B3 @else #002D5D @endif; border-radius: 8px; transition: all 0.2s ease;">
-                        <i class="bi bi-inbox me-1"></i> Toutes
-                    </a>
-                    <div class="dropdown">
-                        <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: 1px solid #002D5D; color: white !important; background: #002D5D; border-radius: 8px; transition: all 0.2s ease;">
-                            <i class="bi bi-people me-1"></i> Equipes
-                        </button>
-                        <ul class="dropdown-menu" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 8px; min-width: 200px;">
-                            <li>
-                                <a href="{{ route('questions-en-attente.team', ['team' => 'Président']) }}" class="dropdown-item d-flex align-items-center" style="color: #002D5D; padding: 8px 12px; border-radius: 6px; @if($team === 'Président') background: #0056B3; color: white !important; @endif">
-                                    <i class="bi bi-person me-2"></i> Président
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('questions-en-attente.team', ['team' => 'Secrétariat']) }}" class="dropdown-item d-flex align-items-center" style="color: #002D5D; padding: 8px 12px; border-radius: 6px; @if($team === 'Secrétariat') background: #0056B3; color: white !important; @endif">
-                                    <i class="bi bi-file-earmark-text me-2"></i> Secrétariat
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('questions-en-attente.team', ['team' => 'Trésorerie']) }}" class="dropdown-item d-flex align-items-center" style="color: #002D5D; padding: 8px 12px; border-radius: 6px; @if($team === 'Trésorerie') background: #0056B3; color: white !important; @endif">
-                                    <i class="bi bi-cash-coin me-2"></i> Trésorerie
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('questions-en-attente.team', ['team' => 'Donneurs de Voix']) }}" class="dropdown-item d-flex align-items-center" style="color: #002D5D; padding: 8px 12px; border-radius: 6px; @if($team === 'Donneurs de Voix') background: #0056B3; color: white !important; @endif">
-                                    <i class="bi bi-mic me-2"></i> Donneurs de Voix
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('questions-en-attente.team', ['team' => 'Donneurs de Temps']) }}" class="dropdown-item d-flex align-items-center" style="color: #002D5D; padding: 8px 12px; border-radius: 6px; @if($team === 'Donneurs de Temps') background: #0056B3; color: white !important; @endif">
-                                    <i class="bi bi-clock me-2"></i> Donneurs de Temps
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Questions en attente -->
     <div class="row mb-4">
