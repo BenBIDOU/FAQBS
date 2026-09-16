@@ -34,21 +34,38 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                     <a href="{{ route('questions-en-attente') }}" class="btn btn-outline-primary" style="border: 1px solid #002D5D; color: white !important; background: @if (!$team) #0056B3 @else #002D5D @endif; border-radius: 8px; transition: all 0.2s ease;">
                         <i class="bi bi-inbox me-1"></i> Toutes
                     </a>
-                    <a href="{{ route('questions-en-attente.team', ['team' => 'Président']) }}" class="btn btn-outline-primary" style="border: 1px solid #002D5D; color: white !important; background: @if($team === 'Président') #0056B3 @else #002D5D @endif; border-radius: 8px; transition: all 0.2s ease;">
-                        <i class="bi bi-person me-1"></i> Président
-                    </a>
-                    <a href="{{ route('questions-en-attente.team', ['team' => 'Secrétariat']) }}" class="btn btn-outline-primary" style="border: 1px solid #002D5D; color: white !important; background: @if($team === 'Secrétariat') #0056B3 @else #002D5D @endif; border-radius: 8px; transition: all 0.2s ease;">
-                        <i class="bi bi-file-earmark-text me-1"></i> Secrétariat
-                    </a>
-                    <a href="{{ route('questions-en-attente.team', ['team' => 'Trésorerie']) }}" class="btn btn-outline-primary" style="border: 1px solid #002D5D; color: white !important; background: @if($team === 'Trésorerie') #0056B3 @else #002D5D @endif; border-radius: 8px; transition: all 0.2s ease;">
-                        <i class="bi bi-cash-coin me-1"></i> Trésorerie
-                    </a>
-                    <a href="{{ route('questions-en-attente.team', ['team' => 'Donneurs de Voix']) }}" class="btn btn-outline-primary" style="border: 1px solid #002D5D; color: white !important; background: @if($team === 'Donneurs de Voix') #0056B3 @else #002D5D @endif; border-radius: 8px; transition: all 0.2s ease;">
-                        <i class="bi bi-mic me-1"></i> Donneurs de Voix
-                    </a>
-                    <a href="{{ route('questions-en-attente.team', ['team' => 'Donneurs de Temps']) }}" class="btn btn-outline-primary" style="border: 1px solid #002D5D; color: white !important; background: @if($team === 'Donneurs de Temps') #0056B3 @else #002D5D @endif; border-radius: 8px; transition: all 0.2s ease;">
-                        <i class="bi bi-clock me-1"></i> Donneurs de Temps
-                    </a>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: 1px solid #002D5D; color: white !important; background: #002D5D; border-radius: 8px; transition: all 0.2s ease;">
+                            <i class="bi bi-people me-1"></i> Equipes
+                        </button>
+                        <ul class="dropdown-menu" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 8px; min-width: 200px;">
+                            <li>
+                                <a href="{{ route('questions-en-attente.team', ['team' => 'Président']) }}" class="dropdown-item d-flex align-items-center" style="color: #002D5D; padding: 8px 12px; border-radius: 6px; @if($team === 'Président') background: #0056B3; color: white !important; @endif">
+                                    <i class="bi bi-person me-2"></i> Président
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('questions-en-attente.team', ['team' => 'Secrétariat']) }}" class="dropdown-item d-flex align-items-center" style="color: #002D5D; padding: 8px 12px; border-radius: 6px; @if($team === 'Secrétariat') background: #0056B3; color: white !important; @endif">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Secrétariat
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('questions-en-attente.team', ['team' => 'Trésorerie']) }}" class="dropdown-item d-flex align-items-center" style="color: #002D5D; padding: 8px 12px; border-radius: 6px; @if($team === 'Trésorerie') background: #0056B3; color: white !important; @endif">
+                                    <i class="bi bi-cash-coin me-2"></i> Trésorerie
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('questions-en-attente.team', ['team' => 'Donneurs de Voix']) }}" class="dropdown-item d-flex align-items-center" style="color: #002D5D; padding: 8px 12px; border-radius: 6px; @if($team === 'Donneurs de Voix') background: #0056B3; color: white !important; @endif">
+                                    <i class="bi bi-mic me-2"></i> Donneurs de Voix
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('questions-en-attente.team', ['team' => 'Donneurs de Temps']) }}" class="dropdown-item d-flex align-items-center" style="color: #002D5D; padding: 8px 12px; border-radius: 6px; @if($team === 'Donneurs de Temps') background: #0056B3; color: white !important; @endif">
+                                    <i class="bi bi-clock me-2"></i> Donneurs de Temps
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -99,7 +116,9 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                         <th class="sortable" data-sort="email" style="padding: 12px; white-space: nowrap; cursor: pointer; user-select: none;">
                                             Email <i class="bi bi-arrow-down-up ms-1"></i>
                                         </th>
-                                        <th style="padding: 12px; white-space: nowrap;">Forum concerné</th>
+                                        <th class="sortable" data-sort="team" style="padding: 12px; white-space: nowrap; cursor: pointer; user-select: none;">
+                                            Forum concerné <i class="bi bi-arrow-down-up ms-1"></i>
+                                        </th>
                                         <th class="sortable" data-sort="question" style="padding: 12px; cursor: pointer; user-select: none;">
                                             Question <i class="bi bi-arrow-down-up ms-1"></i>
                                         </th>
@@ -108,7 +127,10 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                 </thead>
                                 <tbody>
                                     @foreach($pendingQuestions as $question)
-                                        <tr style="border-bottom: 1px solid #E9ECEF; transition: all 0.2s ease;" data-date="{{ $question->created_at ? $question->created_at->timestamp : 0 }}" data-nom="{{ $question->name ? e($question->name) : '' }}" data-email="{{ $question->email ? e($question->email) : '' }}" data-question="{{ $question->message ? e($question->message) : '' }}">
+                                        @php
+                                        $questionTeam = $question->team ?? $question->destination ?? $question->group ?? 'Président';
+                                        @endphp
+                                        <tr style="border-bottom: 1px solid #E9ECEF; transition: all 0.2s ease;" data-date="{{ $question->created_at ? $question->created_at->timestamp : 0 }}" data-nom="{{ $question->name ? e($question->name) : '' }}" data-email="{{ $question->email ? e($question->email) : '' }}" data-question="{{ $question->message ? e($question->message) : '' }}" data-team="{{ e($questionTeam) }}">
                                             <td style="padding: 12px; color: #495057;">{{ $question->created_at->format('d/m/Y H:i') }}</td>
                                             <td style="padding: 12px; color: #495057;">{{ $question->name }}</td>
                                             <td style="padding: 12px; color: #495057;">{{ $question->email }}</td>
@@ -199,6 +221,8 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                                     <a href="{{ route('questions-details', ['question' => $question->id]) }}" class="btn btn-sm text-white" style="font-size: 0.85rem; padding: 6px 12px; border-radius: 6px; background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); border: none;">
                                                         <i class="bi bi-eye me-1"></i> Détails
                                                     </a>
+                                                    @auth
+                                                    @endauth
                                                 </div>
                                             </td>
                                         </tr>
@@ -246,7 +270,9 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                             <th class="sortable" data-sort="email" style="padding: 12px; white-space: nowrap; cursor: pointer; user-select: none;">
                                                 Email <i class="bi bi-arrow-down-up ms-1"></i>
                                             </th>
-                                            <th style="padding: 12px; white-space: nowrap;">Forum concerné</th>
+                                            <th class="sortable" data-sort="team" style="padding: 12px; white-space: nowrap; cursor: pointer; user-select: none;">
+                                                Forum concerné <i class="bi bi-arrow-down-up ms-1"></i>
+                                            </th>
                                             <th class="sortable" data-sort="message" style="padding: 12px; cursor: pointer; user-select: none;">
                                                 Message <i class="bi bi-arrow-down-up ms-1"></i>
                                             </th>
@@ -259,7 +285,10 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                     </thead>
                                     <tbody>
                                         @foreach($resolvedQuestions as $question)
-                                            <tr class="table-success" style="border-bottom: 1px solid #E9ECEF;" data-date="{{ $question->created_at ? $question->created_at->timestamp : 0 }}" data-nom="{{ $question->name ? e($question->name) : '' }}" data-email="{{ $question->email ? e($question->email) : '' }}" data-question="{{ $question->message ? e($question->message) : '' }}" data-resolved-at="{{ $question->resolved_at ? $question->resolved_at->timestamp : 0 }}">
+                                            @php
+                                            $questionTeam = $question->team ?? $question->destination ?? $question->group ?? 'Président';
+                                            @endphp
+                                            <tr class="table-success" style="border-bottom: 1px solid #E9ECEF;" data-date="{{ $question->created_at ? $question->created_at->timestamp : 0 }}" data-nom="{{ $question->name ? e($question->name) : '' }}" data-email="{{ $question->email ? e($question->email) : '' }}" data-question="{{ $question->message ? e($question->message) : '' }}" data-resolved-at="{{ $question->resolved_at ? $question->resolved_at->timestamp : 0 }}" data-team="{{ e($questionTeam) }}">
                                                 <td style="padding: 12px; color: #495057;">{{ $question->created_at->format('d/m/Y H:i') }}</td>
                                                 <td style="padding: 12px; color: #495057;">{{ $question->name }}</td>
                                                 <td style="padding: 12px; color: #495057;">{{ $question->email }}</td>
@@ -380,6 +409,8 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
                                                                 <i class="bi bi-eye me-1"></i> Voir la discussion
                                                             </a>
                                                         @endif
+                                                    @auth
+                                                    @endauth
                                                     </div>
                                                 </td>
                                             </tr>
@@ -508,6 +539,56 @@ Questions en attente - Bibliothèques sonores de la région Centre - Val de Loir
         // Activer le tri pour les deux tableaux
         setupTableSorting('pendingQuestionsTable');
         setupTableSorting('resolvedQuestionsTable');
+        
+        // Suppression AJAX des questions
+        document.querySelectorAll('.delete-question-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const questionId = this.getAttribute('data-question-id');
+                const route = this.getAttribute('data-route');
+                const row = this.closest('tr');
+                
+                if (confirm('Êtes-vous sûr de vouloir supprimer cette question ?')) {
+                    fetch(route, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // Supprimer la ligne du tableau sans recharger la page
+                            if (row) {
+                                row.remove();
+                            }
+                            // Afficher un message de succès
+                            alert('Question supprimée avec succès !');
+                            
+                            // Vérifier s'il reste des questions, sinon afficher le message "aucune question"
+                            const tbody = row?.closest('tbody');
+                            if (tbody && tbody.querySelectorAll('tr').length === 0) {
+                                const cardBody = tbody.closest('.card-body');
+                                if (cardBody) {
+                                    const noQuestionsMsg = cardBody.querySelector('.alert-info');
+                                    if (noQuestionsMsg) {
+                                        noQuestionsMsg.style.display = 'block';
+                                    }
+                                }
+                            }
+                        } else {
+                            return response.json().then(data => {
+                                throw new Error(data.error || 'Erreur lors de la suppression');
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        alert('Erreur : ' + error.message);
+                    });
+                }
+            });
+        });
     });
 </script>
 @endsection
