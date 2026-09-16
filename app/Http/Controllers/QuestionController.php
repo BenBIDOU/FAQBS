@@ -179,6 +179,12 @@ class QuestionController extends Controller
     public function destroy(string $id)
     {
         $question = Question::findOrFail($id);
+        
+        // Vérifier que l'utilisateur est le propriétaire de la question ou un master
+        if ($question->email !== Auth::user()->email && !Auth::user()->is_master) {
+            return redirect()->back()->with('error', 'Vous ne pouvez supprimer que vos propres questions !');
+        }
+        
         $question->delete();
         return redirect()->back()->with('success', 'Question supprimée avec succès !');
     }

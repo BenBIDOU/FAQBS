@@ -183,6 +183,15 @@
     #choose-photo-btn, #remove-photo-btn {
         cursor: pointer;
     }
+    .btn-outline-danger:hover {
+        background-color: #dc3545;
+        color: white;
+        border-color: #dc3545;
+    }
+    .btn-outline-danger {
+        color: #dc3545;
+        border-color: #dc3545;
+    }
 </style>
 @endsection
 

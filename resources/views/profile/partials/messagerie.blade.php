@@ -20,9 +20,20 @@
                                 Question posée le {{ $question->created_at->format('d/m/Y à H:i') }}
                             </p>
                         </div>
-                        <span class="badge bg-bordeaux">
-                            {{ $question->team }}
-                        </span>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-bordeaux">
+                                {{ $question->team }}
+                            </span>
+                            <form action="{{ route('questions.destroy', $question->id) }}" method="POST" 
+                                  onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette question ?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-outline-danger p-1" 
+                                        title="Supprimer la question">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                     
                     <div class="mb-3">
