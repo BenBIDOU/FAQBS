@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Route;
 // Seule la page d'accueil est accessible sans authentification
 Route::get('/', function () { return view('FAQBS/faq'); });
 
+// Page RGPD accessible sans authentification
+Route::get('/rgpd', function () { return view('FAQBS.rgpd'); })->name('rgpd');
+
+// Page Règlement du site accessible sans authentification
+Route::get('/reglement', function () { return view('FAQBS.reglement'); })->name('reglement');
+
 // Pages internes accessibles seulement après connexion
 Route::middleware(['auth.home', 'voice_donor_restrict'])->group(function () {
     Route::get('/faq', function () { return view('faq'); });
@@ -117,7 +123,9 @@ Route::middleware(['auth.home', 'master'])->group(function () {
     Route::get('/gestion-questions', [QuestionController::class, 'gestion'])->name('gestion-questions');
     Route::get('/questions/{question}/edit', [QuestionController::class, 'edit'])->name('questions.edit');
     Route::put('/questions/{question}', [QuestionController::class, 'update'])->name('questions.update');
-    Route::delete('/questions/{question}', [QuestionController::class, 'destroy'])->name('questions.destroy');
+
+// Route de suppression de question accessible à tous les utilisateurs authentifiés
+Route::middleware(['auth.home'])->delete('/questions/{question}', [QuestionController::class, 'destroy'])->name('questions.destroy');
 });
 
 // Routes messagerie pour tous les utilisateurs connectés
