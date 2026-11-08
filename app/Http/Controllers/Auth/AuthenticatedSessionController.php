@@ -28,6 +28,11 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        // Vérifier si l'utilisateur a accepté le règlement
+        if (!auth()->user()->has_accepted_reglement) {
+            return redirect()->route('accept.reglement.page');
+        }
+
         return redirect()->intended('/agora');
     }
 

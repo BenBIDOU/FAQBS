@@ -15,8 +15,24 @@ Route::get('/rgpd', function () { return view('FAQBS.rgpd'); })->name('rgpd');
 // Page Règlement du site accessible sans authentification
 Route::get('/reglement', function () { return view('FAQBS.reglement'); })->name('reglement');
 
+// Route pour l'acceptation du règlement (doit être avant le middleware auth.home)
+Route::middleware(['auth.home'])->group(function () {
+    Route::get('/accept-reglement', function () {
+        return view('FAQBS.accept-reglement');
+    })->name('accept.reglement.page');
+    
+    Route::post('/accept-reglement', function () {
+        $user = auth()->user();
+        $user->has_accepted_reglement = true;
+        $user->save();
+        
+        // Rediriger vers la page d'origine ou l'agora
+        return redirect()->intended(route('agora'));
+    })->name('accept.reglement');
+});
+
 // Pages internes accessibles seulement après connexion
-Route::middleware(['auth.home', 'voice_donor_restrict'])->group(function () {
+Route::middleware(['auth.home', 'check.reglement', 'voice_donor_restrict'])->group(function () {
     Route::get('/faq', function () { return view('faq'); });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

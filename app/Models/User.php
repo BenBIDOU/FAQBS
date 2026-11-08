@@ -28,6 +28,7 @@ protected $fillable = [
         'is_voice_donor',
         'is_president',
         'is_active',
+        'has_accepted_reglement',
     ];
 
     /**
@@ -52,5 +53,6 @@ protected $fillable = [
         'is_voice_donor' => 'boolean',
         'is_president' => 'boolean',
         'is_active' => 'boolean',
+        'has_accepted_reglement' => 'boolean',
     ];
 }

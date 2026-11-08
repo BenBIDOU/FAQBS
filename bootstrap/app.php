@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'master' => \App\Http\Middleware\MasterMiddleware::class,
             'voice_donor_restrict' => \App\Http\Middleware\VoiceDonorRestrictionMiddleware::class,
             'auth.home' => \App\Http\Middleware\RedirectNonAuthenticatedToHome::class,
+            'check.reglement' => \App\Http\Middleware\CheckReglementAccepted::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
