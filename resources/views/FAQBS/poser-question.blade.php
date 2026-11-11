@@ -82,7 +82,7 @@ Je pose ma question - Bibliothèques sonores de la région Centre - Val de Loire
                             <button type="reset" class="btn btn-outline-secondary" style="border-radius: 8px; transition: all 0.2s ease;">
                                 <i class="bi bi-x-circle me-1"></i> Réinitialiser
                             </button>
-                            <button type="submit" class="btn btn-main text-white" style="border-radius: 8px; transition: all 0.3s ease;">
+                            <button type="submit" class="btn text-white" style="border-radius: 8px; transition: all 0.3s ease; background: linear-gradient(135deg, #990000 0%, #A00000 100%); border: none;">
                                 <i class="bi bi-send me-1"></i> Envoyer ma question
                             </button>
                         </div>

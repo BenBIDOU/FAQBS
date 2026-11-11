@@ -1,0 +1,169 @@
+/* Custom styles for FAQBS application */
+
+/* ===== Gradient Backgrounds ===== */
+.gradient-agora { background: linear-gradient(135deg, #fafafa 0%, #f0dfdf 100%); }
+.gradient-red { background: linear-gradient(135deg, #990000 0%, #A00000 100%); }
+.gradient-blue { background: linear-gradient(135deg, #0056B3 0%, #002D5D 100%); }
+
+/* ===== Cards ===== */
+.card-custom {
+    background: #FFFFFF;
+    border: 1px solid #E9ECEF;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.card-header-custom {
+    border: none;
+    color: white;
+    font-weight: 600;
+    border-radius: 10px 10px 0 0;
+    height: 56px;
+}
+
+.card-header-red { background: linear-gradient(135deg, #990000 0%, #A00000 100%); }
+.card-header-blue { background: linear-gradient(135deg, #0056B3 0%, #002D5D 100%); }
+
+/* ===== Alerts ===== */
+.alert-custom {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.alert-success-custom {
+    background: rgba(40, 167, 69, 0.1);
+    border-left: 4px solid #28A745;
+}
+
+.alert-info-custom {
+    background: rgba(0, 123, 255, 0.1);
+    border-left: 4px solid #007BFF;
+}
+
+.alert-welcome {
+    background: #FFFFFF;
+    border-left: 4px solid #002D5D;
+}
+
+/* ===== Buttons ===== */
+.btn-custom {
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-custom {
+    border: 1px solid #002D5D;
+    background: #FFFFFF;
+    color: #002D5D !important;
+}
+
+.btn-gradient-red {
+    background: linear-gradient(135deg, #990000 0%, #A00000 100%);
+    color: white;
+    border: none;
+}
+
+.btn-gradient-blue {
+    background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%);
+    color: white;
+    border: none;
+}
+
+/* ===== Form Elements ===== */
+.form-select-custom {
+    border: 1px solid #E9ECEF;
+    border-radius: 8px;
+    padding: 10px;
+    background: #FFFFFF;
+}
+
+.input-custom {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+}
+
+/* ===== Accordion ===== */
+.accordion-header-custom {
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin: 4px 8px;
+    transition: all 0.2s ease;
+}
+
+.accordion-bottom .accordion-button {
+    color: #002D5D;
+    font-weight: 500;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.accordion-bottom .accordion-button:not(.collapsed) {
+    background: transparent;
+    color: #002D5D;
+}
+
+/* ===== Discussion Links ===== */
+.discussion-link {
+    border: none;
+    padding: 10px 16px;
+}
+
+.discussion-link:hover {
+    background-color: #f8f9fa;
+}
+
+.record-circle {
+    font-size: 0.7rem;
+    margin-top: 2px;
+    color: #6c757d;
+}
+
+/* ===== Badges ===== */
+.badge-custom {
+    font-size: 0.8em;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+.badge-group {
+    background: #6c757d;
+    color: white;
+}
+
+/* ===== Layout ===== */
+.min-vh-100 { min-height: 100vh; }
+
+.page-header-custom {
+    background-color: #FFFFFF;
+    border-bottom: 2px solid #002D5D;
+    padding: 1.5rem 0;
+    margin-bottom: 1.5rem !important;
+}
+
+/* ===== Search Results ===== */
+.search-result-card {
+    background: #f8f9fa;
+    border: 1px solid #E9ECEF;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.search-result-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* ===== Utility Classes ===== */
+.text-primary { color: #002D5D; }
+.text-secondary-muted { color: #6c757d; }
+.bg-primary { background-color: #002D5D; }
+.bg-secondary { background-color: #6c757d; }
+
+/* ===== Specific Page Styles ===== */
+.agora-welcome-section {
+    background: #FFFFFF;
+    border-left: 4px solid #002D5D;
+}

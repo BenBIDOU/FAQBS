@@ -34,16 +34,16 @@
             <!-- Informations et Photo de profil fusionnées -->
             <div class="card shadow-lg border-0 mb-4">
                 <div class="card-header bg-bordeaux text-white">
-                    <button class="accordion-button collapsed w-100 text-start p-0" type="button" 
+                    <button class="accordion-button w-100 text-start p-0" type="button" 
                             data-bs-toggle="collapse" data-bs-target="#profileInfoCollapse" 
-                            aria-expanded="false" aria-controls="profileInfoCollapse">
+                            aria-expanded="true" aria-controls="profileInfoCollapse">
                         <span class="d-flex justify-content-between align-items-center w-100 p-3">
                             <span><i class="bi bi-person me-2"></i> Informations et Photo</span>
                             <i class="bi bi-chevron-down"></i>
                         </span>
                     </button>
                 </div>
-                <div id="profileInfoCollapse" class="collapse" data-bs-parent="#profileAccordion">
+                <div id="profileInfoCollapse" class="collapse show" data-bs-parent="#profileAccordion">
                     <div class="card-body p-4">
                         <div class="row">
                             <!-- Photo de profil à gauche -->
@@ -63,12 +63,12 @@
                                     <form id="photo-upload-form" action="{{ route('profile.photo.update') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @method('patch')
-                                        <input type="file" name="photo" id="photo-input" accept="image/*" style="display: none;" required>
-                                        <button type="button" id="choose-photo-btn" class="btn btn-outline-bordeaux btn-sm mt-2">
+                                        <input type="file" name="photo" id="photo-input" accept="image/*" style="display: none;" onchange="this.form.submit();">
+                                        <button type="button" id="choose-photo-btn" class="btn btn-outline-bordeaux btn-sm mt-2" onclick="document.getElementById('photo-input').click();">
                                             <i class="bi bi-image me-1"></i> Choisir une photo
                                         </button>
                                         @if($user->photo)
-                                            <button type="button" id="remove-photo-btn" class="btn btn-outline-danger btn-sm mt-2 ms-2">
+                                            <button type="submit" formaction="{{ route('profile.photo.update') }}?remove_photo=1" class="btn btn-outline-danger btn-sm mt-2 ms-2" onclick="return confirm('Voulez-vous vraiment supprimer votre photo de profil ?');">
                                                 <i class="bi bi-trash me-1"></i> Supprimer
                                             </button>
                                         @endif
@@ -202,128 +202,32 @@
         border-color: #002D5D;
     }
 </style>
-@endsection
-
-@section('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const photoInput = document.getElementById('photo-input');
-        const choosePhotoBtn = document.getElementById('choose-photo-btn');
-        const photoPlaceholder = document.getElementById('photo-placeholder');
-        const photoPreview = document.getElementById('photo-preview');
-        const removePhotoBtn = document.getElementById('remove-photo-btn');
         const photoContainer = document.getElementById('photo-container');
-
-        // Ouvrir le sélecteur de fichier quand on clique sur le bouton ou la zone placeholder
-        if (choosePhotoBtn) {
-            choosePhotoBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                photoInput.click();
-            });
-        }
-
-        if (photoPlaceholder) {
-            photoPlaceholder.addEventListener('click', function(e) {
-                e.preventDefault();
-                photoInput.click();
-            });
-        }
-
-        if (photoContainer) {
-            photoContainer.addEventListener('click', function(e) {
-                // Ne pas interférer si on clique sur le bouton ou l'image
-                if (!e.target.closest('#choose-photo-btn') && !e.target.closest('#remove-photo-btn') && !e.target.closest('#photo-preview')) {
-                    e.preventDefault();
-                    photoInput.click();
-                }
-            });
-        }
-
-        // Gérer la sélection de fichier
-        if (photoInput) {
-            photoInput.addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    // Vérifier la taille du fichier (max 2MB)
-                    const maxSize = 2 * 1024 * 1024;
-                    if (file.size > maxSize) {
-                        alert('La photo doit faire moins de 2 Mo.');
-                        photoInput.value = '';
-                        return;
-                    }
-                    
-                    // Vérifier le type du fichier
-                    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
-                    if (!validTypes.includes(file.type)) {
-                        alert('Veuillez sélectionner une image valide (JPEG, PNG, JPG, GIF).');
-                        photoInput.value = '';
-                        return;
-                    }
-                    
-                    // Afficher l'aperçu
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        if (photoPlaceholder) {
-                            photoPlaceholder.style.display = 'none';
-                        }
-                        if (photoPreview) {
-                            photoPreview.src = event.target.result;
-                            photoPreview.style.display = 'block';
-                        }
-                        // Soumettre le formulaire automatiquement
-                        document.getElementById('photo-upload-form').submit();
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-        }
-
-        // Gérer le bouton de suppression
-        if (removePhotoBtn) {
-            removePhotoBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                if (confirm('Voulez-vous vraiment supprimer votre photo de profil ?')) {
-                    // Créer un input caché pour la suppression
-                    const form = document.getElementById('photo-upload-form');
-                    const removeInput = document.createElement('input');
-                    removeInput.type = 'hidden';
-                    removeInput.name = 'remove_photo';
-                    removeInput.value = '1';
-                    form.appendChild(removeInput);
-                    form.submit();
-                }
-            });
-        }
-
-        // Drag and Drop
-        if (photoContainer) {
-            // Empêcher le comportement par défaut
+        
+        // Drag and Drop pour le glisser-déposer
+        if (photoContainer && photoInput) {
             photoContainer.addEventListener('dragover', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                photoContainer.style.borderColor = '#6D071A';
-                photoContainer.style.backgroundColor = '#f8f9fa';
-                photoContainer.style.borderStyle = 'solid';
+                photoContainer.classList.add('drag-over');
             });
 
             photoContainer.addEventListener('dragleave', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                photoContainer.style.borderColor = '#ccc';
-                photoContainer.style.backgroundColor = '';
-                photoContainer.style.borderStyle = 'dashed';
+                photoContainer.classList.remove('drag-over');
             });
 
             photoContainer.addEventListener('drop', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                photoContainer.style.borderColor = '#ccc';
-                photoContainer.style.backgroundColor = '';
-                photoContainer.style.borderStyle = 'dashed';
+                photoContainer.classList.remove('drag-over');
                 
                 if (e.dataTransfer.files.length > 0) {
                     const file = e.dataTransfer.files[0];
-                    // Vérifier le type et la taille
                     const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
                     const maxSize = 2 * 1024 * 1024;
                     
@@ -331,24 +235,29 @@
                         alert('Veuillez glisser une image valide (JPEG, PNG, JPG, GIF).');
                         return;
                     }
-                    
                     if (file.size > maxSize) {
                         alert('La photo doit faire moins de 2 Mo.');
                         return;
                     }
                     
-                    // Assigner le fichier à l'input et déclencher le changement
-                    photoInput.files = e.dataTransfer.files;
-                    const event = new Event('change');
-                    photoInput.dispatchEvent(event);
+                    // Utiliser DataTransfer pour assigner le fichier
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    photoInput.files = dataTransfer.files;
+                    
+                    // Soumettre automatiquement
+                    photoInput.form.submit();
                 }
             });
         }
+    });
+</script>
         
         // Suppression AJAX des questions
         document.querySelectorAll('.delete-question-btn').forEach(button => {
             button.addEventListener('click', function(e) {
                 e.preventDefault();
+                e.stopPropagation();
                 const questionId = this.getAttribute('data-question-id');
                 const route = this.getAttribute('data-route');
                 const questionElement = document.getElementById('question-' + questionId);

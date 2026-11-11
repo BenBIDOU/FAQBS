@@ -164,7 +164,9 @@ Ajouter une discussion - Bibliothèques sonores de la région Centre - Val de Lo
             dropZone.style.borderColor = '#E9ECEF';
             dropZone.style.backgroundColor = '#FFFFFF';
             if (e.dataTransfer.files.length) {
-                fileInput.files = e.dataTransfer.files;
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(e.dataTransfer.files[0]);
+                fileInput.files = dataTransfer.files;
                 updatePreview();
             }
         });

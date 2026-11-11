@@ -14,13 +14,13 @@ FAQ - Bibliothèques sonores de la région Centre - Val de Loire
                 <img src="{{ asset('images/logo.png') }}" alt="Logo" class="header-logo" style="width: auto; max-width: 100%;">
             </div>
             
-            <!-- Bogo - Mobile: plein large, Desktop: 8 colonnes -->
-            <div class="col-12 col-md-8 d-flex align-items-center justify-content-center order-md-1">
+            <!-- Bogo - Mobile: plein large, Desktop: 7 colonnes -->
+            <div class="col-12 col-md-7 d-flex align-items-center justify-content-center order-md-1">
                 <img src="{{ asset('images/bogobibsonores.png') }}" alt="Bogo" class="header-bogo" style="width: auto; max-width: 100%;">
             </div>
             
-            <!-- Connexion/Formulaire - Mobile: plein large, Desktop: 2 colonnes -->
-            <div class="col-12 col-md-2 d-flex align-items-center justify-content-end justify-content-md-end pe-4 pe-md-4 order-md-2">
+            <!-- Connexion/Formulaire - Mobile: plein large, Desktop: 3 colonnes -->
+            <div class="col-12 col-md-3 d-flex align-items-center justify-content-end justify-content-md-end pe-1 order-md-2">
                 @auth
                     <div class="d-flex flex-column align-items-end align-items-md-end text-end">
                         <span class="mb-2" style="font-weight: 500; color: #002D5D;">{{ Auth::user()->name }}</span>
@@ -246,8 +246,8 @@ FAQ - Bibliothèques sonores de la région Centre - Val de Loire
     
     /* Style pour le formulaire de connexion compact */
     .login-form-compact {
-        width: 405px;
-        min-width: 338px;
+        width: 202px;
+        min-width: 170px;
     }
     .login-form-compact .form-control {
         border: 1px solid #E9ECEF;

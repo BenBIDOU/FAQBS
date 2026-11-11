@@ -21,8 +21,10 @@ class ProfileController extends Controller
         
         // Récupérer les questions de l'utilisateur qui ont une réponse ou sont résolues
         $answeredQuestions = Question::where('email', $user->email)
-            ->whereNotNull('answer')
-            ->orWhere('resolved', true)
+            ->where(function($query) {
+                $query->whereNotNull('answer')
+                      ->orWhere('resolved', true);
+            })
             ->orderBy('created_at', 'desc')
             ->get();
         

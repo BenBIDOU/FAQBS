@@ -5,6 +5,45 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
 @endsection
 
 @section('content')
+<style>
+    .agora-dropdown-btn {
+        background: linear-gradient(135deg, #990000 0%, #A00000 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 8px 12px;
+        font-weight: 600;
+        font-size: 0.8rem;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        height: 56px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+    }
+    .agora-dropdown-btn-blue {
+        background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 8px 12px;
+        font-weight: 600;
+        font-size: 0.8rem;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        height: 56px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+    }
+    @media (min-width: 768px) {
+        .agora-dropdown-btn,
+        .agora-dropdown-btn-blue {
+            font-size: 1.1rem;
+            padding: 16px 24px;
+        }
+    }
+</style>
 <div class="container-fluid" style="background: linear-gradient(135deg, #fafafa 0%, #f0dfdf 100%); min-height: 100vh; position: relative;">
     <!-- Header moderne -->
     <div class="page-header mb-4" style="background-color: #FFFFFF; border-bottom: 2px solid #002D5D; padding: 1.5rem 0; margin-bottom: 1.5rem !important;">
@@ -148,7 +187,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
             <div class="card flex-grow-1" style="background: #FFFFFF; border: 1px solid #E9ECEF; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
                 <div class="card-header" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); border: none; color: white; font-weight: 600; border-radius: 10px 10px 0 0; height: 56px;">
                     <h5 class="mb-0 d-flex align-items-center" style="height: 100%;">
-                        <i class="bi bi-check-circle-fill me-2"></i> Questions résolues
+                        <i class="bi bi-check-circle-fill me-2"></i> Questions résolues + FAQ
                     </h5>
                 </div>
                 <div class="card-body d-flex flex-column flex-grow-1" style="padding: 0;">
@@ -329,8 +368,8 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                         <div class="card-header" style="background: transparent; border: none; padding: 0; border-radius: 10px 10px 0 0; height: 56px; display: flex; align-items: center;">
                             <div class="d-flex gap-4 w-100 justify-content-center align-items-center" style="padding: 0 40px; height: 100%; position: relative;">
                                 <div class="dropdown" style="flex: 0 1 50%; position: relative;">
-                                    <button class="btn dropdown-toggle d-flex align-items-center w-100 justify-content-center" type="button" data-bs-toggle="dropdown" style="background: linear-gradient(135deg, #990000 0%, #A00000 100%); color: white; border: none; border-radius: 10px 10px 0 0; padding: 16px 24px; font-weight: 600; font-size: 1.1rem; transition: all 0.3s ease; white-space: nowrap; height: 56px;">
-                                        <i class="bi bi-arrow-left-circle-fill me-2"></i> J'ai une question
+                                    <button class="btn dropdown-toggle d-flex align-items-center justify-content-center agora-dropdown-btn" type="button" data-bs-toggle="dropdown">
+                                        <i class="bi bi-arrow-left-circle-fill me-2"></i> Comment poser ma question ?
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-start" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px; width: 100%; min-width: 280px; z-index: 9999999; position: absolute;">
                                         <li class="px-3" style="color: #002D5D; font-weight: 500; margin-bottom: 8px; display: flex; align-items: flex-start;">
@@ -349,8 +388,8 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                                     </ul>
                                 </div>
                                 <div class="dropdown" style="flex: 0 1 50%; position: relative;">
-                                    <button class="btn dropdown-toggle d-flex align-items-center w-100 justify-content-center" type="button" data-bs-toggle="dropdown" style="background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); color: white; border: none; border-radius: 10px 10px 0 0; padding: 16px 24px; font-weight: 600; font-size: 1.1rem; transition: all 0.3s ease; white-space: nowrap; height: 56px;">
-                                        Et si j'avais la réponse ? <i class="bi bi-arrow-right-circle-fill ms-2"></i>
+                                    <button class="btn dropdown-toggle d-flex align-items-center justify-content-center agora-dropdown-btn-blue" type="button" data-bs-toggle="dropdown">
+                                        Je sais répondre <i class="bi bi-arrow-right-circle-fill ms-2"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px; width: 100%; min-width: 280px; z-index: 9999;">
                                         <li class="px-3" style="color: #002D5D; font-weight: 500; margin-bottom: 12px; display: flex; align-items: flex-start;">
@@ -372,7 +411,7 @@ Agora - Bibliothèques sonores de la région Centre - Val de Loire
                     <div class="card flex-grow-1" style="border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden; transition: all 0.3s ease; background: #FFFFFF;">
                         <div class="card-header" style="background: linear-gradient(135deg, #002D5D 0%, #0056B3 100%); border: none; color: white; font-weight: 600; box-shadow: 0 2px 6px rgba(0,0,0,0.1); height: 56px;">
                             <h5 class="mb-0 d-flex align-items-center" style="height: 100%;">
-                                <i class="bi bi-clock me-2"></i> Questions en attente
+                                <i class="bi bi-clock me-2"></i> Questions non résolues
                             </h5>
                         </div>
                         <div class="card-body">
