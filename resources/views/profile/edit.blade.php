@@ -252,9 +252,10 @@
         }
     });
 </script>
-        
-        // Suppression AJAX des questions
-        document.querySelectorAll('.delete-question-btn').forEach(button => {
+
+<script>
+    // Suppression AJAX des questions
+    document.querySelectorAll('.delete-question-btn').forEach(button => {
             button.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();

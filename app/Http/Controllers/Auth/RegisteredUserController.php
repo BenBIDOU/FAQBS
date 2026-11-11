@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
@@ -42,6 +43,18 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
+
+        // Envoyer notification au webmaster pour validation
+        $webmaster = User::where('is_master', true)->first();
+        if ($webmaster) {
+            Mail::raw(
+                'Nouvelle inscription à valider : ' . $user->name . ' (' . $user->email . ')',
+                function ($message) use ($user, $webmaster) {
+                    $message->to($webmaster->email)
+                            ->subject('Nouvelle inscription à valider - FAQBS');
+                }
+            );
+        }
 
         Auth::login($user);
 
