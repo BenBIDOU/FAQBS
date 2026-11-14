@@ -1,0 +1,40 @@
+name: Deploy to Digital Ocean
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+      
+      - name: Deploy to Digital Ocean Droplet
+        run: |
+          ssh -o StrictHostKeyChecking=no vibe@134.122.62.138 "
+          cd /var/www/faqbs &&
+          git pull origin main &&
+          composer install --no-dev --optimize-autoloader &&
+          php artisan migrate --force &&
+          php artisan config:cache &&
+          php artisan view:cache &&
+          php artisan route:cache &&
+          sudo systemctl restart nginx &&
+          sudo systemctl restart php8.4-fpm
+          " 2>&1
+
+      - name: Notify on failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: danger
+          SLACK_TITLE: "Déploiement échoué"
+          SLACK_MESSAGE: "Le déploiement sur 134.122.62.138 a échoué"
